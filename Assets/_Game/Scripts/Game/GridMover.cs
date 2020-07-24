@@ -1,44 +1,90 @@
-﻿using Tofunaut.TofuUnity;
+﻿using System.Collections.Generic;
+using Tofunaut.TofuUnity;
 using UnityEngine;
 using static Tofunaut.TofuUnity.TofuAnimator;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class GridMover : MonoBehaviour
+    [RequireComponent(typeof(Actor))]
+    public class GridMover : GridCollider, Actor.IActorInputReceiver
     {
-        public Vector2Int Coord { get; private set; }
 
+        [Header("Movement")]
         public float moveSpeed;
 
         private Actor _actor;
+        private ActorInput _input;
         private TofuAnimator.Sequence _moveSequence;
 
-        private void Awake()
+        protected override void Awake()
         {
-            _actor = gameObject.RequireComponent<Actor>();
+            base.Awake();
+
+            _actor = gameObject.GetComponent<Actor>();
+        }
+
+        private void OnEnable()
+        {
+            _actor.AddReceiver(this);
         }
 
         private void Update()
         {
-            if (_moveSequence == null && _actor.Input.direction.sqrMagnitude <= float.Epsilon)
-            {
-            }
-
+            Debug.Log(_input.direction.ToString("F2"));
         }
 
-        private void MoveTo(Vector2Int newCoord)
+        private void OnDisable()
         {
-            Vector2Int prevCoord = Coord;
-            Coord = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
+            if (_actor)
+            {
+                _actor.RemoveReceiver(this);
+            }
+        }
 
+        private void TryMoveTo(Vector2Int newCoord)
+        {
+            if (_moveSequence != null)
+            {
+                // can't move while animation is playing
+                return;
+            }
+
+            if (!CanOccupy(newCoord))
+            {
+                // bump!
+                return;
+            }
+
+            Vector2 prevPosition = new Vector2(Coord.x, Coord.y);
+            _coord = newCoord;
 
             _moveSequence = gameObject.Sequence()
-                .Curve(EEaseType.Linear, moveSpeed, (float newValue) =>
+                .Curve(EEaseType.Linear, 1f / moveSpeed, (float newValue) =>
                 {
-                    //transform.position = Vector2.LerpUnclamped(prevCoord, )
+
+                })
+                .Then()
+                .Execute(() =>
+                {
+                    _moveSequence = null;
 
                 });
             _moveSequence.Play();
+        }
+
+        public bool CanOccupy(Vector2Int otherCoord)
+        {
+            if (otherCoord == Coord)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void ReceiveActorInput(ActorInput input)
+        {
+            _input = input;
         }
     }
 }
