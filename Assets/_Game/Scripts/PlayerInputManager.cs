@@ -108,14 +108,14 @@ namespace Tofunaut.TofuRPG
 
         private void PollInput()
         {
-            _input.direction = Quaternion.LookRotation(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"))).eulerAngles;
-            if (_input.direction.sqrMagnitude < directionDeadZone)
+            Vector3 rawDir = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f);
+            if (rawDir.sqrMagnitude > float.Epsilon)
             {
-                _input.direction = Vector2.zero;
+                _input.direction = rawDir.normalized;
             }
             else
             {
-                _input.direction = Quaternion.LookRotation(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f), Vector3.forward).eulerAngles;
+                _input.direction = Vector2.zero;
             }
 
             _input.select.IsDown = Input.GetKey(KeyCode.Space);

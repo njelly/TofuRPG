@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Tofunaut.TofuUnity;
+﻿using Tofunaut.TofuUnity;
 using UnityEngine;
 using static Tofunaut.TofuUnity.TofuAnimator;
 
@@ -8,7 +7,6 @@ namespace Tofunaut.TofuRPG.Game
     [RequireComponent(typeof(Actor))]
     public class GridMover : GridCollider, Actor.IActorInputReceiver
     {
-
         [Header("Movement")]
         public float moveSpeed;
 
@@ -21,6 +19,11 @@ namespace Tofunaut.TofuRPG.Game
             base.Awake();
 
             _actor = gameObject.GetComponent<Actor>();
+
+            Debug.Log(Vector2.right.ToCardinalDirection4());
+            Debug.Log(Vector2.up.ToCardinalDirection4());
+            Debug.Log(Vector2.left.ToCardinalDirection4());
+            Debug.Log(Vector2.down.ToCardinalDirection4());
         }
 
         private void OnEnable()
@@ -30,7 +33,7 @@ namespace Tofunaut.TofuRPG.Game
 
         private void Update()
         {
-            Debug.Log(_input.direction.ToString("F2"));
+
         }
 
         private void OnDisable()

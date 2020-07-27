@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d78b05da865474363a8f9477db9d006a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  centeredOn: {fileID: 0}
+  centeredOn: {fileID: 1657327158}
   _worldSize: {x: 3, y: 3}
   _regionSize: {x: 32, y: 32}
 --- !u!1 &1657327158

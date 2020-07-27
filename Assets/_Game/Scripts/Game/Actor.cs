@@ -88,12 +88,12 @@ namespace Tofunaut.TofuRPG.Game
 
         public void AddReceiver(IActorInputReceiver receiver)
         {
-            receiver.ReceiveActorInput(_input);
+            _toAdd.Add(receiver);
         }
 
         public void RemoveReceiver(IActorInputReceiver receiver)
         {
-            receiver.ReceiveActorInput(null);
+            _toRemove.Add(receiver);
         }
 
         public void ReceivePlayerInput(PlayerInput input)

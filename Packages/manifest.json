@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.tofunaut.tofuunity": "https://github.com/njelly/TofuUnity.git#master",
+    "com.tofunaut.tofuunity": "https://github.com/njelly/TofuUnity.git",
     "com.unity.2d.animation": "4.2.2",
     "com.unity.2d.pixel-perfect": "3.0.2",
     "com.unity.2d.psdimporter": "3.1.4",

@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "com.tofunaut.tofuunity": {
-      "version": "https://github.com/njelly/TofuUnity.git#master",
+      "version": "https://github.com/njelly/TofuUnity.git",
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.unity.addressables": "1.1.11"
+        "com.unity.addressables": "1.1.12"
       },
-      "hash": "14031330f0948d6fd7eb8531a349ff16e54ca594"
+      "hash": "c3d37da04121fbfa3494e67a95ad5d8fc77c0693"
     },
     "com.unity.2d.animation": {
       "version": "4.2.2",
