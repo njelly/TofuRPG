@@ -25,6 +25,7 @@ namespace Tofunaut.TofuRPG.Game
 
         private void OnEnable()
         {
+            Debug.Log($" ON ENABLE add {gameObject.name} to grid at {_coord}");
             GridCollisionManager.AddToGrid(this);
         }
 
@@ -35,6 +36,7 @@ namespace Tofunaut.TofuRPG.Game
 
         protected virtual void OnGridRecentered(object sender, EventArgs e)
         {
+            Debug.Log($"add {gameObject.name} to grid at {_coord}");
             GridCollisionManager.AddToGrid(this);
         }
 

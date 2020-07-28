@@ -51,7 +51,7 @@ namespace Tofunaut.TofuRPG.Game
 
             Vector2Int prevRegionOffset = _regionOffset;
             Vector2Int centeredOnCoord = new Vector2Int(Mathf.RoundToInt(centeredOn.transform.position.x), Mathf.RoundToInt(centeredOn.transform.position.y));
-            _regionOffset = new Vector2Int(Mathf.RoundToInt(centeredOnCoord.x / (float)_regionSize.x / 2), Mathf.RoundToInt(centeredOnCoord.y / (float)_regionSize.y / 2)) - new Vector2Int(1, 1);
+            _regionOffset = new Vector2Int(Mathf.FloorToInt(centeredOnCoord.x / (float)_regionSize.x), Mathf.FloorToInt(centeredOnCoord.y / (float)_regionSize.y)) - (_worldSize / 2);
 
             if (prevRegionOffset != _regionOffset)
             {
@@ -70,7 +70,7 @@ namespace Tofunaut.TofuRPG.Game
 
         public static void AddToGrid(GridCollider gc)
         {
-            ConvertToVector2IntMinMaxOnGrid(gc, out Vector2Int min, out Vector2Int max);
+            ConvertToVector2IntMinMaxOnGrid(gc, gc.Coord, out Vector2Int min, out Vector2Int max);
 
             for (int x = min.x; x < max.x; x++)
             {
@@ -154,7 +154,7 @@ namespace Tofunaut.TofuRPG.Game
                         continue;
                     }
 
-                    _instance._layerMaskGrid[x, y].Remove(gc.gameObject.layer);
+                    _instance._layerMaskGrid[x, y].Add(gc.gameObject.layer);
                 }
             }
         }
@@ -174,19 +174,13 @@ namespace Tofunaut.TofuRPG.Game
 
         public static bool CanOccupy(GridCollider gc, Vector2Int coord)
         {
-            Vector2Int worldCoordOffset = new Vector2Int(_instance._regionSize.x * _instance._regionOffset.x, _instance._regionSize.y * _instance._regionOffset.y);
-            Vector2Int adjustedCoord = coord - worldCoordOffset;
-            if (adjustedCoord.x < 0 || adjustedCoord.x >= _instance._totalWorldSize.x || adjustedCoord.y < 0 || adjustedCoord.y > _instance._totalWorldSize.y)
-            {
-                // cannot occupy outside world
-                return false;
-            }
-
-            ConvertToVector2IntMinMaxOnGrid(gc, out Vector2Int min, out Vector2Int max);
+            ConvertToVector2IntMinMaxOnGrid(gc, coord, out Vector2Int min, out Vector2Int max);
+            Debug.Log($"{gc.gameObject.name} at {coord} converts to min: {min}, max: {max}");
             for (int x = min.x; x <= max.x; x++)
             {
                 if (x < 0 || x >= _instance._totalWorldSize.x)
                 {
+                    // cannot occupy outside the world
                     return false;
                 }
 
@@ -194,6 +188,7 @@ namespace Tofunaut.TofuRPG.Game
                 {
                     if (y < 0 || y >= _instance._totalWorldSize.y)
                     {
+                        // cannot occupy outside the world
                         return false;
                     }
 
@@ -228,16 +223,18 @@ namespace Tofunaut.TofuRPG.Game
             _instance.UpdateGrid();
         }
 
-        public static void ConvertToVector2IntMinMaxOnGrid(GridCollider gc, out Vector2Int min, out Vector2Int max)
+        public static void ConvertToVector2IntMinMaxOnGrid(GridCollider gc, out Vector2Int min, out Vector2Int max) => ConvertToVector2IntMinMaxOnGrid(gc, gc.Coord, out min, out max);
+        public static void ConvertToVector2IntMinMaxOnGrid(GridCollider gc, Vector2Int coord, out Vector2Int min, out Vector2Int max)
         {
             Vector2Int worldCoordOffset = new Vector2Int(_instance._regionSize.x * _instance._regionOffset.x, _instance._regionSize.y * _instance._regionOffset.y);
-            Vector2Int adjustedCoord = gc.Coord - worldCoordOffset;
+            Vector2Int adjustedCoord = coord - worldCoordOffset;
             min = adjustedCoord + gc.Offset;
             max = min + gc.Size;
         }
 
         public void OnDrawGizmos()
         {
+#if UNITY_EDITOR
             if (_drawGridInScene)
             {
                 Vector2 worldOffset = new Vector2(_regionOffset.x * _regionSize.x, _regionOffset.y * _regionSize.y);
@@ -259,7 +256,16 @@ namespace Tofunaut.TofuRPG.Game
                     Gizmos.DrawLine(start, end);
                 }
                 Gizmos.color = prevColor;
+
+                for (int x = 0; x < _totalWorldSize.x; x++)
+                {
+                    for (int y = 0; y < _totalWorldSize.y; y++)
+                    {
+                        UnityEditor.Handles.Label(new Vector2(x, y) + worldOffset, $"{x},{y}: {GetLayerMask(x, y)}");
+                    }
+                }
             }
+#endif
         }
     }
 }
