@@ -103,7 +103,10 @@ namespace Tofunaut.TofuRPG
 
         public static void RemoveReceiver(IPlayerInputReceiver receiver)
         {
-            _instance._toRemove.Add(receiver);
+            if (_instance)
+            {
+                _instance._toRemove.Add(receiver);
+            }
         }
 
         private void PollInput()

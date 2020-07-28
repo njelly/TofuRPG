@@ -296,7 +296,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   centeredOn: {fileID: 1657327158}
   _worldSize: {x: 3, y: 3}
-  _regionSize: {x: 32, y: 32}
+  _regionSize: {x: 16, y: 16}
+  _drawGridInScene: 1
 --- !u!1 &1657327158
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,9 +357,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de6939f068491094296a8357adbb76c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _size: {x: 2, y: 6}
+  _size: {x: 1, y: 1}
   _offset: {x: 0, y: 0}
-  moveSpeed: 2
+  moveSpeed: 3
 --- !u!1 &2048554705
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,11 +19,7 @@ namespace Tofunaut.TofuRPG.Game
             base.Awake();
 
             _actor = gameObject.GetComponent<Actor>();
-
-            Debug.Log(Vector2.right.ToCardinalDirection4());
-            Debug.Log(Vector2.up.ToCardinalDirection4());
-            Debug.Log(Vector2.left.ToCardinalDirection4());
-            Debug.Log(Vector2.down.ToCardinalDirection4());
+            _input = new ActorInput();
         }
 
         private void OnEnable()
@@ -33,7 +29,10 @@ namespace Tofunaut.TofuRPG.Game
 
         private void Update()
         {
-
+            if (_moveSequence == null && _input.direction.sqrMagnitude > float.Epsilon)
+            {
+                TryMoveTo(_coord + _input.direction.ToCardinalDirection4().ToVector2Int());
+            }
         }
 
         private void OnDisable()
@@ -52,37 +51,31 @@ namespace Tofunaut.TofuRPG.Game
                 return;
             }
 
-            if (!CanOccupy(newCoord))
+            if (!GridCollisionManager.TryOccupy(this, newCoord))
             {
                 // bump!
                 return;
             }
 
             Vector2 prevPosition = new Vector2(Coord.x, Coord.y);
+            Vector2 newPosition = new Vector2(newCoord.x, newCoord.y);
             _coord = newCoord;
 
             _moveSequence = gameObject.Sequence()
                 .Curve(EEaseType.Linear, 1f / moveSpeed, (float newValue) =>
                 {
-
+                    transform.position = Vector2.LerpUnclamped(prevPosition, newPosition, newValue);
                 })
                 .Then()
                 .Execute(() =>
                 {
                     _moveSequence = null;
-
+                    if (_input.direction.sqrMagnitude > float.Epsilon)
+                    {
+                        TryMoveTo(Coord + _input.direction.ToCardinalDirection4().ToVector2Int());
+                    }
                 });
             _moveSequence.Play();
-        }
-
-        public bool CanOccupy(Vector2Int otherCoord)
-        {
-            if (otherCoord == Coord)
-            {
-                return true;
-            }
-
-            return false;
         }
 
         public void ReceiveActorInput(ActorInput input)

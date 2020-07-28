@@ -34,19 +34,11 @@ namespace Tofunaut.TofuRPG.Game
         [Header("Player Input")]
         [SerializeField] private bool _recieveOnStart;
 
-        private ActorInput _input;
-        private List<IActorInputReceiver> _receivers;
-        private List<IActorInputReceiver> _toAdd;
-        private List<IActorInputReceiver> _toRemove;
+        private ActorInput _input = new ActorInput();
+        private List<IActorInputReceiver> _receivers = new List<IActorInputReceiver>();
+        private List<IActorInputReceiver> _toAdd = new List<IActorInputReceiver>();
+        private List<IActorInputReceiver> _toRemove = new List<IActorInputReceiver>();
         private bool _receivingPlayerInput;
-
-        private void Awake()
-        {
-            _input = new ActorInput();
-            _receivers = new List<IActorInputReceiver>();
-            _toAdd = new List<IActorInputReceiver>();
-            _toRemove = new List<IActorInputReceiver>();
-        }
 
         private void Start()
         {

@@ -15,6 +15,9 @@ namespace Tofunaut.TofuRPG.Game
         [SerializeField] private Vector2Int _worldSize; // the width and height of the world (in regions), coordinates outside the world are not traversable
         [SerializeField] private Vector2Int _regionSize; // the size of a single region, when the "centeredOn" game object's region changes, we update the layer mask grid
 
+        [Header("Debug")]
+        [SerializeField] private bool _drawGridInScene;
+
         private Vector2Int _regionOffset;
         private List<int>[,] _layerMaskGrid;
         private Vector2Int _totalWorldSize;
@@ -48,12 +51,20 @@ namespace Tofunaut.TofuRPG.Game
 
             Vector2Int prevRegionOffset = _regionOffset;
             Vector2Int centeredOnCoord = new Vector2Int(Mathf.RoundToInt(centeredOn.transform.position.x), Mathf.RoundToInt(centeredOn.transform.position.y));
-            _regionOffset = new Vector2Int(centeredOnCoord.x / _regionSize.x, centeredOnCoord.y / _regionSize.y);
+            _regionOffset = new Vector2Int(Mathf.RoundToInt(centeredOnCoord.x / (float)_regionSize.x / 2), Mathf.RoundToInt(centeredOnCoord.y / (float)_regionSize.y / 2)) - new Vector2Int(1, 1);
 
             if (prevRegionOffset != _regionOffset)
             {
                 ResetGrid();
                 GridRecentered?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        private void ResetGrid()
+        {
+            foreach (List<int> layerMaskList in _layerMaskGrid)
+            {
+                layerMaskList.Clear();
             }
         }
 
@@ -148,24 +159,30 @@ namespace Tofunaut.TofuRPG.Game
             }
         }
 
-        public static bool CanOccupy(GridCollider gc, Vector2Int coord) => CanOccupy(gc, coord, Vector2Int.zero);
-        public static bool CanOccupy(GridCollider gc, Vector2Int coord, Vector2Int offsetFromCoord)
+        public static bool TryOccupy(GridCollider gc, Vector2Int newCoord)
         {
-            if (coord.x < 0 || coord.x >= _instance._totalWorldSize.x || coord.y < 0 || coord.y > _instance._totalWorldSize.y)
+            if (!CanOccupy(gc, newCoord))
+            {
+                return false;
+            }
+            else
+            {
+                TranslateOnGrid(gc, gc.Coord, newCoord);
+                return true;
+            }
+        }
+
+        public static bool CanOccupy(GridCollider gc, Vector2Int coord)
+        {
+            Vector2Int worldCoordOffset = new Vector2Int(_instance._regionSize.x * _instance._regionOffset.x, _instance._regionSize.y * _instance._regionOffset.y);
+            Vector2Int adjustedCoord = coord - worldCoordOffset;
+            if (adjustedCoord.x < 0 || adjustedCoord.x >= _instance._totalWorldSize.x || adjustedCoord.y < 0 || adjustedCoord.y > _instance._totalWorldSize.y)
             {
                 // cannot occupy outside world
                 return false;
             }
 
-            Vector2Int internalRegionCoord = new Vector2Int(coord.x % _instance._regionSize.x, coord.y % _instance._regionSize.y);
-            Vector2Int worldOffset = new Vector2Int(
-                internalRegionCoord.x + (_instance._regionSize.x * _instance._regionOffset.x),
-                internalRegionCoord.y + (_instance._regionSize.y * _instance._regionOffset.y));
-            Vector2Int adjustedCoord = coord - worldOffset;
-
             ConvertToVector2IntMinMaxOnGrid(gc, out Vector2Int min, out Vector2Int max);
-            min += offsetFromCoord;
-            max += offsetFromCoord;
             for (int x = min.x; x <= max.x; x++)
             {
                 if (x < 0 || x >= _instance._totalWorldSize.x)
@@ -180,7 +197,10 @@ namespace Tofunaut.TofuRPG.Game
                         return false;
                     }
 
-                    if ((GetLayerMask(x, y) & gc.gameObject.layer) != 0)
+                    int layerMask = GetLayerMask(x, y);
+                    int goLayer = gc.gameObject.layer;
+
+                    if ((layerMask & goLayer) != 0)
                     {
                         return false;
                     }
@@ -202,14 +222,6 @@ namespace Tofunaut.TofuRPG.Game
             return layerMask;
         }
 
-        private void ResetGrid()
-        {
-            foreach (List<int> layerMaskList in _layerMaskGrid)
-            {
-                layerMaskList.Clear();
-            }
-        }
-
         public static void CenterOn(GameObject centeredOn)
         {
             _instance.centeredOn = centeredOn;
@@ -218,13 +230,36 @@ namespace Tofunaut.TofuRPG.Game
 
         public static void ConvertToVector2IntMinMaxOnGrid(GridCollider gc, out Vector2Int min, out Vector2Int max)
         {
-            Vector2Int internalRegionCoord = new Vector2Int(gc.Coord.x % _instance._regionSize.x, gc.Coord.y % _instance._regionSize.y);
-            Vector2Int worldOffset = new Vector2Int(
-                internalRegionCoord.x + (_instance._regionSize.x * _instance._regionOffset.x),
-                internalRegionCoord.y + (_instance._regionSize.y * _instance._regionOffset.y));
-
-            min = gc.Coord - worldOffset;
+            Vector2Int worldCoordOffset = new Vector2Int(_instance._regionSize.x * _instance._regionOffset.x, _instance._regionSize.y * _instance._regionOffset.y);
+            Vector2Int adjustedCoord = gc.Coord - worldCoordOffset;
+            min = adjustedCoord + gc.Offset;
             max = min + gc.Size;
+        }
+
+        public void OnDrawGizmos()
+        {
+            if (_drawGridInScene)
+            {
+                Vector2 worldOffset = new Vector2(_regionOffset.x * _regionSize.x, _regionOffset.y * _regionSize.y);
+
+                Color prevColor = Gizmos.color;
+                Gizmos.color = Color.green;
+                Vector2 totalWorldSize = new Vector2(_worldSize.x * _regionSize.x, _worldSize.y * _regionSize.y);
+                for (int x = 0; x <= totalWorldSize.x; x++)
+                {
+                    Vector2 start = new Vector2(x, 0) - (Vector2.one / 2f) + worldOffset;
+                    Vector2 end = new Vector2(x, totalWorldSize.y) - (Vector2.one / 2f) + worldOffset;
+                    Gizmos.DrawLine(start, end);
+                }
+
+                for (int y = 0; y <= totalWorldSize.y; y++)
+                {
+                    Vector2 start = new Vector2(0, y) - (Vector2.one / 2f) + worldOffset;
+                    Vector2 end = new Vector2(totalWorldSize.x, y) - (Vector2.one / 2f) + worldOffset;
+                    Gizmos.DrawLine(start, end);
+                }
+                Gizmos.color = prevColor;
+            }
         }
     }
 }
