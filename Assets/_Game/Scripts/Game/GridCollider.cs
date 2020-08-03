@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Tofunaut.TofuUnity;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class GridCollider : MonoBehaviour
     {
-        public Vector2Int Coord => _coord;
+        public Vector2Int Coord { get; protected set; }
         public Vector2Int Size => _size;
         public Vector2Int Offset => _offset;
 
@@ -14,40 +15,30 @@ namespace Tofunaut.TofuRPG.Game
         [SerializeField] private Vector2Int _size;
         [SerializeField] private Vector2Int _offset;
 
-        protected Vector2Int _coord;
-
         protected virtual void Awake()
         {
-            _coord = new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
-
-            GridCollisionManager.GridRecentered += OnGridRecentered;
+            Coord = new Vector2Int(Mathf.CeilToInt(transform.position.x), Mathf.CeilToInt(transform.position.y));
         }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
-            Debug.Log($" ON ENABLE add {gameObject.name} to grid at {_coord}");
-            GridCollisionManager.AddToGrid(this);
+            GridCollisionManager.Add(this);
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
-            GridCollisionManager.RemoveFromGrid(this);
+            GridCollisionManager.Remove(this);
         }
 
-        protected virtual void OnGridRecentered(object sender, EventArgs e)
+        protected virtual void Update()
         {
-            Debug.Log($"add {gameObject.name} to grid at {_coord}");
-            GridCollisionManager.AddToGrid(this);
+            Vector2Int min = Coord + _offset;
+            Vector2Int max = Coord + _offset + _size;
+            Debug.DrawLine(new Vector3(max.x, max.y) - Vector3.one * 0.5f, new Vector3(max.x, min.y) - Vector3.one * 0.5f);
+            Debug.DrawLine(new Vector3(max.x, min.y) - Vector3.one * 0.5f, new Vector3(min.x, min.y) - Vector3.one * 0.5f);
+            Debug.DrawLine(new Vector3(min.x, min.y) - Vector3.one * 0.5f, new Vector3(min.x, max.y) - Vector3.one * 0.5f);
+            Debug.DrawLine(new Vector3(min.x, max.y) - Vector3.one * 0.5f, new Vector3(max.x, max.y) - Vector3.one * 0.5f);
         }
 
-        public void OnDrawGizmos()
-        {
-            Vector2Int min = _coord + _offset;
-            Vector2Int max = _coord + _offset + _size;
-            Gizmos.DrawLine(new Vector3(max.x, max.y) - Vector3.one * 0.5f, new Vector3(max.x, min.y) - Vector3.one * 0.5f);
-            Gizmos.DrawLine(new Vector3(max.x, min.y) - Vector3.one * 0.5f, new Vector3(min.x, min.y) - Vector3.one * 0.5f);
-            Gizmos.DrawLine(new Vector3(min.x, min.y) - Vector3.one * 0.5f, new Vector3(min.x, max.y) - Vector3.one * 0.5f);
-            Gizmos.DrawLine(new Vector3(min.x, max.y) - Vector3.one * 0.5f, new Vector3(max.x, max.y) - Vector3.one * 0.5f);
-        }
     }
 }

@@ -7,265 +7,144 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class GridCollisionManager : SingletonBehaviour<GridCollisionManager>
     {
-        public static event EventHandler GridRecentered;
+        public Vector2Int size;
+        public Vector2Int recenterInterval;
+        public GridCollider centeredOn;
 
-        [Tooltip("The gameobject to center the grid around.")]
-        public GameObject centeredOn;
-
-        [SerializeField] private Vector2Int _worldSize; // the width and height of the world (in regions), coordinates outside the world are not traversable
-        [SerializeField] private Vector2Int _regionSize; // the size of a single region, when the "centeredOn" game object's region changes, we update the layer mask grid
-
-        [Header("Debug")]
-        [SerializeField] private bool _drawGridInScene;
-
-        private Vector2Int _regionOffset;
-        private List<int>[,] _layerMaskGrid;
-        private Vector2Int _totalWorldSize;
+        private Vector2IntQuadTree<GridCollider> _quadTree;
+        private List<GridCollider> _gridColliders;
+        private Vector2Int _offset;
 
         protected override void Awake()
         {
             base.Awake();
 
-            _totalWorldSize = new Vector2Int(_regionSize.x * _worldSize.x, _regionSize.y * _worldSize.y);
-            _layerMaskGrid = new List<int>[_totalWorldSize.x, _totalWorldSize.y];
-            for (int x = 0; x < _layerMaskGrid.GetLength(0); x++)
-            {
-                for (int y = 0; y < _layerMaskGrid.GetLength(1); y++)
-                {
-                    _layerMaskGrid[x, y] = new List<int>();
-                }
-            }
+            _gridColliders = new List<GridCollider>();
+            _offset = Vector2Int.zero;
+            _quadTree = new Vector2IntQuadTree<GridCollider>(size / -2, size / 2);
         }
 
         private void Update()
         {
-            UpdateGrid();
+            Vector2Int newOffset = Vector2Int.zero;
+            if (centeredOn)
+            {
+                Vector2Int coord = centeredOn.Coord;
+                newOffset = new Vector2Int(coord.x - (coord.x % recenterInterval.x), coord.y - (coord.y % recenterInterval.y));
+            }
+
+            if (newOffset != _offset)
+            {
+                _quadTree.Clear();
+                foreach (GridCollider gc in _gridColliders)
+                {
+                    Vector2Int adjustedCoord = gc.Coord - _offset;
+                    if (adjustedCoord.x < (size.x / -2) || adjustedCoord.x >= (size.x / 2) || adjustedCoord.y < (size.y / -2) || adjustedCoord.y >= (size.y / 2))
+                    {
+                        continue;
+                    }
+
+                    _quadTree.Add(gc, adjustedCoord);
+                }
+            }
+
+            RenderQuadTree(_quadTree);
         }
 
-        private void UpdateGrid()
+        private void RecenterQuadTree()
         {
-            if (!centeredOn)
+            _quadTree.Clear();
+        }
+
+        public static void Add(GridCollider gc)
+        {
+            Debug.Log($"trying to add {gc.gameObject.name}");
+            if (!_instance)
+            {
+                Debug.Log("no instance");
+                return;
+            }
+
+            _instance._gridColliders.Add(gc);
+            Vector2Int adjustedCoord = gc.Coord - _instance._offset;
+            if (adjustedCoord.x < (_instance.size.x / -2) || adjustedCoord.x >= (_instance.size.x / 2) || adjustedCoord.y < (_instance.size.y / -2) || adjustedCoord.y >= (_instance.size.y / 2))
+            {
+                Debug.Log("out of bounds");
+                return;
+            }
+
+            Debug.Log($"add {gc.name} to {adjustedCoord}");
+            _instance._quadTree.Add(gc, adjustedCoord);
+        }
+
+        public static void Remove(GridCollider gc)
+        {
+            if (!_instance)
             {
                 return;
             }
 
-            Vector2Int prevRegionOffset = _regionOffset;
-            Vector2Int centeredOnCoord = new Vector2Int(Mathf.RoundToInt(centeredOn.transform.position.x), Mathf.RoundToInt(centeredOn.transform.position.y));
-            _regionOffset = new Vector2Int(Mathf.FloorToInt(centeredOnCoord.x / (float)_regionSize.x), Mathf.FloorToInt(centeredOnCoord.y / (float)_regionSize.y)) - (_worldSize / 2);
-
-            if (prevRegionOffset != _regionOffset)
+            _instance._gridColliders.Remove(gc);
+            Vector2Int adjustedCoord = gc.Coord - _instance._offset;
+            if (adjustedCoord.x < (_instance.size.x / -2) || adjustedCoord.x >= (_instance.size.x / 2) || adjustedCoord.y < (_instance.size.y / -2) || adjustedCoord.y >= (_instance.size.y / 2))
             {
-                ResetGrid();
-                GridRecentered?.Invoke(this, EventArgs.Empty);
+                return;
             }
+
+            _instance._quadTree.Remove(gc, adjustedCoord);
         }
 
-        private void ResetGrid()
+        public static bool TryMove(GridCollider gc, Vector2Int from, Vector2Int to)
         {
-            foreach (List<int> layerMaskList in _layerMaskGrid)
-            {
-                layerMaskList.Clear();
-            }
-        }
-
-        public static void AddToGrid(GridCollider gc)
-        {
-            ConvertToVector2IntMinMaxOnGrid(gc, gc.Coord, out Vector2Int min, out Vector2Int max);
-
-            for (int x = min.x; x < max.x; x++)
-            {
-                if (x < 0 || x >= _instance._totalWorldSize.x)
-                {
-                    continue;
-                }
-
-                for (int y = min.y; y < max.y; y++)
-                {
-                    if (y < 0 || y >= _instance._totalWorldSize.y)
-                    {
-                        continue;
-                    }
-
-                    _instance._layerMaskGrid[x, y].Add(gc.gameObject.layer);
-                }
-            }
-        }
-
-        public static void RemoveFromGrid(GridCollider gc)
-        {
-            ConvertToVector2IntMinMaxOnGrid(gc, out Vector2Int min, out Vector2Int max);
-
-            for (int x = min.x; x < max.x; x++)
-            {
-                if (x < 0 || x >= _instance._totalWorldSize.x)
-                {
-                    continue;
-                }
-
-                for (int y = min.y; y < max.y; y++)
-                {
-                    if (y < 0 || y >= _instance._totalWorldSize.y)
-                    {
-                        continue;
-                    }
-
-                    _instance._layerMaskGrid[x, y].Remove(gc.gameObject.layer);
-                }
-            }
-        }
-
-        public static void TranslateOnGrid(GridCollider gc, Vector2Int from, Vector2Int to)
-        {
-            ConvertToVector2IntMinMaxOnGrid(gc, out Vector2Int fromMin, out Vector2Int fromMax);
-            Vector2Int toMin = fromMin + (to - from);
-            Vector2Int toMax = fromMin + (to - from);
-
-            // remove from previous position
-            for (int x = fromMin.x; x < fromMin.x; x++)
-            {
-                if (x < 0 || x >= _instance._totalWorldSize.x)
-                {
-                    continue;
-                }
-
-                for (int y = fromMin.y; y < fromMin.y; y++)
-                {
-                    if (y < 0 || y >= _instance._totalWorldSize.y)
-                    {
-                        continue;
-                    }
-
-                    _instance._layerMaskGrid[x, y].Remove(gc.gameObject.layer);
-                }
-            }
-
-            // add to new position
-            for (int x = fromMin.x; x < fromMin.x; x++)
-            {
-                if (x < 0 || x >= _instance._totalWorldSize.x)
-                {
-                    continue;
-                }
-
-                for (int y = fromMin.y; y < fromMin.y; y++)
-                {
-                    if (y < 0 || y >= _instance._totalWorldSize.y)
-                    {
-                        continue;
-                    }
-
-                    _instance._layerMaskGrid[x, y].Add(gc.gameObject.layer);
-                }
-            }
-        }
-
-        public static bool TryOccupy(GridCollider gc, Vector2Int newCoord)
-        {
-            if (!CanOccupy(gc, newCoord))
+            if (!CanOccupy(gc, to))
             {
                 return false;
             }
-            else
-            {
-                TranslateOnGrid(gc, gc.Coord, newCoord);
-                return true;
-            }
-        }
 
-        public static bool CanOccupy(GridCollider gc, Vector2Int coord)
-        {
-            ConvertToVector2IntMinMaxOnGrid(gc, coord, out Vector2Int min, out Vector2Int max);
-            Debug.Log($"{gc.gameObject.name} at {coord} converts to min: {min}, max: {max}");
-            for (int x = min.x; x <= max.x; x++)
-            {
-                if (x < 0 || x >= _instance._totalWorldSize.x)
-                {
-                    // cannot occupy outside the world
-                    return false;
-                }
-
-                for (int y = min.y; y <= max.y; y++)
-                {
-                    if (y < 0 || y >= _instance._totalWorldSize.y)
-                    {
-                        // cannot occupy outside the world
-                        return false;
-                    }
-
-                    int layerMask = GetLayerMask(x, y);
-                    int goLayer = gc.gameObject.layer;
-
-                    if ((layerMask & goLayer) != 0)
-                    {
-                        return false;
-                    }
-                }
-            }
+            _instance._quadTree.Remove(gc, from);
+            _instance._quadTree.Add(gc, to);
 
             return true;
         }
 
-        public static int GetLayerMask(Vector2Int coord) => GetLayerMask(coord.x, coord.y);
-        public static int GetLayerMask(int x, int y)
+        public static bool CanOccupy(GridCollider gc, Vector2Int coord)
         {
             int layerMask = 0;
-            foreach (int layer in _instance._layerMaskGrid[x, y])
+
+            if (_instance._quadTree.TryGet(coord, out List<GridCollider> gridColliders))
             {
-                layerMask |= layer;
+                foreach (GridCollider collider in gridColliders)
+                {
+                    layerMask |= gc.gameObject.layer;
+                }
             }
 
-            return layerMask;
+            return (gc.gameObject.layer & layerMask) == 0;
         }
 
-        public static void CenterOn(GameObject centeredOn)
+        private void RenderQuadTree<T>(Vector2IntQuadTree<T> tree)
         {
-            _instance.centeredOn = centeredOn;
-            _instance.UpdateGrid();
-        }
+            Debug.DrawLine(new Vector2(tree.Min.x, tree.Max.y) + _offset + Vector2.one * 0.5f, new Vector2(tree.Max.x, tree.Max.y) + _offset + Vector2.one * 0.5f, tree.Depth % 2 == 0 ? Color.red : Color.green);
+            Debug.DrawLine(new Vector2(tree.Max.x, tree.Max.y) + _offset + Vector2.one * 0.5f, new Vector2(tree.Max.x, tree.Min.y) + _offset + Vector2.one * 0.5f, tree.Depth % 2 == 0 ? Color.red : Color.green);
 
-        public static void ConvertToVector2IntMinMaxOnGrid(GridCollider gc, out Vector2Int min, out Vector2Int max) => ConvertToVector2IntMinMaxOnGrid(gc, gc.Coord, out min, out max);
-        public static void ConvertToVector2IntMinMaxOnGrid(GridCollider gc, Vector2Int coord, out Vector2Int min, out Vector2Int max)
-        {
-            Vector2Int worldCoordOffset = new Vector2Int(_instance._regionSize.x * _instance._regionOffset.x, _instance._regionSize.y * _instance._regionOffset.y);
-            Vector2Int adjustedCoord = coord - worldCoordOffset;
-            min = adjustedCoord + gc.Offset;
-            max = min + gc.Size;
-        }
-
-        public void OnDrawGizmos()
-        {
-#if UNITY_EDITOR
-            if (_drawGridInScene)
+            if (tree.Quadrants != null)
             {
-                Vector2 worldOffset = new Vector2(_regionOffset.x * _regionSize.x, _regionOffset.y * _regionSize.y);
-
-                Color prevColor = Gizmos.color;
-                Gizmos.color = Color.green;
-                Vector2 totalWorldSize = new Vector2(_worldSize.x * _regionSize.x, _worldSize.y * _regionSize.y);
-                for (int x = 0; x <= totalWorldSize.x; x++)
+                for (int i = 0; i < tree.Quadrants.Length; i++)
                 {
-                    Vector2 start = new Vector2(x, 0) - (Vector2.one / 2f) + worldOffset;
-                    Vector2 end = new Vector2(x, totalWorldSize.y) - (Vector2.one / 2f) + worldOffset;
-                    Gizmos.DrawLine(start, end);
-                }
-
-                for (int y = 0; y <= totalWorldSize.y; y++)
-                {
-                    Vector2 start = new Vector2(0, y) - (Vector2.one / 2f) + worldOffset;
-                    Vector2 end = new Vector2(totalWorldSize.x, y) - (Vector2.one / 2f) + worldOffset;
-                    Gizmos.DrawLine(start, end);
-                }
-                Gizmos.color = prevColor;
-
-                for (int x = 0; x < _totalWorldSize.x; x++)
-                {
-                    for (int y = 0; y < _totalWorldSize.y; y++)
+                    if (tree.Quadrants[i] != null)
                     {
-                        UnityEditor.Handles.Label(new Vector2(x, y) + worldOffset, $"{x},{y}: {GetLayerMask(x, y)}");
+                        RenderQuadTree(tree.Quadrants[i]);
                     }
                 }
             }
-#endif
+        }
+
+        private void OnValidate()
+        {
+            size.x = Mathf.Max(2, size.x);
+            size.y = Mathf.Max(2, size.y);
+            recenterInterval.x = Mathf.Max(1, recenterInterval.x);
+            recenterInterval.y = Mathf.Max(1, recenterInterval.y);
         }
     }
 }

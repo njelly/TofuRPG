@@ -22,21 +22,27 @@ namespace Tofunaut.TofuRPG.Game
             _input = new ActorInput();
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+
             _actor.AddReceiver(this);
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
+
             if (_moveSequence == null && _input.direction.sqrMagnitude > float.Epsilon)
             {
-                TryMoveTo(_coord + _input.direction.ToCardinalDirection4().ToVector2Int());
+                TryMoveTo(Coord + _input.direction.ToCardinalDirection4().ToVector2Int());
             }
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
+
             if (_actor)
             {
                 _actor.RemoveReceiver(this);
@@ -51,20 +57,19 @@ namespace Tofunaut.TofuRPG.Game
                 return;
             }
 
-            if (!GridCollisionManager.TryOccupy(this, newCoord))
+            if (!GridCollisionManager.TryMove(this, Coord, newCoord))
             {
                 // bump!
                 return;
             }
 
             Vector2 prevPosition = new Vector2(Coord.x, Coord.y);
-            Vector2 newPosition = new Vector2(newCoord.x, newCoord.y);
-            _coord = newCoord;
+            Coord = newCoord;
 
             _moveSequence = gameObject.Sequence()
                 .Curve(EEaseType.Linear, 1f / moveSpeed, (float newValue) =>
                 {
-                    transform.position = Vector2.LerpUnclamped(prevPosition, newPosition, newValue);
+                    transform.position = Vector2.LerpUnclamped(prevPosition, Coord, newValue);
                 })
                 .Then()
                 .Execute(() =>

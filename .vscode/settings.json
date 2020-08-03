@@ -1,5 +1,5 @@
 ﻿{
-    "editor.fontSize": 12,
+    "editor.fontSize": 14,
     "files.exclude": {
         "**/.DS_Store": true,
         "**/.git": true,
