@@ -22,12 +22,12 @@ namespace Tofunaut.TofuRPG.Game
 
         protected virtual void OnEnable()
         {
-            GridCollisionManager.Add(this);
+            GridCollisionManager.Add(this, Coord);
         }
 
         protected virtual void OnDisable()
         {
-            GridCollisionManager.Remove(this);
+            GridCollisionManager.Remove(this, Coord);
         }
 
         protected virtual void Update()
