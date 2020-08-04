@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Tofunaut.TofuUnity;
 using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game

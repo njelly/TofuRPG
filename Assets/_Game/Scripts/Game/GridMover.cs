@@ -29,16 +29,6 @@ namespace Tofunaut.TofuRPG.Game
             _actor.AddReceiver(this);
         }
 
-        protected override void Update()
-        {
-            base.Update();
-
-            if (_moveSequence == null && _input.direction.sqrMagnitude > float.Epsilon)
-            {
-                TryMoveTo(Coord + _input.direction.ToCardinalDirection4().ToVector2Int());
-            }
-        }
-
         protected override void OnDisable()
         {
             base.OnDisable();
@@ -46,6 +36,16 @@ namespace Tofunaut.TofuRPG.Game
             if (_actor)
             {
                 _actor.RemoveReceiver(this);
+            }
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (_moveSequence == null && _input.direction.sqrMagnitude > float.Epsilon)
+            {
+                TryMoveTo(Coord + _input.direction.ToCardinalDirection4().ToVector2Int());
             }
         }
 

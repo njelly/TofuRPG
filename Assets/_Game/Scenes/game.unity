@@ -261,7 +261,7 @@ PrefabInstance:
     - target: {fileID: 9083695358841577766, guid: 38986f24f270e52458054fa71e02b7f2,
         type: 3}
       propertyPath: m_Name
-      value: Villager (1)
+      value: Actor (1)
       objectReference: {fileID: 0}
     - target: {fileID: 9083695358841577767, guid: 38986f24f270e52458054fa71e02b7f2,
         type: 3}
@@ -353,7 +353,7 @@ PrefabInstance:
     - target: {fileID: 9083695358841577766, guid: 38986f24f270e52458054fa71e02b7f2,
         type: 3}
       propertyPath: m_Name
-      value: Villager
+      value: Actor
       objectReference: {fileID: 0}
     - target: {fileID: 9083695358841577767, guid: 38986f24f270e52458054fa71e02b7f2,
         type: 3}
