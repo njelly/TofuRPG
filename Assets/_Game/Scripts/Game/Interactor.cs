@@ -69,11 +69,9 @@ namespace Tofunaut.TofuRPG.Game
 
         public IInteractable TryGetInteractableAt(Vector2Int coordinate)
         {
-            Debug.Log("try get interactable");
-
-
             foreach (GridCollider gridCollider in GridCollisionManager.GetCollidersAt(coordinate))
             {
+                Debug.Log(gridCollider.name);
                 IInteractable interactable = gridCollider.GetComponent<IInteractable>();
                 if (interactable != null)
                 {
