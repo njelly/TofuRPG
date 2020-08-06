@@ -45,11 +45,11 @@ namespace Tofunaut.TofuRPG.Game
         {
             base.Update();
 
-            if (_input.direction.sqrMagnitude > float.Epsilon)
+            if (_input.direction.Direction.sqrMagnitude > float.Epsilon)
             {
                 if (_moveSequence == null)
                 {
-                    TryMoveTo(Coord + _input.direction.ToCardinalDirection4().ToVector2Int());
+                    TryMoveTo(Coord + _input.direction.Direction.ToCardinalDirection4().ToVector2Int());
                 }
             }
             else
@@ -89,9 +89,9 @@ namespace Tofunaut.TofuRPG.Game
                 .Execute(() =>
                 {
                     _moveSequence = null;
-                    if (_input.direction.sqrMagnitude > float.Epsilon)
+                    if (_input.direction.Direction.sqrMagnitude > float.Epsilon)
                     {
-                        TryMoveTo(Coord + _input.direction.ToCardinalDirection4().ToVector2Int());
+                        TryMoveTo(Coord + _input.direction.Direction.ToCardinalDirection4().ToVector2Int());
                     }
                 });
             _moveSequence.Play();

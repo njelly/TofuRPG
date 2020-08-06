@@ -6,45 +6,52 @@ namespace Tofunaut.TofuRPG
 {
     public class PlayerInput
     {
-        public Vector2 direction;
+        public DirectionButton direction;
         public Button select;
         public Button back;
 
         public PlayerInput()
         {
-            direction = Vector2.zero;
+            direction = new DirectionButton();
             select = new Button();
             back = new Button();
         }
 
         public class Button
         {
-            private float _timePressed;
-            private float _timeReleased;
-            private bool _isDown;
+            public float timePressed;
+            public float timeReleased;
 
-            public bool IsDown
+            public bool Pressed => Time.time - timePressed < Time.deltaTime;
+            public bool Held => timePressed > timeReleased;
+            public bool Released => Time.time - timeReleased < Time.deltaTime;
+        }
+
+        public class DirectionButton : Button
+        {
+            public Vector2 Direction { get; private set; } = Vector2.zero;
+
+            public void SetDirection(Vector2 direction)
             {
-                get
+                if (Direction != direction)
                 {
-                    return _isDown;
-                }
-                set
-                {
-                    if (!_isDown && value)
+                    if (direction.sqrMagnitude >= float.Epsilon)
                     {
-                        _timePressed = Time.time;
+                        timePressed = Time.time;
                     }
-                    if (_isDown && !value)
+                    else
                     {
-                        _timeReleased = Time.time;
+                        timeReleased = Time.time;
                     }
-                    _isDown = value;
                 }
+
+                Direction = direction;
             }
 
-            public bool WasPressed => _isDown && (Time.time - _timePressed - Time.deltaTime <= float.Epsilon);
-            public bool WasReleased => !_isDown && (Time.time - _timeReleased - Time.deltaTime <= float.Epsilon);
+            public static implicit operator Vector2(DirectionButton button)
+            {
+                return button.Held ? button.Direction : Vector2.zero;
+            }
         }
     }
 
@@ -111,17 +118,24 @@ namespace Tofunaut.TofuRPG
 
         private void PollInput()
         {
-            Vector3 rawDir = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f);
+            Vector2 rawDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             if (rawDir.sqrMagnitude > float.Epsilon)
             {
-                _input.direction = rawDir.normalized;
+                _input.direction.SetDirection(rawDir.normalized);
             }
             else
             {
-                _input.direction = Vector2.zero;
+                _input.direction.SetDirection(Vector2.zero);
             }
 
-            _input.select.IsDown = Input.GetKey(KeyCode.Space);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _input.select.timePressed = Time.time;
+            }
+            else if (Input.GetKeyUp(KeyCode.Space))
+            {
+                _input.select.timeReleased = Time.time;
+            }
         }
     }
 }

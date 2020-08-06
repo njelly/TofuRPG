@@ -6,19 +6,31 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class ActorInput
     {
-        public Vector2 direction;
+        public PlayerInput.DirectionButton direction;
         public PlayerInput.Button interact;
 
         public ActorInput()
         {
-            direction = Vector2.zero;
+            direction = new PlayerInput.DirectionButton();
             interact = new PlayerInput.Button();
         }
 
         public void InterpretPlayerInput(PlayerInput playerInput)
         {
-            direction = playerInput.direction;
-            interact = playerInput.select;
+            if (playerInput == null)
+            {
+                direction.SetDirection(Vector2.zero);
+                if (interact.Held)
+                {
+                    interact.timeReleased = Time.time;
+                }
+            }
+            else
+            {
+                direction.SetDirection(playerInput.direction);
+                interact.timePressed = playerInput.select.timePressed;
+                interact.timeReleased = playerInput.select.timeReleased;
+            }
         }
     }
 
@@ -67,11 +79,6 @@ namespace Tofunaut.TofuRPG.Game
                 _receivers.Remove(receiver);
             }
             _toRemove.Clear();
-
-            foreach (IActorInputReceiver receiver in _receivers)
-            {
-                receiver.ReceiveActorInput(_input);
-            }
         }
 
         private void OnDestroy()
@@ -91,15 +98,13 @@ namespace Tofunaut.TofuRPG.Game
 
         public void ReceivePlayerInput(PlayerInput input)
         {
-            if (input == null)
-            {
-                _receivingPlayerInput = false;
-                _input.direction = Vector2.zero;
-                return;
-            }
-
-            _receivingPlayerInput = true;
+            _receivingPlayerInput = input != null;
             _input.InterpretPlayerInput(input);
+
+            foreach (IActorInputReceiver receiver in _receivers)
+            {
+                receiver.ReceiveActorInput(_input);
+            }
         }
     }
 }

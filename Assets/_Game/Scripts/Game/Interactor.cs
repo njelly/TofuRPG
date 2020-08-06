@@ -41,14 +41,14 @@ namespace Tofunaut.TofuRPG.Game
 
         public void ReceiveActorInput(ActorInput input)
         {
-            if (input.direction.sqrMagnitude > float.Epsilon)
+            if (input.direction.Direction.sqrMagnitude > float.Epsilon)
             {
-                Facing = input.direction.ToCardinalDirection4();
+                Facing = input.direction.Direction.ToCardinalDirection4();
             }
 
             if (InteractingWith == null)
             {
-                if (input.interact.WasPressed)
+                if (input.interact.Pressed)
                 {
                     InteractingWith = TryGetInteractableAt(_gridCollider.Coord + Facing.ToVector2Int());
                     if (InteractingWith != null)
@@ -59,7 +59,7 @@ namespace Tofunaut.TofuRPG.Game
             }
             else
             {
-                if (input.interact.WasReleased)
+                if (input.interact.Released)
                 {
                     InteractingWith.EndInteraction(this);
                     InteractingWith = null;

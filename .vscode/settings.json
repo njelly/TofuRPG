@@ -1,5 +1,7 @@
 ﻿{
-    "editor.fontSize": 14,
+    "editor.fontSize": 12,
+    "terminal.integrated.fontSize": 12,
+    "terminal.integrated.fontFamily": "",
     "files.exclude": {
         "**/.DS_Store": true,
         "**/.git": true,

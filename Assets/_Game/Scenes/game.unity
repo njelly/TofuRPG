@@ -130,6 +130,12 @@ SpriteRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 9083695359340130064}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &425686648 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9083695358841577766, guid: 38986f24f270e52458054fa71e02b7f2,
+    type: 3}
+  m_PrefabInstance: {fileID: 9083695359340130064}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,11 +145,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 519420032}
+  - component: {fileID: 519420030}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   m_Layer: 0
-  m_Name: Main Camera
-  m_TagString: MainCamera
+  m_Name: GameCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,6 +163,20 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3be66ae00830def478f4c4f52505516b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _following: {fileID: 425686648}
+  _offset: {x: 0, y: 0}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -309,7 +330,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 9083695359340130064}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 425686648}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de6939f068491094296a8357adbb76c7, type: 3}
@@ -335,7 +356,7 @@ PrefabInstance:
     - target: {fileID: 1177260882355605181, guid: a998c1c7887381b4cbda2cc7099b6ae8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1177260882355605181, guid: a998c1c7887381b4cbda2cc7099b6ae8,
         type: 3}
