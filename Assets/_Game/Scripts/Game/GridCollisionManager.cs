@@ -174,8 +174,9 @@ namespace Tofunaut.TofuRPG.Game
 
         public static List<GridCollider> GetCollidersAt(Vector2Int coord)
         {
+            Vector2Int adjustedCoord = coord - _instance._offset;
             List<GridCollider> toReturn = new List<GridCollider>();
-            if (_instance._quadTree.TryGet(coord, out List<GridCollider> colliders))
+            if (_instance._quadTree.TryGet(adjustedCoord, out List<GridCollider> colliders))
             {
                 toReturn.AddRange(colliders);
             }

@@ -61,8 +61,8 @@ namespace Tofunaut.TofuRPG.Game
             {
                 if (input.interact.WasReleased)
                 {
-                    InteractingWith = null;
                     InteractingWith.EndInteraction(this);
+                    InteractingWith = null;
                 }
             }
         }
@@ -71,7 +71,6 @@ namespace Tofunaut.TofuRPG.Game
         {
             foreach (GridCollider gridCollider in GridCollisionManager.GetCollidersAt(coordinate))
             {
-                Debug.Log(gridCollider.name);
                 IInteractable interactable = gridCollider.GetComponent<IInteractable>();
                 if (interactable != null)
                 {
