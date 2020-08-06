@@ -9,10 +9,12 @@ namespace Tofunaut.TofuRPG.Game
     {
         [Header("Movement")]
         public float moveSpeed;
+        public float moveHesitationTime;
 
         private Actor _actor;
         private ActorInput _input;
         private TofuAnimator.Sequence _moveSequence;
+        private float _lastZeroDirectionTime;
 
         protected override void Awake()
         {
@@ -43,14 +45,26 @@ namespace Tofunaut.TofuRPG.Game
         {
             base.Update();
 
-            if (_moveSequence == null && _input.direction.sqrMagnitude > float.Epsilon)
+            if (_input.direction.sqrMagnitude > float.Epsilon)
             {
-                TryMoveTo(Coord + _input.direction.ToCardinalDirection4().ToVector2Int());
+                if (_moveSequence == null)
+                {
+                    TryMoveTo(Coord + _input.direction.ToCardinalDirection4().ToVector2Int());
+                }
+            }
+            else
+            {
+                _lastZeroDirectionTime = Time.time;
             }
         }
 
         private void TryMoveTo(Vector2Int newCoord)
         {
+            if (Time.time - _lastZeroDirectionTime < moveHesitationTime)
+            {
+                return;
+            }
+
             if (_moveSequence != null)
             {
                 // can't move while animation is playing

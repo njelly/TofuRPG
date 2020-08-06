@@ -43,8 +43,8 @@ namespace Tofunaut.TofuRPG
                 }
             }
 
-            public bool WasPressed => _isDown && (Mathf.Abs(_timePressed - Time.time) <= float.Epsilon);
-            public bool WasReleased => !_isDown && (Mathf.Abs(_timeReleased - Time.time) <= float.Epsilon);
+            public bool WasPressed => _isDown && (Time.time - _timePressed - Time.deltaTime <= float.Epsilon);
+            public bool WasReleased => !_isDown && (Time.time - _timeReleased - Time.deltaTime <= float.Epsilon);
         }
     }
 

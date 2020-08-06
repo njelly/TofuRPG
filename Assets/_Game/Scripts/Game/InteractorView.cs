@@ -9,6 +9,8 @@ namespace Tofunaut.TofuRPG.Game
         public Interactor interactor;
         public SpriteRenderer flipXFacing;
         public SpriteRenderer reticle;
+        public float reticleMoveAnimTime;
+        public float reticleFlashAnimTime;
 
         private ECardinalDirection4 _prevFacing;
 
@@ -55,24 +57,31 @@ namespace Tofunaut.TofuRPG.Game
 
         private IEnumerator AnimateReticleCoroutine()
         {
-            Vector3 startPos = transform.localPosition;
-            if (startPos.sqrMagnitude <= float.Epsilon)
+            float startRot = Vector2.Angle(Vector2.right, transform.localPosition);
+            if (transform.localPosition.y < 0)
             {
-                startPos = Vector3.right;
+                startRot *= -1;
             }
-            Quaternion startRot = Quaternion.LookRotation(startPos, Vector3.back);
-            Quaternion endRot = Quaternion.LookRotation(interactor.Facing.ToVector2(), Vector3.back);
+
+            Vector2 endPos = interactor.Facing.ToVector2();
+            float endRot = Vector2.Angle(Vector2.right, endPos);
+            if (endPos.y < 0)
+            {
+                endRot *= -1;
+            }
 
             float timer = 0f;
-            while (timer < 0.5f)
+            while (timer < reticleMoveAnimTime)
             {
-                float ratio = timer / 0.5f;
-                Quaternion rot = Quaternion.SlerpUnclamped(startRot, endRot, ratio);
-                transform.localPosition = rot * Vector3.right;
-
+                float ratio = timer / reticleMoveAnimTime;
+                Quaternion rot = Quaternion.SlerpUnclamped(Quaternion.Euler(0f, 0f, startRot), Quaternion.Euler(0f, 0f, endRot), ratio);
+                transform.localPosition = rot * Vector2.right;
                 timer += Time.deltaTime;
+
                 yield return null;
             }
+
+            transform.localPosition = endPos;
         }
     }
 }

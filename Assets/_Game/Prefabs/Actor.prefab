@@ -114,6 +114,8 @@ MonoBehaviour:
   interactor: {fileID: 454387665786733155}
   flipXFacing: {fileID: 9083695359239084483}
   reticle: {fileID: 6664945668683139212}
+  reticleMoveAnimTime: 0.1
+  reticleFlashAnimTime: 0.2
 --- !u!1 &9083695358841577766
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,6 +180,7 @@ MonoBehaviour:
   _size: {x: 1, y: 1}
   _offset: {x: 0, y: 0}
   moveSpeed: 4
+  moveHesitationTime: 0.15
 --- !u!114 &454387665786733155
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -172,6 +172,16 @@ namespace Tofunaut.TofuRPG.Game
             return true;
         }
 
+        public static List<GridCollider> GetCollidersAt(Vector2Int coord)
+        {
+            List<GridCollider> toReturn = new List<GridCollider>();
+            if (_instance._quadTree.TryGet(coord, out List<GridCollider> colliders))
+            {
+                toReturn.AddRange(colliders);
+            }
+            return toReturn;
+        }
+
         private void RenderQuadTree<T>(Vector2IntQuadTree<T> tree)
         {
             Debug.DrawLine(new Vector2(tree.Min.x, tree.Max.y) + _offset + Vector2.one * 0.5f, new Vector2(tree.Max.x, tree.Max.y) + _offset + Vector2.one * 0.5f, tree.Depth % 2 == 0 ? Color.red : Color.green);

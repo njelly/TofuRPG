@@ -23,7 +23,6 @@ namespace Tofunaut.TofuRPG.Game
         protected virtual void OnEnable()
         {
             GridCollisionManager.Add(this, Coord);
-            Debug.Log(gameObject.GetInstanceID() + ", " + this.GetInstanceID());
         }
 
         protected virtual void OnDisable()
