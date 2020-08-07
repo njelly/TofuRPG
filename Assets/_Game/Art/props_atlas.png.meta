@@ -8,6 +8,9 @@ TextureImporter:
   - first:
       213: -4584547303979669259
     second: props_atlas_1
+  - first:
+      213: -1642456654738109045
+    second: props_atlas_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -144,6 +147,27 @@ TextureImporter:
       bones: []
       spriteID: 5f8215a548a6060c0800000000000000
       internalID: -4584547303979669259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: props_atlas_2
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 992
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8dcb57ef52d439e0800000000000000
+      internalID: -1642456654738109045
       vertices: []
       indices: 
       edges: []
