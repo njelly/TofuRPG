@@ -11,8 +11,12 @@ namespace Tofunaut.TofuRPG.Game
         public SpriteRenderer reticle;
         public float reticleMoveAnimTime;
         public float reticleFlashAnimTime;
+        [Range(0f, 1f)] public float reticleFlashAlpha;
+        public Color reticleColor = Color.white;
 
         private ECardinalDirection4 _prevFacing;
+        private bool _isInteracting;
+        private float _baseAlpha;
 
         private void Start()
         {
@@ -22,6 +26,7 @@ namespace Tofunaut.TofuRPG.Game
             }
 
             _prevFacing = interactor.Facing;
+            _baseAlpha = reticle.color.a;
         }
 
         private void Update()
@@ -36,6 +41,14 @@ namespace Tofunaut.TofuRPG.Game
                 flipXFacing.enabled = interactor.enabled;
             }
 
+            bool interacting = interactor.InteractingWith != null;
+            if (interacting != _isInteracting)
+            {
+                _isInteracting = interacting;
+                StartCoroutine(AnimateReticleFlashCoroutine(_isInteracting ? 0.8f : _baseAlpha));
+            }
+
+
             ECardinalDirection4 facing = interactor.Facing;
             if (_prevFacing != facing)
             {
@@ -49,13 +62,13 @@ namespace Tofunaut.TofuRPG.Game
                         break;
                 }
 
-                StartCoroutine(AnimateReticleCoroutine());
+                StartCoroutine(AnimateReticlePositionCoroutine());
 
                 _prevFacing = facing;
             }
         }
 
-        private IEnumerator AnimateReticleCoroutine()
+        private IEnumerator AnimateReticlePositionCoroutine()
         {
             float startRot = Vector2.Angle(Vector2.right, transform.localPosition);
             if (transform.localPosition.y < 0)
@@ -82,6 +95,27 @@ namespace Tofunaut.TofuRPG.Game
             }
 
             transform.localPosition = endPos;
+        }
+
+        private IEnumerator AnimateReticleFlashCoroutine(float alpha)
+        {
+            float startAlpha = reticle.color.a;
+            float endAlpha = alpha;
+
+            float timer = 0f;
+            while (timer < reticleFlashAnimTime)
+            {
+                timer += Time.deltaTime;
+
+                // set these every frame so reticleColor RGB can be updated independently
+                Color from = new Color(reticleColor.r, reticleColor.g, reticleColor.b, startAlpha);
+                Color to = new Color(reticleColor.r, reticleColor.g, reticleColor.b, endAlpha);
+                reticle.color = Color.Lerp(from, to, timer / reticleFlashAnimTime);
+
+                yield return null;
+            }
+
+            reticle.color = new Color(reticleColor.r, reticleColor.g, reticleColor.b, endAlpha);
         }
     }
 }
