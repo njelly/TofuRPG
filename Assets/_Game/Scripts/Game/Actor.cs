@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Tofunaut.TofuUnity;
 using UnityEngine;
 
@@ -40,6 +41,14 @@ namespace Tofunaut.TofuRPG.Game
         {
             void ReceiveActorInput(ActorInput input);
         }
+
+        public class Signals
+        {
+            public event EventHandler OnInteractorBeganInteraction;
+            public event EventHandler OnInteractorEndedInteraction;
+        }
+
+        public Signals Signals { get; private set; }
 
         [Header("Actor")]
         [SerializeField] private ActorBrain _brain;

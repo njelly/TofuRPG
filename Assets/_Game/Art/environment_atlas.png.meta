@@ -11,6 +11,15 @@ TextureImporter:
   - first:
       213: -269579609989879082
     second: environment_atlas_2
+  - first:
+      213: -6131207453303416610
+    second: environment_atlas_3
+  - first:
+      213: -7489821405792269361
+    second: environment_atlas_4
+  - first:
+      213: -3537969487763440709
+    second: environment_atlas_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:

@@ -128,11 +128,11 @@ namespace Tofunaut.TofuRPG
                 _input.direction.SetDirection(Vector2.zero);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetButtonDown("Submit"))
             {
                 _input.select.timePressed = Time.time;
             }
-            else if (Input.GetKeyUp(KeyCode.Space))
+            else if (Input.GetButtonUp("Submit"))
             {
                 _input.select.timeReleased = Time.time;
             }

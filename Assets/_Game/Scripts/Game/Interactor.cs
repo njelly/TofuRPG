@@ -41,13 +41,13 @@ namespace Tofunaut.TofuRPG.Game
 
         public void ReceiveActorInput(ActorInput input)
         {
-            if (input.direction.Direction.sqrMagnitude > float.Epsilon)
-            {
-                Facing = input.direction.Direction.ToCardinalDirection4();
-            }
-
             if (InteractingWith == null)
             {
+                if (input.direction.Direction.sqrMagnitude > float.Epsilon)
+                {
+                    Facing = input.direction.Direction.ToCardinalDirection4();
+                }
+
                 if (input.interact.Pressed)
                 {
                     InteractingWith = TryGetInteractableAt(_gridCollider.Coord + Facing.ToVector2Int());
