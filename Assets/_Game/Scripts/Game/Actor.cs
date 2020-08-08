@@ -42,13 +42,13 @@ namespace Tofunaut.TofuRPG.Game
             void ReceiveActorInput(ActorInput input);
         }
 
-        public class Signals
+        public class ActorSignals
         {
             public event EventHandler OnInteractorBeganInteraction;
             public event EventHandler OnInteractorEndedInteraction;
         }
 
-        public Signals Signals { get; private set; }
+        public ActorSignals Signals { get; private set; }
 
         [Header("Actor")]
         [SerializeField] private ActorBrain _brain;
@@ -68,6 +68,8 @@ namespace Tofunaut.TofuRPG.Game
             {
                 PlayerInputManager.AddReceiver(this);
             }
+
+            Signals = new ActorSignals();
         }
 
         private void Update()
