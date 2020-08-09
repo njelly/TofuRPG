@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Tofunaut.TofuUnity;
 using UnityEngine;
 
@@ -65,9 +66,9 @@ namespace Tofunaut.TofuRPG
         public float directionDeadZone = 0.2f;
 
         private PlayerInput _input;
-        private List<IPlayerInputReceiver> _receivers;
-        private List<IPlayerInputReceiver> _toAdd;
-        private List<IPlayerInputReceiver> _toRemove;
+        private List<Tuple<int, IPlayerInputReceiver>> _receivers;
+        private HashSet<Tuple<int, IPlayerInputReceiver>> _toAdd;
+        private HashSet<IPlayerInputReceiver> _toRemove;
 
         protected override void Awake()
         {
@@ -76,42 +77,82 @@ namespace Tofunaut.TofuRPG
             DontDestroyOnLoad(this);
 
             _input = new PlayerInput();
-            _receivers = new List<IPlayerInputReceiver>();
-            _toAdd = new List<IPlayerInputReceiver>();
-            _toRemove = new List<IPlayerInputReceiver>();
+            _receivers = new List<Tuple<int, IPlayerInputReceiver>>();
+            _toAdd = new HashSet<Tuple<int, IPlayerInputReceiver>>();
+            _toRemove = new HashSet<IPlayerInputReceiver>();
         }
 
         private void Update()
         {
             PollInput();
 
-            foreach (IPlayerInputReceiver receiver in _toAdd)
+            bool didChange = false;
+            foreach (Tuple<int, IPlayerInputReceiver> receiver in _toAdd)
             {
+                didChange = true;
                 _receivers.Add(receiver);
             }
             _toAdd.Clear();
 
             foreach (IPlayerInputReceiver receiver in _toRemove)
             {
-                _receivers.Remove(receiver);
+                didChange = true;
+                _receivers.RemoveAll((Tuple<int, IPlayerInputReceiver> tuple) => { return tuple.Item2 == receiver; });
             }
             _toRemove.Clear();
 
-            foreach (IPlayerInputReceiver receiver in _receivers)
+            if (_receivers.Count <= 0)
             {
-                receiver.ReceivePlayerInput(_input);
+                return;
+            }
+
+            if (didChange)
+            {
+                // sort so higher numbers come first
+                _receivers.Sort((Tuple<int, IPlayerInputReceiver> a, Tuple<int, IPlayerInputReceiver> b) =>
+                {
+                    return b.Item1.CompareTo(a.Item1);
+                });
+            }
+
+            int startPriority = _receivers[0].Item1;
+            for (int i = 0; i < _receivers.Count; i++)
+            {
+                if (_receivers[i].Item1 != startPriority)
+                {
+                    // only send the highest priority receivers the input
+                    break;
+                }
+
+                _receivers[i].Item2.ReceivePlayerInput(_input);
             }
         }
 
-        public static void AddReceiver(IPlayerInputReceiver receiver)
+        public static void AddReceiver(IPlayerInputReceiver receiver) => AddReceiver(0, receiver);
+        public static void AddReceiver(int priority, IPlayerInputReceiver receiver)
         {
-            _instance._toAdd.Add(receiver);
+            _instance._toAdd.Add(new Tuple<int, IPlayerInputReceiver>(priority, receiver));
         }
 
         public static void RemoveReceiver(IPlayerInputReceiver receiver)
         {
             if (_instance)
             {
+                bool isReceiver = false;
+                foreach (Tuple<int, IPlayerInputReceiver> t in _instance._receivers)
+                {
+                    if (t.Item2 == receiver)
+                    {
+                        isReceiver = true;
+                        break;
+                    }
+                }
+
+                if (!isReceiver)
+                {
+                    return;
+                }
+
                 _instance._toRemove.Add(receiver);
             }
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Tofunaut.TofuUnity;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Tofunaut.TofuRPG.Game
 {
@@ -42,19 +43,24 @@ namespace Tofunaut.TofuRPG.Game
             void ReceiveActorInput(ActorInput input);
         }
 
-        public class ActorSignals
+        [Serializable]
+        public class ActorEvents
         {
-            public event EventHandler OnInteractorBeganInteraction;
-            public event EventHandler OnInteractorEndedInteraction;
+            [Serializable] public class InteractorEvent : UnityEvent<Interactor> { }
+            public InteractorEvent OnInteractorBeganInteraction;
+            public InteractorEvent OnInteractorEndedInteraction;
         }
 
-        public ActorSignals Signals { get; private set; }
+        public ActorEvents Events => _events;
 
         [Header("Actor")]
         [SerializeField] private ActorBrain _brain;
 
         [Header("Player Input")]
         [SerializeField] private bool _recieveOnStart;
+
+        [Space(20)]
+        [SerializeField] private ActorEvents _events;
 
         private ActorInput _input = new ActorInput();
         private List<IActorInputReceiver> _receivers = new List<IActorInputReceiver>();
@@ -68,8 +74,6 @@ namespace Tofunaut.TofuRPG.Game
             {
                 PlayerInputManager.AddReceiver(this);
             }
-
-            Signals = new ActorSignals();
         }
 
         private void Update()

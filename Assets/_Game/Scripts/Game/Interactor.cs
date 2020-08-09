@@ -54,6 +54,7 @@ namespace Tofunaut.TofuRPG.Game
                     if (InteractingWith != null)
                     {
                         InteractingWith.BeginInteraction(this);
+                        _actor.Events.OnInteractorBeganInteraction?.Invoke(this);
                     }
                 }
             }
@@ -63,6 +64,7 @@ namespace Tofunaut.TofuRPG.Game
                 {
                     InteractingWith.EndInteraction(this);
                     InteractingWith = null;
+                    _actor.Events.OnInteractorBeganInteraction?.Invoke(this);
                 }
             }
         }

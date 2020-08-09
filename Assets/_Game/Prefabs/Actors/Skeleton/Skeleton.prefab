@@ -51,7 +51,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 55bf2de8130381e42a0e87e165ca5360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -145,6 +145,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _brain: {fileID: 0}
   _recieveOnStart: 0
+  _events:
+    OnInteractorBeganInteraction:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInteractorEndedInteraction:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &9019474492410779091
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64d885fc8278a348a0f954d896fab10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dialog: What is this? It must be a sign...
+  _dialogLine: {fileID: 11400000, guid: 8d02be79d148e92469a0784c89db886c, type: 2}
+  _dialogPrefab: {fileID: 2553455776763406315, guid: 9ddcf7e18df36f64581801ce3011492c,
+    type: 3}
 --- !u!114 &6118134600030806946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +113,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 55bf2de8130381e42a0e87e165ca5360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
