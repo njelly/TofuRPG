@@ -10,11 +10,13 @@ namespace Tofunaut.TofuRPG.Game
     {
         public PlayerInput.DirectionButton direction;
         public PlayerInput.Button interact;
+        public PlayerInput.Button aim;
 
         public ActorInput()
         {
             direction = new PlayerInput.DirectionButton();
             interact = new PlayerInput.Button();
+            aim = new PlayerInput.Button();
         }
 
         public void InterpretPlayerInput(PlayerInput playerInput)
@@ -32,6 +34,8 @@ namespace Tofunaut.TofuRPG.Game
                 direction.SetDirection(playerInput.direction);
                 interact.timePressed = playerInput.select.timePressed;
                 interact.timeReleased = playerInput.select.timeReleased;
+                aim.timePressed = playerInput.rightTrigger.timePressed;
+                aim.timeReleased = playerInput.rightTrigger.timeReleased;
             }
         }
     }
@@ -46,6 +50,9 @@ namespace Tofunaut.TofuRPG.Game
         [Serializable]
         public class ActorEvents
         {
+            [Serializable] public class AimerEvent : UnityEvent<Aimer> { }
+            public AimerEvent OnAimerBeganAiming;
+            public AimerEvent OnAimerEndedAiming;
             [Serializable] public class InteractorEvent : UnityEvent<Interactor> { }
             public InteractorEvent OnInteractorBeganInteraction;
             public InteractorEvent OnInteractorEndedInteraction;
@@ -115,7 +122,6 @@ namespace Tofunaut.TofuRPG.Game
         {
             _receivingPlayerInput = input != null;
             _input.InterpretPlayerInput(input);
-
             foreach (IActorInputReceiver receiver in _receivers)
             {
                 receiver.ReceiveActorInput(_input);

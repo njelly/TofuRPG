@@ -10,12 +10,14 @@ namespace Tofunaut.TofuRPG
         public DirectionButton direction;
         public Button select;
         public Button back;
+        public Button rightTrigger;
 
         public PlayerInput()
         {
             direction = new DirectionButton();
             select = new Button();
             back = new Button();
+            rightTrigger = new Button();
         }
 
         public class Button
@@ -176,6 +178,16 @@ namespace Tofunaut.TofuRPG
             else if (Input.GetButtonUp("Submit"))
             {
                 _input.select.timeReleased = Time.time;
+            }
+
+            float rightTriggerAxis = Input.GetAxis("XBoxRightTrigger");
+            if (!_input.rightTrigger.Held && rightTriggerAxis > 0)
+            {
+                _input.rightTrigger.timePressed = Time.time;
+            }
+            else if (_input.rightTrigger.Held && rightTriggerAxis <= 0)
+            {
+                _input.rightTrigger.timeReleased = Time.time;
             }
         }
     }

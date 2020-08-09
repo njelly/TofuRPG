@@ -1,4 +1,5 @@
-﻿using Tofunaut.TofuUnity;
+﻿using System;
+using Tofunaut.TofuUnity;
 using UnityEngine;
 using static Tofunaut.TofuUnity.TofuAnimator;
 
@@ -7,6 +8,13 @@ namespace Tofunaut.TofuRPG.Game
     [RequireComponent(typeof(Actor))]
     public class GridMover : GridCollider, Actor.IActorInputReceiver
     {
+        [Flags]
+        private enum EState // use bit flags to keep long list of arbitrary states
+        {
+            None = 0,
+            StopForAimer = 1 << 0,
+        }
+
         [Header("Movement")]
         public float moveSpeed;
         public float moveHesitationTime;
@@ -15,6 +23,8 @@ namespace Tofunaut.TofuRPG.Game
         private ActorInput _input;
         private TofuAnimator.Sequence _moveSequence;
         private float _lastZeroDirectionTime;
+        private bool _stopForAimer;
+        private EState _state;
 
         protected override void Awake()
         {
@@ -22,6 +32,7 @@ namespace Tofunaut.TofuRPG.Game
 
             _actor = gameObject.GetComponent<Actor>();
             _input = new ActorInput();
+            _state = EState.None;
         }
 
         protected override void OnEnable()
@@ -65,6 +76,11 @@ namespace Tofunaut.TofuRPG.Game
                 return;
             }
 
+            if ((_state & EState.StopForAimer) != 0)
+            {
+                return;
+            }
+
             if (_moveSequence != null)
             {
                 // can't move while animation is playing
@@ -100,6 +116,18 @@ namespace Tofunaut.TofuRPG.Game
         public void ReceiveActorInput(ActorInput input)
         {
             _input = input;
+        }
+
+        public void StopForAimer(Aimer aimer)
+        {
+            if (aimer.IsAiming)
+            {
+                _state |= EState.StopForAimer;
+            }
+            else
+            {
+                _state &= ~EState.StopForAimer;
+            }
         }
     }
 }

@@ -13,5 +13,11 @@ MonoBehaviour:
   m_Name: SignPost_DefaultDialogLine
   m_EditorClassIdentifier: 
   _avatarSprite: {fileID: 0}
+  _typewriterCue: {fileID: 11400000, guid: 76c365cd64c0adf4e91f620de1d90fe4, type: 2}
+  _typewriterSpeed: 20
+  _minCueInterval: 0.15
   _pages:
   - What's this? It must be a sign...
+  - More text!
+  - Still going. Glad you made it this far.
+  - Bye.
