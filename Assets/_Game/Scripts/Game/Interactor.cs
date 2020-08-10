@@ -1,4 +1,5 @@
-﻿using Tofunaut.TofuUnity;
+﻿using System;
+using Tofunaut.TofuUnity;
 using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game
@@ -13,17 +14,33 @@ namespace Tofunaut.TofuRPG.Game
             void EndInteraction(Interactor interactor);
         }
 
+        [Flags]
+        private enum EState // use bit flags to keep long list of arbitrary states
+        {
+            None = 0,
+            DontInteractWhileAiming = 1 << 0,
+        }
+
         public ECardinalDirection4 Facing { get; private set; }
         public IInteractable InteractingWith { get; private set; }
+        public bool CanInteract
+        {
+            get
+            {
+                return (_state & EState.DontInteractWhileAiming) == 0;
+            }
+        }
 
         private Actor _actor;
         private GridCollider _gridCollider;
         private ECardinalDirection4 _prevFacing;
+        private EState _state;
 
         private void Awake()
         {
             _actor = gameObject.GetComponent<Actor>();
             _gridCollider = gameObject.GetComponent<GridCollider>();
+            _state = EState.None;
         }
 
         private void OnEnable()
@@ -48,7 +65,7 @@ namespace Tofunaut.TofuRPG.Game
                     Facing = input.direction.Direction.ToCardinalDirection4();
                 }
 
-                if (input.interact.Pressed)
+                if (CanInteract && input.interact.Pressed)
                 {
                     InteractingWith = TryGetInteractableAt(_gridCollider.Coord + Facing.ToVector2Int());
                     if (InteractingWith != null)
@@ -60,7 +77,7 @@ namespace Tofunaut.TofuRPG.Game
             }
             else
             {
-                if (input.interact.Released)
+                if (input.interact.Released || !CanInteract)
                 {
                     InteractingWith.EndInteraction(this);
                     InteractingWith = null;
@@ -81,6 +98,18 @@ namespace Tofunaut.TofuRPG.Game
             }
 
             return null;
+        }
+
+        public void DontInteractWhileAiming(Aimer aimer)
+        {
+            if (aimer.IsAiming)
+            {
+                _state |= EState.DontInteractWhileAiming;
+            }
+            else
+            {
+                _state &= ~EState.DontInteractWhileAiming;
+            }
         }
     }
 }

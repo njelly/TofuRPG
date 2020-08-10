@@ -183,6 +183,12 @@ namespace Tofunaut.TofuRPG.Game
             return toReturn;
         }
 
+        public static Vector2Int ConvertToGridPosition(Vector3 position) => ConvertToGridPosition(new Vector3(position.x, position.y));
+        public static Vector2Int ConvertToGridPosition(Vector2 position)
+        {
+            return new Vector2Int(Mathf.CeilToInt(position.x), Mathf.CeilToInt(position.y));
+        }
+
         private void RenderQuadTree<T>(Vector2IntQuadTree<T> tree)
         {
             Debug.DrawLine(new Vector2(tree.Min.x, tree.Max.y) + _offset + Vector2.one * 0.5f, new Vector2(tree.Max.x, tree.Max.y) + _offset + Vector2.one * 0.5f, tree.Depth % 2 == 0 ? Color.red : Color.green);

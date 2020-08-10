@@ -18,36 +18,9 @@ namespace Tofunaut.TofuRPG.Game
             interact = new PlayerInput.Button();
             aim = new PlayerInput.Button();
         }
-
-        public void InterpretPlayerInput(PlayerInput playerInput)
-        {
-            if (playerInput == null)
-            {
-                direction.SetDirection(Vector2.zero);
-                if (interact.Held)
-                {
-                    interact.timeReleased = Time.time;
-                }
-            }
-            else
-            {
-                direction.SetDirection(playerInput.direction);
-                interact.timePressed = playerInput.select.timePressed;
-                interact.timeReleased = playerInput.select.timeReleased;
-
-                if (!aim.Held)
-                {
-                    aim.timePressed = Mathf.Max(playerInput.rightTrigger.timePressed, playerInput.shift.timePressed);
-                }
-                else
-                {
-                    aim.timeReleased = Mathf.Max(playerInput.rightTrigger.timeReleased, playerInput.shift.timeReleased);
-                }
-            }
-        }
     }
 
-    public class Actor : MonoBehaviour, PlayerInputManager.IPlayerInputReceiver
+    public class Actor : MonoBehaviour, PlayerInputManager.IPlayerInputReceiver, Actor.IActorInputReceiver
     {
         public interface IActorInputReceiver
         {
@@ -68,7 +41,7 @@ namespace Tofunaut.TofuRPG.Game
         public ActorEvents Events => _events;
 
         [Header("Actor")]
-        [SerializeField] private ActorBrain _brain;
+        [SerializeField] private ActorBehaviour _behaviourPrefab;
 
         [Header("Player Input")]
         [SerializeField] private bool _recieveOnStart;
@@ -76,6 +49,7 @@ namespace Tofunaut.TofuRPG.Game
         [Space(20)]
         [SerializeField] private ActorEvents _events;
 
+        private ActorBehaviour _behaviourInstance;
         private ActorInput _input = new ActorInput();
         private List<IActorInputReceiver> _receivers = new List<IActorInputReceiver>();
         private List<IActorInputReceiver> _toAdd = new List<IActorInputReceiver>();
@@ -84,7 +58,11 @@ namespace Tofunaut.TofuRPG.Game
 
         private void Start()
         {
-            if (_recieveOnStart)
+            if (_behaviourPrefab)
+            {
+                SetBehaviour(_behaviourPrefab);
+            }
+            else if (_recieveOnStart)
             {
                 PlayerInputManager.AddReceiver(this);
             }
@@ -92,11 +70,6 @@ namespace Tofunaut.TofuRPG.Game
 
         private void Update()
         {
-            if (!_receivingPlayerInput && _brain)
-            {
-                _input = _brain.GetActorInput();
-            }
-
             foreach (IActorInputReceiver receiver in _toAdd)
             {
                 _receivers.Add(receiver);
@@ -117,6 +90,12 @@ namespace Tofunaut.TofuRPG.Game
 
         public void AddReceiver(IActorInputReceiver receiver)
         {
+            if (receiver is Actor && (Actor)receiver == this)
+            {
+                Debug.LogError("can't add as receiver from itself");
+                return;
+            }
+
             _toAdd.Add(receiver);
         }
 
@@ -125,14 +104,58 @@ namespace Tofunaut.TofuRPG.Game
             _toRemove.Add(receiver);
         }
 
-        public void ReceivePlayerInput(PlayerInput input)
+        public void ReceivePlayerInput(PlayerInput playerInput)
         {
-            _receivingPlayerInput = input != null;
-            _input.InterpretPlayerInput(input);
+            _receivingPlayerInput = playerInput != null;
+
+            if (playerInput == null)
+            {
+                _input.direction.SetDirection(Vector2.zero);
+                if (_input.interact.Held)
+                {
+                    _input.interact.timeReleased = Time.time;
+                }
+            }
+            else
+            {
+                _input.direction.SetDirection(playerInput.direction);
+                _input.interact.timePressed = playerInput.select.timePressed;
+                _input.interact.timeReleased = playerInput.select.timeReleased;
+
+                if (!_input.aim.Held)
+                {
+                    _input.aim.timePressed = Mathf.Max(playerInput.rightTrigger.timePressed, playerInput.shift.timePressed);
+                }
+                else
+                {
+                    _input.aim.timeReleased = Mathf.Max(playerInput.rightTrigger.timeReleased, playerInput.shift.timeReleased);
+                }
+            }
+
             foreach (IActorInputReceiver receiver in _receivers)
             {
                 receiver.ReceiveActorInput(_input);
             }
+        }
+
+        public void ReceiveActorInput(ActorInput input)
+        {
+            _input = input;
+            foreach (IActorInputReceiver receiver in _receivers)
+            {
+                receiver.ReceiveActorInput(_input);
+            }
+        }
+
+        public void SetBehaviour(ActorBehaviour behaviourPrefab)
+        {
+            if (_behaviourInstance)
+            {
+                Destroy(_behaviourInstance.gameObject);
+            }
+
+            _behaviourInstance = Instantiate(behaviourPrefab, transform);
+            _behaviourInstance.Initialize(this);
         }
     }
 }

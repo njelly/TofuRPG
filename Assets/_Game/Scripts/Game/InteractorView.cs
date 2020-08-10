@@ -26,7 +26,11 @@ namespace Tofunaut.TofuRPG.Game
             }
 
             _prevFacing = interactor.Facing;
-            _baseAlpha = reticle.color.a;
+
+            if (reticle)
+            {
+                _baseAlpha = reticle.color.a;
+            }
         }
 
         private void Update()
@@ -47,7 +51,6 @@ namespace Tofunaut.TofuRPG.Game
                 _isInteracting = interacting;
                 StartCoroutine(AnimateReticleFlashCoroutine(_isInteracting ? 0.8f : _baseAlpha));
             }
-
 
             ECardinalDirection4 facing = interactor.Facing;
             if (_prevFacing != facing)
@@ -99,6 +102,11 @@ namespace Tofunaut.TofuRPG.Game
 
         private IEnumerator AnimateReticleFlashCoroutine(float alpha)
         {
+            if (!reticle)
+            {
+                yield break;
+            }
+
             float startAlpha = reticle.color.a;
             float endAlpha = alpha;
 

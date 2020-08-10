@@ -8,8 +8,9 @@ namespace Tofunaut.TofuRPG.Game
         public Vector2 AimVector => _aimVector;
         public bool IsAiming { get; private set; }
 
+        [SerializeField] private Vector2 _aimVector;
+
         private Actor _actor;
-        private Vector2 _aimVector;
         private Interactor _interactor;
         private GridMover _gridMover;
 
