@@ -34,8 +34,15 @@ namespace Tofunaut.TofuRPG.Game
                 direction.SetDirection(playerInput.direction);
                 interact.timePressed = playerInput.select.timePressed;
                 interact.timeReleased = playerInput.select.timeReleased;
-                aim.timePressed = playerInput.rightTrigger.timePressed;
-                aim.timeReleased = playerInput.rightTrigger.timeReleased;
+
+                if (!aim.Held)
+                {
+                    aim.timePressed = Mathf.Max(playerInput.rightTrigger.timePressed, playerInput.shift.timePressed);
+                }
+                else
+                {
+                    aim.timeReleased = Mathf.Max(playerInput.rightTrigger.timeReleased, playerInput.shift.timeReleased);
+                }
             }
         }
     }

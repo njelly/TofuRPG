@@ -11,6 +11,7 @@ namespace Tofunaut.TofuRPG
         public Button select;
         public Button back;
         public Button rightTrigger;
+        public Button shift;
 
         public PlayerInput()
         {
@@ -18,6 +19,7 @@ namespace Tofunaut.TofuRPG
             select = new Button();
             back = new Button();
             rightTrigger = new Button();
+            shift = new Button();
         }
 
         public class Button
@@ -188,6 +190,15 @@ namespace Tofunaut.TofuRPG
             else if (_input.rightTrigger.Held && rightTriggerAxis <= 0)
             {
                 _input.rightTrigger.timeReleased = Time.time;
+            }
+
+            if (!_input.shift.Held && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)))
+            {
+                _input.shift.timePressed = Time.time;
+            }
+            else if (_input.shift.Held && (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift)))
+            {
+                _input.shift.timeReleased = Time.time;
             }
         }
     }
