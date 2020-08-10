@@ -66,8 +66,14 @@ namespace Tofunaut.TofuRPG.Game
         }
         private static void _Add(GridCollider gc, Vector2Int coord)
         {
-            Vector2Int min = _instance.size / -2;
-            Vector2Int max = _instance.size / 2;
+            if (!_instance)
+            {
+                return;
+            }
+
+            Vector2Int min = new Vector2Int(int.MinValue, int.MinValue);
+            Vector2Int max = new Vector2Int(int.MaxValue, int.MaxValue);
+
             GetMinMax(gc, coord, out Vector2Int gcMin, out Vector2Int gcMax);
             for (int x = gcMin.x; x < gcMax.x; x++)
             {
@@ -101,6 +107,11 @@ namespace Tofunaut.TofuRPG.Game
         }
         private static void _Remove(GridCollider gc, Vector2Int coord)
         {
+            if (!_instance)
+            {
+                return;
+            }
+
             Vector2Int min = _instance.size / -2;
             Vector2Int max = _instance.size / 2;
             GetMinMax(gc, coord, out Vector2Int gcMin, out Vector2Int gcMax);
@@ -134,6 +145,11 @@ namespace Tofunaut.TofuRPG.Game
 
         public static bool CanOccupy(GridCollider gc, Vector2Int coord)
         {
+            if (!_instance)
+            {
+                return true;
+            }
+
             Vector2Int min = _instance.size / -2;
             Vector2Int max = _instance.size / 2;
             GetMinMax(gc, coord, out Vector2Int gcMin, out Vector2Int gcMax);
