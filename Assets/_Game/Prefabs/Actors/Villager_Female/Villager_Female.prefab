@@ -77,7 +77,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _size: {x: 1, y: 1}
   _offset: {x: 0, y: 0}
-  moveSpeed: 4
+  moveSpeed: 3
   moveHesitationTime: 0.2
 --- !u!114 &1470145021383660694
 MonoBehaviour:

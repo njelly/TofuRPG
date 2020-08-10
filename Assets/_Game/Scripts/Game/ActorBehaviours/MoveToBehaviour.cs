@@ -66,7 +66,6 @@ namespace Tofunaut.TofuRPG.Game
             {
                 return;
             }
-            Debug.Log("poll 0");
 
             if (_path.Peek() == _gridMover.Coord)
             {
@@ -78,9 +77,9 @@ namespace Tofunaut.TofuRPG.Game
                 input.direction.SetDirection(Vector2Int.zero);
                 return;
             }
-            Debug.Log("poll 1");
 
             input.direction.SetDirection(_path.Peek() - _gridMover.Coord);
+            Debug.DrawLine(new Vector3(_gridMover.Coord.x, _gridMover.Coord.y), new Vector3(target.x, target.y, 0f), Color.blue);
         }
 
         private Vector2Int GetRandomTarget()
@@ -90,7 +89,6 @@ namespace Tofunaut.TofuRPG.Game
                 Vector2Int coord = _gridMover.Coord + new Vector2Int(Random.Range(-randomizeRangeOnEnable.x, randomizeRangeOnEnable.x), Random.Range(-randomizeRangeOnEnable.y, randomizeRangeOnEnable.y));
                 if (GridCollisionManager.CanOccupy(_gridMover, coord))
                 {
-                    Debug.Log($"returning {coord}");
                     return coord;
                 }
             }

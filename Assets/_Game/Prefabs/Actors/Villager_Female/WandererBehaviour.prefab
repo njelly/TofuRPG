@@ -95,6 +95,7 @@ MonoBehaviour:
   _sequence:
   - {fileID: 7339413510984533735}
   - {fileID: 6430664694114613953}
+  _loop: 1
 --- !u!1 &3905108623777358205
 GameObject:
   m_ObjectHideFlags: 0

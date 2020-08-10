@@ -5,7 +5,8 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class SequenceBehaviour : ActorBehaviour
     {
-        public List<ActorBehaviour> _sequence;
+        [SerializeField] private List<ActorBehaviour> _sequence;
+        [SerializeField] private bool _loop;
 
         private int _sequenceIndex;
 
@@ -42,6 +43,11 @@ namespace Tofunaut.TofuRPG.Game
                 }
             }
 
+            if (_loop)
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -62,7 +68,6 @@ namespace Tofunaut.TofuRPG.Game
 
             for (int i = 0; i < _sequence.Count; i++)
             {
-                Debug.Log(i);
                 if (!_sequence[i].enabled && _sequenceIndex == i)
                 {
                     _sequence[i].enabled = true;
