@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 6462297025311117311}
+  offset: 0
   invert: 1
 --- !u!1 &2189557224057733724
 GameObject:
@@ -143,9 +144,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 612ee260f9b62c640b875c560730699f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _brain: {fileID: 0}
+  _behaviourPrefab: {fileID: 0}
   _recieveOnStart: 0
   _events:
+    OnAimerBeganAiming:
+      m_PersistentCalls:
+        m_Calls: []
+    OnAimerEndedAiming:
+      m_PersistentCalls:
+        m_Calls: []
     OnInteractorBeganInteraction:
       m_PersistentCalls:
         m_Calls: []

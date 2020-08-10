@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 612ee260f9b62c640b875c560730699f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _brain: {fileID: 0}
+  _behaviourPrefab: {fileID: 0}
   _recieveOnStart: 0
   _events:
     OnAimerBeganAiming:

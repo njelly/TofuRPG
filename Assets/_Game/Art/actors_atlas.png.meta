@@ -217,6 +217,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: actors_atlas_3
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 992
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 972e0a5cd0e362bc0800000000000000
+      internalID: -3808288206024023431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: actors_atlas_4
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 992
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 223218015bdef5380800000000000000
+      internalID: -8980197770031717598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

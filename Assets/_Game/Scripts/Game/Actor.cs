@@ -49,7 +49,6 @@ namespace Tofunaut.TofuRPG.Game
         [Space(20)]
         [SerializeField] private ActorEvents _events;
 
-        private ActorBehaviour _behaviourInstance;
         private ActorInput _input = new ActorInput();
         private List<IActorInputReceiver> _receivers = new List<IActorInputReceiver>();
         private List<IActorInputReceiver> _toAdd = new List<IActorInputReceiver>();
@@ -149,13 +148,7 @@ namespace Tofunaut.TofuRPG.Game
 
         public void SetBehaviour(ActorBehaviour behaviourPrefab)
         {
-            if (_behaviourInstance)
-            {
-                Destroy(_behaviourInstance.gameObject);
-            }
-
-            _behaviourInstance = Instantiate(behaviourPrefab, transform);
-            _behaviourInstance.Initialize(this);
+            behaviourPrefab.Initialize(this);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Tofunaut.TofuRPG.Game
 
             if (minWaitTime >= 0 && maxWaitTime > 0)
             {
-                _startWaitTime = Random.Range(minWaitTime, maxWaitTime);
+                waitTime = Random.Range(minWaitTime, maxWaitTime);
             }
         }
 
