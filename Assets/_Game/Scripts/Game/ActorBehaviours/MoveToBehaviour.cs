@@ -10,7 +10,9 @@ namespace Tofunaut.TofuRPG.Game
         public float failAfterCantMoveTime;
 
         [Header("Random Reset")]
+        [Tooltip("The extents of the rectangle to draw around the current coord from which to choose a random target")]
         public Vector2Int randomizeRangeOnEnable = Vector2Int.zero;
+        [Tooltip("How many random coords to check before failing")]
         public int numRandomRolls;
 
         private GridMover _gridMover;
@@ -84,12 +86,14 @@ namespace Tofunaut.TofuRPG.Game
 
         private Vector2Int GetRandomTarget()
         {
+            Vector2Int minRange = _gridMover.Coord - randomizeRangeOnEnable;
+            Vector2Int maxRange = _gridMover.Coord + randomizeRangeOnEnable;
             for (int i = 0; i < numRandomRolls; i++)
             {
-                Vector2Int coord = _gridMover.Coord + new Vector2Int(Random.Range(-randomizeRangeOnEnable.x, randomizeRangeOnEnable.x), Random.Range(-randomizeRangeOnEnable.y, randomizeRangeOnEnable.y));
-                if (GridCollisionManager.CanOccupy(_gridMover, coord))
+                Vector2Int target = new Vector2Int(Random.Range(minRange.x, maxRange.x + 1), Random.Range(minRange.y, maxRange.y + 1));
+                if (GridCollisionManager.CanOccupy(_gridMover, target))
                 {
-                    return coord;
+                    return target;
                 }
             }
             return _gridMover.Coord;

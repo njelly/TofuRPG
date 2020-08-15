@@ -11,7 +11,7 @@ namespace Tofunaut.TofuRPG.Game
         public float hitBoxDuration;
         public float sameHitCooldown;
 
-        public void DoAttack(Combatant combatant, Vector2Int coordinate, Vector2 direction)
+        public void DoAttack(Vector2Int coordinate, Vector2 direction)
         {
             Debug.Log($"do attack: {name} at {coordinate} facing {direction}");
         }

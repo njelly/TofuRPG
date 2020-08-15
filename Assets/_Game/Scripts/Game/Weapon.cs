@@ -12,7 +12,7 @@ namespace Tofunaut.TofuRPG.Game
 
         private float _lastAttackTime;
 
-        public void StartAttack(Combatant combatant, Vector2Int position, Vector2 direction)
+        public void StartAttack(Vector2Int position, Vector2 direction)
         {
             if (!attack)
             {
@@ -26,7 +26,7 @@ namespace Tofunaut.TofuRPG.Game
 
             _lastAttackTime = Time.time;
 
-            attack.DoAttack(combatant, position, direction);
+            attack.DoAttack(position, direction);
         }
     }
 }

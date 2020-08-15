@@ -247,7 +247,6 @@ GameObject:
   - component: {fileID: 9083695358841577769}
   - component: {fileID: 454387665786733155}
   - component: {fileID: 3706772035341443268}
-  - component: {fileID: 825787707092431088}
   m_Layer: 8
   m_Name: Actor
   m_TagString: Untagged
@@ -389,19 +388,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _aimVector: {x: 0, y: 0}
---- !u!114 &825787707092431088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9083695358841577766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 096988b4928abde488fa9f4a8fb0e3a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weapon: {fileID: 6665486898823017744}
 --- !u!1 &9083695359239084481
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,15 +562,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 372712937437893929}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6665486898823017744 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -2761632953268166599, guid: 2125f3b20ff1a264e929b3e49e2f9399,
-    type: 3}
-  m_PrefabInstance: {fileID: 372712937437893929}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c7a0d7e9d8d30f45b9f626936064127, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
