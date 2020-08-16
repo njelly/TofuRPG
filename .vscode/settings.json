@@ -1,5 +1,7 @@
 ﻿{
     "editor.fontSize": 12,
+    "editor.codeLens": false,
+    "editor.formatOnSave": true,
     "terminal.integrated.fontSize": 12,
     "terminal.integrated.fontFamily": "",
     "files.exclude": {

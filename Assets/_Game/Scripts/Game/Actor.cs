@@ -33,6 +33,7 @@ namespace Tofunaut.TofuRPG.Game
             [Serializable] public class AimerEvent : UnityEvent<Aimer> { }
             public AimerEvent OnAimerBeganAiming;
             public AimerEvent OnAimerEndedAiming;
+
             [Serializable] public class InteractorEvent : UnityEvent<Interactor> { }
             public InteractorEvent OnInteractorBeganInteraction;
             public InteractorEvent OnInteractorEndedInteraction;
@@ -54,12 +55,13 @@ namespace Tofunaut.TofuRPG.Game
         private List<IActorInputReceiver> _toAdd = new List<IActorInputReceiver>();
         private List<IActorInputReceiver> _toRemove = new List<IActorInputReceiver>();
         private bool _receivingPlayerInput;
+        private ActorBehaviour _instantiatedActorBehaviour;
 
         private void Start()
         {
             if (_behaviourPrefab)
             {
-                SetBehaviour(_behaviourPrefab);
+                SetActorBehaviour(_behaviourPrefab);
             }
             else if (_recieveOnStart)
             {
@@ -146,9 +148,15 @@ namespace Tofunaut.TofuRPG.Game
             }
         }
 
-        public void SetBehaviour(ActorBehaviour behaviourPrefab)
+        public void SetActorBehaviour(ActorBehaviour behaviourPrefab)
         {
-            behaviourPrefab.Initialize(this);
+            if (_instantiatedActorBehaviour)
+            {
+                Destroy(_instantiatedActorBehaviour.gameObject);
+            }
+
+            _instantiatedActorBehaviour = Instantiate(behaviourPrefab, Vector3.zero, Quaternion.identity, transform);
+            _instantiatedActorBehaviour.Initialize(this);
         }
     }
 }

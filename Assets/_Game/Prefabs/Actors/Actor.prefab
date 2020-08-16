@@ -30,8 +30,8 @@ Transform:
   m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 9083695358841577767}
-  m_RootOrder: 1
+  m_Father: {fileID: 9083695359239084482}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5361047009941731815
 MonoBehaviour:
@@ -143,12 +143,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7238913004311364866}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 9083695358841577767}
-  m_RootOrder: 2
+  m_Father: {fileID: 9083695359239084482}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3150163651800161742
 MonoBehaviour:
@@ -262,8 +262,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9083695359239084482}
-  - {fileID: 4595724038629394793}
-  - {fileID: 7920237536587911807}
   - {fileID: 6110671866021603475}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -392,7 +390,7 @@ GameObject:
   - component: {fileID: 9083695359239084483}
   - component: {fileID: 673073966258211491}
   m_Layer: 8
-  m_Name: Sprite
+  m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -408,7 +406,9 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4595724038629394793}
+  - {fileID: 7920237536587911807}
   m_Father: {fileID: 9083695358841577767}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -527,7 +527,7 @@ PrefabInstance:
     - target: {fileID: 5900089202566856122, guid: 2125f3b20ff1a264e929b3e49e2f9399,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5900089202566856122, guid: 2125f3b20ff1a264e929b3e49e2f9399,
         type: 3}
