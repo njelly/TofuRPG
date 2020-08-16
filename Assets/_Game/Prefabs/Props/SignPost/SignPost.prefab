@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 6118134600451199078}
   - component: {fileID: 5508058660435544699}
   m_Layer: 8
-  m_Name: Sprite
+  m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,7 +109,6 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -131,7 +130,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 851664137
+  m_SortingLayerID: 1025018419
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1642456654738109045, guid: 28fb65909b8c3744eb5c1d1076e2391c,

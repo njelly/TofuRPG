@@ -47,7 +47,6 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -69,7 +68,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 851664137
+  m_SortingLayerID: 1025018419
   m_SortingLayer: 3
   m_SortingOrder: -4
   m_Sprite: {fileID: 4877805513744629, guid: 28fb65909b8c3744eb5c1d1076e2391c, type: 3}
@@ -161,7 +160,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5610296859185421035}
-        m_TargetAssemblyTypeName: Tofunaut.TofuRPG.PlayAudioCue, Assembly-CSharp
         m_MethodName: Play
         m_Mode: 1
         m_Arguments:

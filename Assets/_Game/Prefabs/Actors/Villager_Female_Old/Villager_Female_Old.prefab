@@ -101,7 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7694702860768277903}
   - component: {fileID: 5624696696845415892}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MoveToBehaviour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2899882304140932406}
   - component: {fileID: 8280559629595822578}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WaitBehaviour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,7 +231,6 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -253,9 +252,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 851664137
+  m_SortingLayerID: 1025018419
   m_SortingLayer: 3
-  m_SortingOrder: -2
+  m_SortingOrder: 0
   m_Sprite: {fileID: -8980197770031717598, guid: 165315412006e694e94bcd1ba45b1206,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -281,7 +280,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 8761121716522494968}
-  offset: 0
   invert: 1
 --- !u!1 &3848913512480215278
 GameObject:
@@ -293,7 +291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6389354744471229063}
   - component: {fileID: 6892766864559140949}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WandererBehaviour
   m_TagString: Untagged
   m_Icon: {fileID: 0}

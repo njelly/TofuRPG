@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5361047009941731815}
   - component: {fileID: 6664945668683139212}
   - component: {fileID: 1498622698961770816}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: InteractorView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,7 +67,6 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -89,7 +88,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -109058919
+  m_SortingLayerID: 118163075
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -1818376320624862662, guid: b5d5106bd56d0a641b4c75c01292d513,
@@ -117,7 +116,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 6664945668683139212}
-  offset: 0
   invert: 1
 --- !u!1 &7238913004311364866
 GameObject:
@@ -131,7 +129,7 @@ GameObject:
   - component: {fileID: 3150163651800161742}
   - component: {fileID: 4899432201917488521}
   - component: {fileID: 6651150565629892958}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AimerView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +180,6 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -204,9 +201,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -109058919
+  m_SortingLayerID: 118163075
   m_SortingLayer: 2
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 4245123048664881678, guid: dee539afa79948a489e3d7cfe7b59140,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -232,7 +229,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 4899432201917488521}
-  offset: 2
   invert: 1
 --- !u!1 &9083695358841577766
 GameObject:
@@ -291,7 +287,6 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 9083695358841577769}
-          m_TargetAssemblyTypeName: Tofunaut.TofuRPG.Game.GridMover, Assembly-CSharp
           m_MethodName: StopForAimer
           m_Mode: 0
           m_Arguments:
@@ -303,7 +298,6 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 454387665786733155}
-          m_TargetAssemblyTypeName: Tofunaut.TofuRPG.Game.Interactor, Assembly-CSharp
           m_MethodName: DontInteractWhileAiming
           m_Mode: 0
           m_Arguments:
@@ -318,7 +312,6 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 9083695358841577769}
-          m_TargetAssemblyTypeName: Tofunaut.TofuRPG.Game.GridMover, Assembly-CSharp
           m_MethodName: StopForAimer
           m_Mode: 0
           m_Arguments:
@@ -330,7 +323,6 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 454387665786733155}
-          m_TargetAssemblyTypeName: Tofunaut.TofuRPG.Game.Interactor, Assembly-CSharp
           m_MethodName: DontInteractWhileAiming
           m_Mode: 0
           m_Arguments:
@@ -435,7 +427,6 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -457,7 +448,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 851664137
+  m_SortingLayerID: 1025018419
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 2892159669439257398, guid: 165315412006e694e94bcd1ba45b1206,
@@ -485,7 +476,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 9083695359239084483}
-  offset: 0
   invert: 1
 --- !u!1001 &372712937437893929
 PrefabInstance:
