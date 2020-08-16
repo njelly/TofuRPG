@@ -1,10 +1,18 @@
-﻿using Tofunaut.TofuUnity;
+﻿using System;
+using Tofunaut.TofuUnity;
 using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game
 {
     public class Aimer : MonoBehaviour, Actor.IActorInputReceiver
     {
+        [Flags]
+        private enum EState // use bit flags to keep long list of arbitrary states
+        {
+            None = 0,
+            DontAimWhileInteracting = 1 << 0,
+        }
+
         public Vector2 AimVector => _aimVector;
         public bool IsAiming { get; private set; }
 
@@ -79,6 +87,11 @@ namespace Tofunaut.TofuRPG.Game
             {
                 _actor.Events.OnAimerEndedAiming?.Invoke(this);
             }
+        }
+
+        public void DontAimWhileInteracting(Interactor interactor)
+        {
+
         }
     }
 }
