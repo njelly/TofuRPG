@@ -9,11 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4595724038629394793}
-  - component: {fileID: 5361047009941731815}
   - component: {fileID: 6664945668683139212}
   - component: {fileID: 1498622698961770816}
   m_Layer: 8
-  m_Name: InteractorView
+  m_Name: InteractReticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,25 +32,6 @@ Transform:
   m_Father: {fileID: 9083695359239084482}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5361047009941731815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4527119596775105429}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da8f734c9f15d4d45be32fdd7a1c798b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactor: {fileID: 454387665786733155}
-  flipXFacing: {fileID: 9083695359239084483}
-  reticle: {fileID: 6664945668683139212}
-  reticleMoveAnimTime: 0.1
-  reticleFlashAnimTime: 0.2
-  reticleFlashAlpha: 0.8
-  reticleColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &6664945668683139212
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -241,7 +221,6 @@ GameObject:
   - component: {fileID: 9083695358841577767}
   - component: {fileID: 9083695358841577768}
   - component: {fileID: 9083695358841577769}
-  - component: {fileID: 454387665786733155}
   - component: {fileID: 3706772035341443268}
   m_Layer: 8
   m_Name: Actor
@@ -281,6 +260,12 @@ MonoBehaviour:
   _behaviourPrefab: {fileID: 0}
   _recieveOnStart: 0
   _events:
+    OnActorBeganInteraction:
+      m_PersistentCalls:
+        m_Calls: []
+    OnActorEndedInteraction:
+      m_PersistentCalls:
+        m_Calls: []
     OnAimerBeganAiming:
       m_PersistentCalls:
         m_Calls:
@@ -295,7 +280,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 454387665786733155}
+        - m_Target: {fileID: 0}
           m_MethodName: DontInteractWhileAiming
           m_Mode: 0
           m_Arguments:
@@ -320,7 +305,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 454387665786733155}
+        - m_Target: {fileID: 0}
           m_MethodName: DontInteractWhileAiming
           m_Mode: 0
           m_Arguments:
@@ -331,12 +316,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-    OnInteractorBeganInteraction:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInteractorEndedInteraction:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!114 &9083695358841577769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,18 +332,6 @@ MonoBehaviour:
   _offset: {x: 0, y: 0}
   moveSpeed: 4
   moveHesitationTime: 0.15
---- !u!114 &454387665786733155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9083695358841577766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c780238ebbe89bd4bbfdee6b4e069ba0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3706772035341443268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,10 +354,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9083695359239084482}
+  - component: {fileID: 2973910700564144390}
   - component: {fileID: 9083695359239084483}
   - component: {fileID: 673073966258211491}
   m_Layer: 8
-  m_Name: View
+  m_Name: ActorView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -412,6 +380,25 @@ Transform:
   m_Father: {fileID: 9083695358841577767}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2973910700564144390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9083695359239084481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa09e4f729624d47b12f8107b74310f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actor: {fileID: 9083695358841577768}
+  flipXFacing: {fileID: 9083695359239084483}
+  interactReticle: {fileID: 6664945668683139212}
+  reticleMoveAnimTime: 0.2
+  reticleFlashAnimTime: 0.1
+  reticleFlashAlpha: 1
+  reticleColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &9083695359239084483
 SpriteRenderer:
   m_ObjectHideFlags: 0

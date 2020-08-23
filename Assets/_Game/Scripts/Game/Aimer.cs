@@ -19,20 +19,13 @@ namespace Tofunaut.TofuRPG.Game
         [SerializeField] private Vector2 _aimVector;
 
         private Actor _actor;
-        private Interactor _interactor;
-        private GridMover _gridMover;
+        private GridCollider _gridCollider;
 
-        private void Awake()
+        private void Start()
         {
             _actor = gameObject.GetComponent<Actor>();
-
-            _interactor = gameObject.GetComponent<Interactor>();
-            if (_interactor)
-            {
-                _aimVector = _interactor.Facing.ToVector2();
-            }
-
-            _gridMover = gameObject.GetComponent<GridMover>();
+            _aimVector = _actor.Facing.ToVector2();
+            _gridCollider = gameObject.GetComponent<GridCollider>();
         }
 
         private void OnEnable()
@@ -62,9 +55,9 @@ namespace Tofunaut.TofuRPG.Game
                 return;
             }
 
-            if (_interactor)
+            if (_actor)
             {
-                _aimVector = _interactor.Facing.ToVector2();
+                _aimVector = _actor.Facing.ToVector2();
             }
 
             TryToggleAiming(false);
@@ -89,7 +82,7 @@ namespace Tofunaut.TofuRPG.Game
             }
         }
 
-        public void DontAimWhileInteracting(Interactor interactor)
+        public void DontAimWhileInteracting(Actor actor)
         {
 
         }

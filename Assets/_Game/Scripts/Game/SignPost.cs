@@ -2,12 +2,12 @@
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class SignPost : MonoBehaviour, Interactor.IInteractable
+    public class SignPost : MonoBehaviour, Actor.IInteractable
     {
         [SerializeField] private DialogLineAsset _dialogLine;
         [SerializeField] private UIDialog _dialogPrefab;
 
-        public void BeginInteraction(Interactor interactor)
+        public void BeginInteraction(Actor actor)
         {
             DialogLine line = _dialogLine.GetDialogLine();
             line.source = gameObject;
@@ -15,7 +15,7 @@ namespace Tofunaut.TofuRPG.Game
             UIDialogManager.Queue(_dialogPrefab, line);
         }
 
-        public void EndInteraction(Interactor interactor)
+        public void EndInteraction(Actor actor)
         {
         }
     }

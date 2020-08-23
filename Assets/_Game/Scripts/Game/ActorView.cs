@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class InteractorView : MonoBehaviour
+    public class ActorView : MonoBehaviour
     {
-        public Interactor interactor;
+        public Actor actor;
         public SpriteRenderer flipXFacing;
-        public SpriteRenderer reticle;
+        public SpriteRenderer interactReticle;
         public float reticleMoveAnimTime;
         public float reticleFlashAnimTime;
         [Range(0f, 1f)] public float reticleFlashAlpha;
@@ -20,39 +20,39 @@ namespace Tofunaut.TofuRPG.Game
 
         private void Start()
         {
-            if (!interactor)
+            if (!actor)
             {
                 return;
             }
 
-            _prevFacing = interactor.Facing;
+            _prevFacing = actor.Facing;
 
-            if (reticle)
+            if (interactReticle)
             {
-                _baseAlpha = reticle.color.a;
+                _baseAlpha = interactReticle.color.a;
             }
         }
 
         private void Update()
         {
-            if (!interactor)
+            if (!actor)
             {
                 return;
             }
 
             if (flipXFacing)
             {
-                flipXFacing.enabled = interactor.enabled;
+                flipXFacing.enabled = actor.enabled;
             }
 
-            bool interacting = interactor.InteractingWith != null;
+            bool interacting = actor.InteractingWith != null;
             if (interacting != _isInteracting)
             {
                 _isInteracting = interacting;
                 StartCoroutine(AnimateReticleFlashCoroutine(_isInteracting ? 0.8f : _baseAlpha));
             }
 
-            ECardinalDirection4 facing = interactor.Facing;
+            ECardinalDirection4 facing = actor.Facing;
             if (_prevFacing != facing)
             {
                 switch (facing)
@@ -79,7 +79,7 @@ namespace Tofunaut.TofuRPG.Game
                 startRot *= -1;
             }
 
-            Vector2 endPos = interactor.Facing.ToVector2();
+            Vector2 endPos = actor.Facing.ToVector2();
             float endRot = Vector2.Angle(Vector2.right, endPos);
             if (endPos.y < 0)
             {
@@ -102,12 +102,12 @@ namespace Tofunaut.TofuRPG.Game
 
         private IEnumerator AnimateReticleFlashCoroutine(float alpha)
         {
-            if (!reticle)
+            if (!interactReticle)
             {
                 yield break;
             }
 
-            float startAlpha = reticle.color.a;
+            float startAlpha = interactReticle.color.a;
             float endAlpha = alpha;
 
             float timer = 0f;
@@ -118,12 +118,12 @@ namespace Tofunaut.TofuRPG.Game
                 // set these every frame so reticleColor RGB can be updated independently
                 Color from = new Color(reticleColor.r, reticleColor.g, reticleColor.b, startAlpha);
                 Color to = new Color(reticleColor.r, reticleColor.g, reticleColor.b, endAlpha);
-                reticle.color = Color.Lerp(from, to, timer / reticleFlashAnimTime);
+                interactReticle.color = Color.Lerp(from, to, timer / reticleFlashAnimTime);
 
                 yield return null;
             }
 
-            reticle.color = new Color(reticleColor.r, reticleColor.g, reticleColor.b, endAlpha);
+            interactReticle.color = new Color(reticleColor.r, reticleColor.g, reticleColor.b, endAlpha);
         }
     }
 }

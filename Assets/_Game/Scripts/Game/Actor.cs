@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tofunaut.TofuUnity;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,17 +9,21 @@ namespace Tofunaut.TofuRPG.Game
     public class ActorInput
     {
         public PlayerInput.DirectionButton direction;
-        public PlayerInput.Button interact;
+        public PlayerInput.Button action;
         public PlayerInput.Button aim;
 
         public ActorInput()
         {
             direction = new PlayerInput.DirectionButton();
-            interact = new PlayerInput.Button();
+            action = new PlayerInput.Button();
             aim = new PlayerInput.Button();
         }
     }
 
+    /// <summary>
+    /// An Actor is something that receives ActorInput (from a Player or some other AI system) and interacts with the scene.
+    /// </summary>
+    [RequireComponent(typeof(GridCollider))]
     public class Actor : MonoBehaviour, PlayerInputManager.IPlayerInputReceiver, Actor.IActorInputReceiver
     {
         public interface IActorInputReceiver
@@ -26,19 +31,36 @@ namespace Tofunaut.TofuRPG.Game
             void ReceiveActorInput(ActorInput input);
         }
 
+        public interface IInteractable
+        {
+            void BeginInteraction(Actor actor);
+            void EndInteraction(Actor actor);
+        }
+
         [Serializable]
         public class ActorEvents
         {
+            [Serializable] public class ActorEvent : UnityEvent<Actor> { }
+            public ActorEvent OnActorBeganInteraction;
+            public ActorEvent OnActorEndedInteraction;
+
             [Serializable] public class AimerEvent : UnityEvent<Aimer> { }
             public AimerEvent OnAimerBeganAiming;
             public AimerEvent OnAimerEndedAiming;
+        }
 
-            [Serializable] public class InteractorEvent : UnityEvent<Interactor> { }
-            public InteractorEvent OnInteractorBeganInteraction;
-            public InteractorEvent OnInteractorEndedInteraction;
+        [Flags]
+        public enum EState
+        {
+            None = 0,
+            IsAiming = 1 << 0,
         }
 
         public ActorEvents Events => _events;
+        public ECardinalDirection4 Facing { get; private set; }
+        public EState State { get; private set; }
+        public IInteractable InteractingWith { get; private set; }
+        public bool CanInteract => (State & EState.IsAiming) == 0;
 
         [Header("Actor")]
         [SerializeField] private ActorBehaviour _behaviourPrefab;
@@ -49,6 +71,7 @@ namespace Tofunaut.TofuRPG.Game
         [Space(20)]
         [SerializeField] private ActorEvents _events;
 
+        private GridCollider _gridCollider;
         private ActorInput _input = new ActorInput();
         private List<IActorInputReceiver> _receivers = new List<IActorInputReceiver>();
         private List<IActorInputReceiver> _toAdd = new List<IActorInputReceiver>();
@@ -58,6 +81,8 @@ namespace Tofunaut.TofuRPG.Game
 
         private void Start()
         {
+            _gridCollider = GetComponent<GridCollider>();
+
             if (_behaviourPrefab)
             {
                 SetActorBehaviour(_behaviourPrefab);
@@ -111,16 +136,16 @@ namespace Tofunaut.TofuRPG.Game
             if (playerInput == null)
             {
                 _input.direction.SetDirection(Vector2.zero);
-                if (_input.interact.Held)
+                if (_input.action.Held)
                 {
-                    _input.interact.timeReleased = Time.time;
+                    _input.action.timeReleased = Time.time;
                 }
             }
             else
             {
                 _input.direction.SetDirection(playerInput.direction);
-                _input.interact.timePressed = playerInput.select.timePressed;
-                _input.interact.timeReleased = playerInput.select.timeReleased;
+                _input.action.timePressed = playerInput.select.timePressed;
+                _input.action.timeReleased = playerInput.select.timeReleased;
 
                 if (!_input.aim.Held)
                 {
@@ -132,14 +157,44 @@ namespace Tofunaut.TofuRPG.Game
                 }
             }
 
-            foreach (IActorInputReceiver receiver in _receivers)
-            {
-                receiver.ReceiveActorInput(_input);
-            }
+            ReceiveActorInput(_input);
         }
 
         public void ReceiveActorInput(ActorInput input)
         {
+            if (input.direction.Direction.sqrMagnitude > float.Epsilon)
+            {
+                Facing = input.direction.Direction.ToCardinalDirection4();
+            }
+
+            if (InteractingWith == null)
+            {
+                // only change facing dir when not interacting with anything
+                if (input.direction.Direction.sqrMagnitude > float.Epsilon)
+                {
+                    Facing = input.direction.Direction.ToCardinalDirection4();
+                }
+
+                if (CanInteract && input.action.Pressed)
+                {
+                    InteractingWith = TryGetInteractableAt(_gridCollider.Coord + Facing.ToVector2Int());
+                    if (InteractingWith != null)
+                    {
+                        InteractingWith.BeginInteraction(this);
+                        Events.OnActorBeganInteraction?.Invoke(this);
+                    }
+                }
+            }
+            else
+            {
+                if (input.action.Released || !CanInteract)
+                {
+                    InteractingWith.EndInteraction(this);
+                    InteractingWith = null;
+                    Events.OnActorBeganInteraction?.Invoke(this);
+                }
+            }
+
             _input = input;
             foreach (IActorInputReceiver receiver in _receivers)
             {
@@ -156,6 +211,20 @@ namespace Tofunaut.TofuRPG.Game
 
             _instantiatedActorBehaviour = Instantiate(behaviourPrefab, Vector3.zero, Quaternion.identity, transform);
             _instantiatedActorBehaviour.Initialize(this);
+        }
+
+        public static IInteractable TryGetInteractableAt(Vector2Int coordinate)
+        {
+            foreach (GridCollider gridCollider in GridCollisionManager.GetCollidersAt(coordinate))
+            {
+                IInteractable interactable = gridCollider.GetComponent<IInteractable>();
+                if (interactable != null)
+                {
+                    return interactable;
+                }
+            }
+
+            return null;
         }
     }
 }

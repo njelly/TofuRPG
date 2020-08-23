@@ -2,16 +2,16 @@
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class Chest : MonoBehaviour, Interactor.IInteractable
+    public class Chest : MonoBehaviour, Actor.IInteractable
     {
         public bool Open { get; private set; }
 
-        public void BeginInteraction(Interactor interactor)
+        public void BeginInteraction(Actor actor)
         {
             Open = !Open;
         }
 
-        public void EndInteraction(Interactor interactor)
+        public void EndInteraction(Actor actor)
         {
 
         }
