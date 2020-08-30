@@ -6,77 +6,46 @@ using static Tofunaut.TofuUnity.TofuAnimator;
 namespace Tofunaut.TofuRPG.Game
 {
     [RequireComponent(typeof(Actor))]
-    public class GridMover : GridCollider, Actor.IActorInputReceiver
+    [RequireComponent(typeof(GridCollider))]
+    public class GridMover : ActorComponent
     {
-        [Flags]
-        private enum EState // use bit flags to keep long list of arbitrary states
+        public bool CanMove => (_actor.State & Actor.EState.IsAiming) != 0;
+        public GridCollider Collider => _gridCollider;
+
+        public Vector2Int Coord
         {
-            None = 0,
-            StopForAimer = 1 << 0,
+            get
+            {
+                if (_gridCollider)
+                {
+                    return _gridCollider.Coord;
+                }
+                return Vector2Int.zero;
+            }
         }
 
         [Header("Movement")]
         public float moveSpeed;
         public float moveHesitationTime;
 
-        private Actor _actor;
         private ActorInput _input;
         private TofuAnimator.Sequence _moveSequence;
         private float _lastZeroDirectionTime;
         private bool _stopForAimer;
-        private EState _state;
+        private GridCollider _gridCollider;
 
         protected override void Awake()
         {
             base.Awake();
 
             _actor = gameObject.GetComponent<Actor>();
+            _gridCollider = gameObject.GetComponent<GridCollider>();
             _input = new ActorInput();
-            _state = EState.None;
-        }
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-
-            _actor.AddReceiver(this);
-        }
-
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-
-            if (_actor)
-            {
-                _actor.RemoveReceiver(this);
-            }
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-
-            if (_input.direction.Direction.sqrMagnitude > float.Epsilon)
-            {
-                if (_moveSequence == null)
-                {
-                    TryMoveTo(Coord + _input.direction.Direction.ToCardinalDirection4().ToVector2Int());
-                }
-            }
-            else
-            {
-                _lastZeroDirectionTime = Time.time;
-            }
         }
 
         private void TryMoveTo(Vector2Int newCoord)
         {
             if (Time.time - _lastZeroDirectionTime < moveHesitationTime)
-            {
-                return;
-            }
-
-            if ((_state & EState.StopForAimer) != 0)
             {
                 return;
             }
@@ -87,19 +56,16 @@ namespace Tofunaut.TofuRPG.Game
                 return;
             }
 
-            if (!GridCollisionManager.TryMove(this, Coord, newCoord))
+            Vector2 prevPosition = new Vector2(_gridCollider.Coord.x, _gridCollider.Coord.y);
+            if (!_gridCollider.TryMoveTo(newCoord))
             {
-                // bump!
+                //bump
                 return;
             }
-
-            Vector2 prevPosition = new Vector2(Coord.x, Coord.y);
-            Coord = newCoord;
-
             _moveSequence = gameObject.Sequence()
                 .Curve(EEaseType.Linear, 1f / moveSpeed, (float newValue) =>
                 {
-                    transform.position = Vector2.LerpUnclamped(prevPosition, Coord, newValue);
+                    transform.position = Vector2.LerpUnclamped(prevPosition, _gridCollider.Coord, newValue);
                 })
                 .Then()
                 .Execute(() =>
@@ -107,26 +73,24 @@ namespace Tofunaut.TofuRPG.Game
                     _moveSequence = null;
                     if (_input.direction.Direction.sqrMagnitude > float.Epsilon)
                     {
-                        TryMoveTo(Coord + _input.direction.Direction.ToCardinalDirection4().ToVector2Int());
+                        TryMoveTo(_gridCollider.Coord + _input.direction.Direction.ToCardinalDirection4().ToVector2Int());
                     }
                 });
             _moveSequence.Play();
         }
 
-        public void ReceiveActorInput(ActorInput input)
+        public override void ReceiveActorInput(ActorInput input)
         {
-            _input = input;
-        }
-
-        public void StopForAimer(Aimer aimer)
-        {
-            if (aimer.IsAiming)
+            if (CanMove && input.direction.Direction.sqrMagnitude > float.Epsilon)
             {
-                _state |= EState.StopForAimer;
+                if (_moveSequence == null)
+                {
+                    TryMoveTo(_gridCollider.Coord + _input.direction.Direction.ToCardinalDirection4().ToVector2Int());
+                }
             }
             else
             {
-                _state &= ~EState.StopForAimer;
+                _lastZeroDirectionTime = Time.time;
             }
         }
     }

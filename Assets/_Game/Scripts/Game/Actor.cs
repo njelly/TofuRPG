@@ -24,13 +24,8 @@ namespace Tofunaut.TofuRPG.Game
     /// An Actor is something that receives ActorInput (from a Player or some other AI system) and interacts with the scene.
     /// </summary>
     [RequireComponent(typeof(GridCollider))]
-    public class Actor : MonoBehaviour, PlayerInputManager.IPlayerInputReceiver, Actor.IActorInputReceiver
+    public class Actor : MonoBehaviour, PlayerInputManager.IPlayerInputReceiver
     {
-        public interface IActorInputReceiver
-        {
-            void ReceiveActorInput(ActorInput input);
-        }
-
         public interface IInteractable
         {
             void BeginInteraction(Actor actor);
@@ -73,11 +68,9 @@ namespace Tofunaut.TofuRPG.Game
 
         private GridCollider _gridCollider;
         private ActorInput _input = new ActorInput();
-        private List<IActorInputReceiver> _receivers = new List<IActorInputReceiver>();
-        private List<IActorInputReceiver> _toAdd = new List<IActorInputReceiver>();
-        private List<IActorInputReceiver> _toRemove = new List<IActorInputReceiver>();
         private bool _receivingPlayerInput;
         private ActorBehaviour _instantiatedActorBehaviour;
+        private ActorComponent[] _actorComponents;
 
         private void Start()
         {
@@ -87,46 +80,17 @@ namespace Tofunaut.TofuRPG.Game
             {
                 SetActorBehaviour(_behaviourPrefab);
             }
-            else if (_recieveOnStart)
-            {
-                PlayerInputManager.AddReceiver(this);
-            }
+
+            _actorComponents = GetComponents<ActorComponent>();
         }
 
         private void Update()
         {
-            foreach (IActorInputReceiver receiver in _toAdd)
+            if (_instantiatedActorBehaviour)
             {
-                _receivers.Add(receiver);
+                _input = _instantiatedActorBehaviour.Input;
+                ProcessInput();
             }
-            _toAdd.Clear();
-
-            foreach (IActorInputReceiver receiver in _toRemove)
-            {
-                _receivers.Remove(receiver);
-            }
-            _toRemove.Clear();
-        }
-
-        private void OnDestroy()
-        {
-            PlayerInputManager.RemoveReceiver(this);
-        }
-
-        public void AddReceiver(IActorInputReceiver receiver)
-        {
-            if (receiver is Actor && (Actor)receiver == this)
-            {
-                Debug.LogError("can't add as receiver from itself");
-                return;
-            }
-
-            _toAdd.Add(receiver);
-        }
-
-        public void RemoveReceiver(IActorInputReceiver receiver)
-        {
-            _toRemove.Add(receiver);
         }
 
         public void ReceivePlayerInput(PlayerInput playerInput)
@@ -157,25 +121,25 @@ namespace Tofunaut.TofuRPG.Game
                 }
             }
 
-            ReceiveActorInput(_input);
+            ProcessInput();
         }
 
-        public void ReceiveActorInput(ActorInput input)
+        public void ProcessInput()
         {
-            if (input.direction.Direction.sqrMagnitude > float.Epsilon)
+            if (_input.direction.Direction.sqrMagnitude > float.Epsilon)
             {
-                Facing = input.direction.Direction.ToCardinalDirection4();
+                Facing = _input.direction.Direction.ToCardinalDirection4();
             }
 
             if (InteractingWith == null)
             {
                 // only change facing dir when not interacting with anything
-                if (input.direction.Direction.sqrMagnitude > float.Epsilon)
+                if (_input.direction.Direction.sqrMagnitude > float.Epsilon)
                 {
-                    Facing = input.direction.Direction.ToCardinalDirection4();
+                    Facing = _input.direction.Direction.ToCardinalDirection4();
                 }
 
-                if (CanInteract && input.action.Pressed)
+                if (CanInteract && _input.action.Pressed)
                 {
                     InteractingWith = TryGetInteractableAt(_gridCollider.Coord + Facing.ToVector2Int());
                     if (InteractingWith != null)
@@ -187,7 +151,7 @@ namespace Tofunaut.TofuRPG.Game
             }
             else
             {
-                if (input.action.Released || !CanInteract)
+                if (_input.action.Released || !CanInteract)
                 {
                     InteractingWith.EndInteraction(this);
                     InteractingWith = null;
@@ -195,10 +159,9 @@ namespace Tofunaut.TofuRPG.Game
                 }
             }
 
-            _input = input;
-            foreach (IActorInputReceiver receiver in _receivers)
+            foreach (ActorComponent actorComponent in _actorComponents)
             {
-                receiver.ReceiveActorInput(_input);
+                actorComponent.ReceiveActorInput(_input);
             }
         }
 

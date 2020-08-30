@@ -59,7 +59,7 @@ namespace Tofunaut.TofuRPG.Game
             {
                 _path = new Queue<Vector2Int>(Vector2IntPathfinder.GetPath(_gridMover.Coord, target, (Vector2Int coord) =>
                 {
-                    return GridCollisionManager.CanOccupy(_gridMover, coord);
+                    return GridCollisionManager.CanOccupy(_gridMover.Collider, coord);
                 }));
                 _previousTarget = target;
             }
@@ -91,7 +91,7 @@ namespace Tofunaut.TofuRPG.Game
             for (int i = 0; i < numRandomRolls; i++)
             {
                 Vector2Int target = new Vector2Int(Random.Range(minRange.x, maxRange.x + 1), Random.Range(minRange.y, maxRange.y + 1));
-                if (GridCollisionManager.CanOccupy(_gridMover, target))
+                if (GridCollisionManager.CanOccupy(_gridMover.Collider, target))
                 {
                     return target;
                 }

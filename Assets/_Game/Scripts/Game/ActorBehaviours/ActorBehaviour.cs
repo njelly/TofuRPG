@@ -13,6 +13,7 @@ namespace Tofunaut.TofuRPG.Game
         }
 
         public EState State { get; private set; }
+        public ActorInput Input => _input;
 
         protected Actor _actor;
 
@@ -54,7 +55,6 @@ namespace Tofunaut.TofuRPG.Game
             }
 
             PollInput(ref _input);
-            _actor.ReceiveActorInput(_input);
         }
 
         public virtual void Initialize(Actor actor)

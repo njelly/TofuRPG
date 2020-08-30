@@ -76,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _size: {x: 1, y: 1}
   _offset: {x: 0, y: 0}
-  moveSpeed: 2
+  moveSpeed: 1
   moveHesitationTime: 0.2
 --- !u!114 &1470145021383660694
 MonoBehaviour:
@@ -187,6 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 8761121716522494968}
+  offset: 0
   invert: 1
 --- !u!1 &8839776741759312688
 GameObject:

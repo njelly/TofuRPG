@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 6664945668683139212}
+  offset: 0
   invert: 1
 --- !u!1 &7238913004311364866
 GameObject:
@@ -209,6 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 4899432201917488521}
+  offset: 0
   invert: 1
 --- !u!1 &9083695358841577766
 GameObject:
@@ -220,6 +222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9083695358841577767}
   - component: {fileID: 9083695358841577768}
+  - component: {fileID: 4221834842751889710}
   - component: {fileID: 9083695358841577769}
   - component: {fileID: 3706772035341443268}
   m_Layer: 8
@@ -268,54 +271,24 @@ MonoBehaviour:
         m_Calls: []
     OnAimerBeganAiming:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 9083695358841577769}
-          m_MethodName: StopForAimer
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_MethodName: DontInteractWhileAiming
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
     OnAimerEndedAiming:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 9083695358841577769}
-          m_MethodName: StopForAimer
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_MethodName: DontInteractWhileAiming
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
+--- !u!114 &4221834842751889710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9083695358841577766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a33353e922dbc4c79bee8d0a24c06631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _size: {x: 1, y: 1}
+  _offset: {x: 0, y: 0}
 --- !u!114 &9083695358841577769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,8 +301,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de6939f068491094296a8357adbb76c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _size: {x: 1, y: 1}
-  _offset: {x: 0, y: 0}
   moveSpeed: 4
   moveHesitationTime: 0.15
 --- !u!114 &3706772035341443268
@@ -463,6 +434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 9083695359239084483}
+  offset: 0
   invert: 1
 --- !u!1001 &372712937437893929
 PrefabInstance:
