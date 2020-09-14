@@ -5,20 +5,8 @@ namespace Tofunaut.TofuRPG.Game
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(Camera))]
-    public class GameCameraController : SingletonBehaviour<GameCameraController>
+    public class GameCameraController : MonoBehaviour, IGameCameraController
     {
-        public static Camera Camera
-        {
-            get
-            {
-                if (_instance)
-                {
-                    return _instance._camera;
-                }
-                return null;
-            }
-        }
-
         [SerializeField] private GameObject _following;
         [SerializeField] private Vector2 _offset;
         [SerializeField] private float _cameraZ = -10;
@@ -26,10 +14,8 @@ namespace Tofunaut.TofuRPG.Game
         private Camera _camera;
         private Vector2 _followPos;
 
-        protected override void Awake()
+        protected void Awake()
         {
-            base.Awake();
-
             _camera = GetComponent<Camera>();
         }
 
@@ -47,10 +33,10 @@ namespace Tofunaut.TofuRPG.Game
             gameObject.transform.position = new Vector3(_offset.x, _offset.y, _cameraZ) + new Vector3(_followPos.x, _followPos.y, 0f);
         }
 
-        public static void Follow(GameObject target)
+        public void Follow(GameObject target)
         {
-            _instance._following = target;
-            _instance._followPos = target.transform.position;
+            _following = target;
+            _followPos = target.transform.position;
         }
     }
 }

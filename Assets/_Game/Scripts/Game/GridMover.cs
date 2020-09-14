@@ -7,7 +7,6 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class GridMover : GridCollider, Actor.IActorInputReceiver
     {
-
         [Header("Movement")]
         public float moveSpeed;
         public float moveHesitationTime;

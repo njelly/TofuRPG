@@ -5,9 +5,9 @@
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.unity.addressables": "1.1.12"
+        "com.unity.addressables": "1.8.5"
       },
-      "hash": "fa3b5d852d61ba9477103c67d1d46cc5b923476b"
+      "hash": "6405bf94e0660412c2650727a781fc42ff08620b"
     },
     "com.unity.2d.animation": {
       "version": "3.2.4",

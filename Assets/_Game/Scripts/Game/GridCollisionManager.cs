@@ -4,28 +4,20 @@ using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class GridCollisionManager : SingletonBehaviour<GridCollisionManager>
+    public class GridCollisionManager : MonoBehaviour, IGridCollisionManager
     {
-        private static List<GridCollider> _gridColliders = new List<GridCollider>();
-
         public Vector2Int size;
         public Vector2Int recenterInterval;
         public GridCollider centeredOn;
 
+        private List<GridCollider> _gridColliders = new List<GridCollider>();
         private Vector2IntQuadTree<GridCollider> _quadTree;
         private Vector2Int _offset;
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
-
             _offset = Vector2Int.zero;
             _quadTree = new Vector2IntQuadTree<GridCollider>(size / -2, size / 2);
-
-            foreach (GridCollider gc in _gridColliders)
-            {
-                _Add(gc, gc.Coord);
-            }
         }
 
         private void Update()
@@ -43,7 +35,7 @@ namespace Tofunaut.TofuRPG.Game
                 _quadTree.Clear();
                 foreach (GridCollider gc in _gridColliders)
                 {
-                    _Add(gc, gc.Coord);
+                    Add(gc);
                 }
             }
 
@@ -55,37 +47,25 @@ namespace Tofunaut.TofuRPG.Game
             _quadTree.Clear();
         }
 
-        public static void Add(GridCollider gc, Vector2Int coord)
+        public void Add(GridCollider gc)
         {
             _gridColliders.Add(gc);
-
-            if (_instance)
-            {
-                _Add(gc, coord);
-            }
-        }
-        private static void _Add(GridCollider gc, Vector2Int coord)
-        {
-            if (!_instance)
-            {
-                return;
-            }
 
             Vector2Int min = new Vector2Int(int.MinValue, int.MinValue);
             Vector2Int max = new Vector2Int(int.MaxValue, int.MaxValue);
 
-            GetMinMax(gc, coord, out Vector2Int gcMin, out Vector2Int gcMax);
+            GetMinMax(gc, gc.Coord, out Vector2Int gcMin, out Vector2Int gcMax);
             for (int x = gcMin.x; x < gcMax.x; x++)
             {
                 for (int y = gcMin.y; y < gcMax.y; y++)
                 {
-                    Vector2Int adjustedCoord = new Vector2Int(x, y) - _instance._offset;
+                    Vector2Int adjustedCoord = new Vector2Int(x, y) - _offset;
                     if (adjustedCoord.x < min.x || adjustedCoord.x >= max.x || adjustedCoord.y < min.y || adjustedCoord.y >= max.y)
                     {
                         continue;
                     }
 
-                    _instance._quadTree.Add(gc, adjustedCoord);
+                    _quadTree.Add(gc, adjustedCoord);
                 }
             }
         }
@@ -96,75 +76,58 @@ namespace Tofunaut.TofuRPG.Game
             max = min + gridCollider.Size;
         }
 
-        public static void Remove(GridCollider gc, Vector2Int coord)
+        public void Remove(GridCollider gc)
         {
             _gridColliders.Remove(gc);
 
-            if (_instance)
-            {
-                _Remove(gc, coord);
-            }
-        }
-        private static void _Remove(GridCollider gc, Vector2Int coord)
-        {
-            if (!_instance)
-            {
-                return;
-            }
-
-            Vector2Int min = _instance.size / -2;
-            Vector2Int max = _instance.size / 2;
-            GetMinMax(gc, coord, out Vector2Int gcMin, out Vector2Int gcMax);
+            Vector2Int min = size / -2;
+            Vector2Int max = size / 2;
+            GetMinMax(gc, gc.Coord, out Vector2Int gcMin, out Vector2Int gcMax);
             for (int x = gcMin.x; x < gcMax.x; x++)
             {
                 for (int y = gcMin.y; y < gcMax.y; y++)
                 {
-                    Vector2Int adjustedCoord = new Vector2Int(x, y) - _instance._offset;
+                    Vector2Int adjustedCoord = new Vector2Int(x, y) - _offset;
                     if (adjustedCoord.x < min.x || adjustedCoord.x >= max.x || adjustedCoord.y < min.y || adjustedCoord.y >= max.y)
                     {
                         continue;
                     }
 
-                    _instance._quadTree.Remove(gc, adjustedCoord);
+                    _quadTree.Remove(gc, adjustedCoord);
                 }
             };
         }
 
-        public static bool TryMove(GridCollider gc, Vector2Int from, Vector2Int to)
+        public bool TryMove(GridCollider gc, Vector2Int from, Vector2Int to)
         {
             if (!CanOccupy(gc, to))
             {
                 return false;
             }
 
-            _Remove(gc, from);
-            _Add(gc, to);
+            Remove(gc);
+            Add(gc);
 
             return true;
         }
 
-        public static bool CanOccupy(GridCollider gc, Vector2Int coord)
+        public bool CanOccupy(GridCollider gc, Vector2Int coord)
         {
-            if (!_instance)
-            {
-                return true;
-            }
-
-            Vector2Int min = _instance.size / -2;
-            Vector2Int max = _instance.size / 2;
+            Vector2Int min = size / -2;
+            Vector2Int max = size / 2;
             GetMinMax(gc, coord, out Vector2Int gcMin, out Vector2Int gcMax);
             for (int x = gcMin.x; x < gcMax.x; x++)
             {
                 for (int y = gcMin.y; y < gcMax.y; y++)
                 {
                     int layerMask = 0;
-                    Vector2Int adjustedCoord = new Vector2Int(x, y) - _instance._offset;
+                    Vector2Int adjustedCoord = new Vector2Int(x, y) - _offset;
                     if (adjustedCoord.x < min.x || adjustedCoord.x >= max.x || adjustedCoord.y < min.y || adjustedCoord.y >= max.y)
                     {
                         return false;
                     }
 
-                    if (_instance._quadTree.TryGet(adjustedCoord, out List<GridCollider> gridColliders))
+                    if (_quadTree.TryGet(adjustedCoord, out List<GridCollider> gridColliders))
                     {
                         foreach (GridCollider collider in gridColliders)
                         {
@@ -188,22 +151,22 @@ namespace Tofunaut.TofuRPG.Game
             return true;
         }
 
-        public static List<GridCollider> GetCollidersAt(Vector2Int coord)
+        public List<GridCollider> GetCollidersAt(Vector2Int coord)
         {
-            Vector2Int adjustedCoord = coord - _instance._offset;
+            Vector2Int adjustedCoord = coord - _offset;
             List<GridCollider> toReturn = new List<GridCollider>();
-            if (_instance._quadTree.TryGet(adjustedCoord, out List<GridCollider> colliders))
+            if (_quadTree.TryGet(adjustedCoord, out List<GridCollider> colliders))
             {
                 toReturn.AddRange(colliders);
             }
             return toReturn;
         }
 
-        public static Vector2Int ConvertToGridPosition(Vector3 position) => ConvertToGridPosition(new Vector3(position.x, position.y));
-        public static Vector2Int ConvertToGridPosition(Vector2 position)
-        {
-            return new Vector2Int(Mathf.CeilToInt(position.x), Mathf.CeilToInt(position.y));
-        }
+        //public static Vector2Int ConvertToGridPosition(Vector3 position) => ConvertToGridPosition(new Vector3(position.x, position.y));
+        //public static Vector2Int ConvertToGridPosition(Vector2 position)
+        //{
+        //    return new Vector2Int(Mathf.CeilToInt(position.x), Mathf.CeilToInt(position.y));
+        //}
 
         private void RenderQuadTree<T>(Vector2IntQuadTree<T> tree)
         {

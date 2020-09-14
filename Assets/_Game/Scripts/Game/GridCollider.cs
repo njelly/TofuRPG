@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Tofunaut.TofuUnity;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game
 {
@@ -22,17 +19,17 @@ namespace Tofunaut.TofuRPG.Game
 
         protected virtual void OnEnable()
         {
-            GridCollisionManager.Add(this, Coord);
+            GameContext.GridCollisionManager.Add(this);
         }
 
         protected virtual void OnDisable()
         {
-            GridCollisionManager.Remove(this, Coord);
+            GameContext.GridCollisionManager.Remove(this);
         }
 
         public virtual bool TryMoveTo(Vector2Int newCoord)
         {
-            if (GridCollisionManager.TryMove(this, Coord, newCoord))
+            if (GameContext.GridCollisionManager.TryMove(this, Coord, newCoord))
             {
                 Coord = newCoord;
                 return true;
