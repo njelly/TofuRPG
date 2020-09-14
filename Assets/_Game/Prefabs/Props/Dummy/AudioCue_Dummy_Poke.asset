@@ -19,4 +19,4 @@ MonoBehaviour:
   _interval: -1
   _randomize: 0
   _allowRandomRepeats: 0
-  _spatialBlend: 0.6
+  _spatialBlend: 1

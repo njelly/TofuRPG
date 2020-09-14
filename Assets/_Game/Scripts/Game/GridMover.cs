@@ -5,92 +5,60 @@ using static Tofunaut.TofuUnity.TofuAnimator;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    [RequireComponent(typeof(Actor))]
-    [RequireComponent(typeof(GridCollider))]
-    public class GridMover : ActorComponent
+    public class GridMover : GridCollider, Actor.IActorInputReceiver
     {
-        public bool CanMove => (_actor.State & Actor.EState.IsAiming) != 0;
-        public GridCollider Collider => _gridCollider;
-
-        public Vector2Int Coord
-        {
-            get
-            {
-                if (_gridCollider)
-                {
-                    return _gridCollider.Coord;
-                }
-                return Vector2Int.zero;
-            }
-        }
 
         [Header("Movement")]
         public float moveSpeed;
         public float moveHesitationTime;
 
-        private ActorInput _input;
         private TofuAnimator.Sequence _moveSequence;
         private float _lastZeroDirectionTime;
         private bool _stopForAimer;
-        private GridCollider _gridCollider;
+        private ActorInput _actorInput;
 
-        protected override void Awake()
+        public override bool TryMoveTo(Vector2Int newCoord)
         {
-            base.Awake();
+            Vector2Int prevCoord = Coord;
 
-            _actor = gameObject.GetComponent<Actor>();
-            _gridCollider = gameObject.GetComponent<GridCollider>();
-            _input = new ActorInput();
-        }
-
-        private void TryMoveTo(Vector2Int newCoord)
-        {
             if (Time.time - _lastZeroDirectionTime < moveHesitationTime)
             {
-                return;
+                return false;
             }
 
             if (_moveSequence != null)
             {
                 // can't move while animation is playing
-                return;
+                return false;
             }
 
-            Vector2 prevPosition = new Vector2(_gridCollider.Coord.x, _gridCollider.Coord.y);
-            if (!_gridCollider.TryMoveTo(newCoord))
+            if (!base.TryMoveTo(newCoord))
             {
-                //bump
-                return;
+                return false;
             }
+
             _moveSequence = gameObject.Sequence()
                 .Curve(EEaseType.Linear, 1f / moveSpeed, (float newValue) =>
                 {
-                    transform.position = Vector2.LerpUnclamped(prevPosition, _gridCollider.Coord, newValue);
+                    transform.position = Vector2.LerpUnclamped(prevCoord, Coord, newValue);
                 })
                 .Then()
                 .Execute(() =>
                 {
                     _moveSequence = null;
-                    if (_input.direction.Direction.sqrMagnitude > float.Epsilon)
-                    {
-                        TryMoveTo(_gridCollider.Coord + _input.direction.Direction.ToCardinalDirection4().ToVector2Int());
-                    }
+                    ReceiveActorInput(_actorInput);
                 });
             _moveSequence.Play();
+
+            return true;
         }
 
-        public override void ReceiveActorInput(ActorInput input)
+        public void ReceiveActorInput(ActorInput actorInput)
         {
-            if (CanMove && input.direction.Direction.sqrMagnitude > float.Epsilon)
+            _actorInput = actorInput;
+            if (_actorInput.direction.Held)
             {
-                if (_moveSequence == null)
-                {
-                    TryMoveTo(_gridCollider.Coord + _input.direction.Direction.ToCardinalDirection4().ToVector2Int());
-                }
-            }
-            else
-            {
-                _lastZeroDirectionTime = Time.time;
+                TryMoveTo(Coord + _actorInput.direction.Direction.ToCardinalDirection4().ToVector2Int());
             }
         }
     }

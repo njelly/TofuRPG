@@ -64,7 +64,7 @@ namespace Tofunaut.TofuRPG
     {
         public interface IPlayerInputReceiver
         {
-            void ReceivePlayerInput(PlayerInput input);
+            void ReceivePlayerInput(PlayerInput playerInput);
         }
 
         public float directionDeadZone = 0.2f;

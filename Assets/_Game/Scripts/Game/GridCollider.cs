@@ -30,7 +30,7 @@ namespace Tofunaut.TofuRPG.Game
             GridCollisionManager.Remove(this, Coord);
         }
 
-        public bool TryMoveTo(Vector2Int newCoord)
+        public virtual bool TryMoveTo(Vector2Int newCoord)
         {
             if (GridCollisionManager.TryMove(this, Coord, newCoord))
             {

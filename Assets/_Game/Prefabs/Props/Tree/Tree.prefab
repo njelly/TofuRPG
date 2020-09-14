@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7159870411122773499}
   - component: {fileID: 3823984637825775305}
   m_Layer: 8
-  m_Name: Sprite
+  m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 7159870411122773499}
+  offset: 0
   invert: 1
 --- !u!1 &7159870411276746296
 GameObject:
