@@ -1,4 +1,6 @@
-﻿namespace Tofunaut.TofuRPG
+﻿using System;
+
+namespace Tofunaut.TofuRPG
 {
     public enum EAppState
     {
@@ -17,6 +19,7 @@
     public interface IInitializationState
     {
         bool IsComplete { get; }
+        event EventHandler OnComplete;
     }
 
     public interface IStartScreenState { }

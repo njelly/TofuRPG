@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Tofunaut.TofuUnity;
 using UnityEngine;
 
@@ -10,25 +11,23 @@ namespace Tofunaut.TofuRPG
 
         private EAppState _currentAppState;
         private IInitializationState _initalizationState;
-        private string _initializationStateKey;
         private IStartScreenState _startScreenState;
-        private string _startScreenStateKey;
         private IInGameState _inGameState;
-        private string _inGameStateKey;
 
-        protected override void Awake()
+        private void Start()
         {
-            base.Awake();
+            _initalizationState = _states.OfType<IInitializationState>().FirstOrDefault();
+            _startScreenState = _states.OfType<IStartScreenState>().FirstOrDefault();
+            _inGameState = _states.OfType<IInGameState>().FirstOrDefault();
 
-            MonoBehaviour[] children = GetComponentsInChildren<MonoBehaviour>();
-            _initalizationState = children.OfType<IInitializationState>().FirstOrDefault();
-            _initializationStateKey = (_initalizationState as MonoBehaviour).gameObject.name;
-            _startScreenState = children.OfType<IStartScreenState>().FirstOrDefault();
-            _startScreenStateKey = (_startScreenState as MonoBehaviour).gameObject.name;
-            _inGameState = children.OfType<IInGameState>().FirstOrDefault();
-            _startScreenStateKey = (_inGameState as MonoBehaviour).gameObject.name;
+            _initalizationState.OnComplete += InitalizationState_OnComplete;
 
             EnterState(EAppState.Initialization);
+        }
+
+        private void OnDestroy()
+        {
+            _initalizationState.OnComplete -= InitalizationState_OnComplete;
         }
 
         public void EnterState(EAppState state)
@@ -41,6 +40,10 @@ namespace Tofunaut.TofuRPG
             bool succesful = true;
             switch (state)
             {
+                case EAppState.None:
+                    AppContext.Log.Error($"Cannot transition to state {state}");
+                    succesful = false;
+                    break;
                 case EAppState.Initialization:
                     if (_initalizationState.IsComplete)
                     {
@@ -49,17 +52,17 @@ namespace Tofunaut.TofuRPG
                     }
                     else
                     {
-                        TransitionTo(_initializationStateKey);
+                        TransitionTo((_initalizationState as MonoBehaviour).name);
                     }
                     break;
                 case EAppState.StartScreen:
-                    TransitionTo(_startScreenStateKey);
+                    TransitionTo((_startScreenState as MonoBehaviour).name);
                     break;
                 case EAppState.InGame:
-                    TransitionTo(_inGameStateKey);
+                    TransitionTo((_inGameState as MonoBehaviour).name);
                     break;
                 default:
-                    AppContext.Log.Error($"Failed to enter state {state}");
+                    AppContext.Log.Error($"The state {state} has not not been implemented");
                     succesful = false;
                     break;
             }
@@ -68,6 +71,11 @@ namespace Tofunaut.TofuRPG
             {
                 _currentAppState = state;
             }
+        }
+
+        private void InitalizationState_OnComplete(object sender, EventArgs e)
+        {
+            EnterState(EAppState.StartScreen);
         }
     }
 }
