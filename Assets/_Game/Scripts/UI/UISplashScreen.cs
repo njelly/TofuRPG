@@ -24,7 +24,7 @@ namespace Tofunaut.TofuRPG
                 _canvasGroup = GetComponent<CanvasGroup>();
             }
 
-            TofuAnimator.Sequence _sequence = gameObject.Sequence()
+            _sequence = gameObject.Sequence()
                 .Curve(TofuAnimator.EEaseType.Linear, fadeInLength, (float newValue) =>
                 {
                     _canvasGroup.alpha = Mathf.Lerp(0, 1, newValue);
@@ -47,6 +47,7 @@ namespace Tofunaut.TofuRPG
 
         public void Skip()
         {
+            _sequence.Stop();
             OnSkip?.Invoke();
         }
     }

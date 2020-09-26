@@ -1,4 +1,5 @@
 ﻿using System;
+using Tofunaut.TofuUnity;
 using UnityEngine;
 
 namespace Tofunaut.TofuRPG
@@ -8,6 +9,8 @@ namespace Tofunaut.TofuRPG
         public event EventHandler OnComplete;
 
         public bool IsComplete { get; private set; }
+
+        public InitializationView viewPrefab;
 
         private void Start()
         {

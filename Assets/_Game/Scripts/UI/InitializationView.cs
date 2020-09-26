@@ -5,6 +5,12 @@ namespace Tofunaut.TofuRPG
 {
     public class InitializationView : MonoBehaviour
     {
+        public interface IListener
+        {
+            void OnCompleteSplashScreens();
+        }
+
+        public IListener listener;
         public List<UISplashScreen> splashScreens;
 
         private int _currentIndex;
@@ -17,15 +23,23 @@ namespace Tofunaut.TofuRPG
 
         public void NextSplashScreen()
         {
-            if (_currentIndex >= 0 && _currentIndex <= splashScreens.Count)
+            if(_currentIndex >= 0 && _currentIndex < splashScreens.Count)
             {
-
+                if(!splashScreens[_currentIndex].canSkip)
+                {
+                    return;
+                }
             }
 
             _currentIndex++;
             for(int i = 0; i < splashScreens.Count; i++)
             {
                 splashScreens[i].gameObject.SetActive(i == _currentIndex);
+            }
+
+            if(_currentIndex >= splashScreens.Count)
+            {
+                listener?.OnCompleteSplashScreens();
             }
         }
     }
