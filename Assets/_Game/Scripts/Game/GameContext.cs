@@ -10,6 +10,7 @@ namespace Tofunaut.TofuRPG.Game
         public static IGameCameraController GameCameraController => _instance._gameCameraController;
 
         protected override bool DestroyGameObjectWhenInstanceExists => true;
+        protected override bool SuppressError => true;
 
         private IGridCollisionManager _gridCollisionManager;
         private IGameCameraController _gameCameraController;

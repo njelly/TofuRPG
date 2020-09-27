@@ -23,8 +23,6 @@ namespace Tofunaut.TofuRPG
             _inGameState = _states.OfType<IInGameState>().FirstOrDefault();
 
             EnterState(EAppState.Initialization);
-
-            DontDestroyOnLoad(gameObject);
         }
 
         public void EnterState(EAppState state)

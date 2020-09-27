@@ -39,12 +39,9 @@ namespace Tofunaut.TofuRPG.Game
                 }
             }
 
+#if UNITY_EDITOR
             RenderQuadTree(_quadTree);
-        }
-
-        private void RecenterQuadTree()
-        {
-            _quadTree.Clear();
+#endif
         }
 
         public void Add(GridCollider gc)
@@ -160,6 +157,11 @@ namespace Tofunaut.TofuRPG.Game
                 toReturn.AddRange(colliders);
             }
             return toReturn;
+        }
+
+        public void CenterOn(GridCollider gridCollider)
+        {
+            centeredOn = gridCollider;
         }
 
         //public static Vector2Int ConvertToGridPosition(Vector3 position) => ConvertToGridPosition(new Vector3(position.x, position.y));

@@ -3,14 +3,52 @@ using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class ActorInput
+    public struct ActorInput
     {
-        public PlayerInput.DirectionButton direction;
-        public PlayerInput.Button interact;
-        public PlayerInput.Button aim;
+        public DirectionButton direction;
+        public Button interact;
+        public Button aim;
+
+        public class Button
+        {
+            public float timePressed;
+            public float timeReleased;
+
+            public float TimeHeld => !Held ? 0f : Time.time - timePressed;
+
+            public bool Pressed => Time.time - timePressed < Time.deltaTime;
+            public bool Held => timePressed > timeReleased;
+            public bool Released => Time.time - timeReleased < Time.deltaTime;
+        }
+
+        public class DirectionButton : Button
+        {
+            public Vector2 Direction { get; private set; } = Vector2.zero;
+
+            public void SetDirection(Vector2 direction)
+            {
+                float prevDirSqrMagnitude = Direction.sqrMagnitude;
+                float newDirSqrMagnitude = direction.sqrMagnitude;
+                if (prevDirSqrMagnitude > float.Epsilon && newDirSqrMagnitude <= float.Epsilon)
+                {
+                    timeReleased = Time.time;
+                }
+                else if(prevDirSqrMagnitude <= float.Epsilon && newDirSqrMagnitude > float.Epsilon)
+                {
+                    timePressed = Time.time;
+                }
+
+                Direction = direction;
+            }
+
+            public static implicit operator Vector2(DirectionButton button)
+            {
+                return button.Held ? button.Direction : Vector2.zero;
+            }
+        }
     }
 
-    public class Actor : MonoBehaviour, PlayerInputManager.IPlayerInputReceiver
+    public class Actor : MonoBehaviour
     {
         public interface IInteractable
         {
@@ -23,30 +61,33 @@ namespace Tofunaut.TofuRPG.Game
             void ReceiveActorInput(ActorInput actorInput);
         }
 
-        private ActorInput _input;
+        public IActorInputProvider actorInputProvider;
+
         private IActorInputReceiver[] _actorInputReceivers;
 
-        private void Start()
+        private void Awake()
         {
-            _input = new ActorInput();
-
-            // Get all IActorInputReceivers on this GameObject
-            _actorInputReceivers = GetComponents<MonoBehaviour>().OfType<IActorInputReceiver>().ToArray();
+            MonoBehaviour[] components = GetComponents<MonoBehaviour>();
+            actorInputProvider = components.OfType<IActorInputProvider>().FirstOrDefault();
+            _actorInputReceivers = components.OfType<IActorInputReceiver>().ToArray();
         }
 
-        public void ReceivePlayerInput(PlayerInput playerInput)
+        private void Update()
         {
-            _input.direction.SetDirection(playerInput.direction);
+            PollActorInput();
+        }
 
-            _input.aim.timePressed = playerInput.shift.timePressed;
-            _input.aim.timeReleased = playerInput.shift.timeReleased;
-
-            _input.interact.timePressed = playerInput.select.timePressed;
-            _input.interact.timeReleased = playerInput.select.timeReleased;
-
-            foreach (IActorInputReceiver actorInputReceiver in _actorInputReceivers)
+        private void PollActorInput()
+        {
+            if(actorInputProvider == null)
             {
-                actorInputReceiver.ReceiveActorInput(_input);
+                return;
+            }
+
+            ActorInput actorInput = actorInputProvider.GetActorInput();
+            foreach(IActorInputReceiver receiver in _actorInputReceivers)
+            {
+                receiver.ReceiveActorInput(actorInput);
             }
         }
     }

@@ -7,14 +7,15 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class GridMover : GridCollider, Actor.IActorInputReceiver
     {
+        public ECardinalDirection4 MoveDirection { get; private set; }
+        public bool IsMoving => _moveSequence != null;
+
         [Header("Movement")]
         public float moveSpeed;
         public float moveHesitationTime;
 
-        private TofuAnimator.Sequence _moveSequence;
+        private Sequence _moveSequence;
         private float _lastZeroDirectionTime;
-        private bool _stopForAimer;
-        private ActorInput _actorInput;
 
         public override bool TryMoveTo(Vector2Int newCoord)
         {
@@ -31,6 +32,8 @@ namespace Tofunaut.TofuRPG.Game
                 return false;
             }
 
+            MoveDirection = ((Vector2)(newCoord - prevCoord)).ToCardinalDirection4();
+
             if (!base.TryMoveTo(newCoord))
             {
                 return false;
@@ -45,7 +48,6 @@ namespace Tofunaut.TofuRPG.Game
                 .Execute(() =>
                 {
                     _moveSequence = null;
-                    ReceiveActorInput(_actorInput);
                 });
             _moveSequence.Play();
 
@@ -54,10 +56,9 @@ namespace Tofunaut.TofuRPG.Game
 
         public void ReceiveActorInput(ActorInput actorInput)
         {
-            _actorInput = actorInput;
-            if (_actorInput.direction.Held)
+            if (actorInput.direction.TimeHeld > moveHesitationTime)
             {
-                TryMoveTo(Coord + _actorInput.direction.Direction.ToCardinalDirection4().ToVector2Int());
+                TryMoveTo(Coord + actorInput.direction.Direction.ToCardinalDirection4().ToVector2Int());
             }
         }
     }

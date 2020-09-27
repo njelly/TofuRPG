@@ -19,7 +19,6 @@ namespace Tofunaut.TofuRPG.Game
 
         protected virtual void OnEnable()
         {
-            Debug.Log(gameObject.name + " add collider");
             GameContext.GridCollisionManager.Add(this);
         }
 

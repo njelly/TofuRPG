@@ -29,4 +29,4 @@ namespace Tofunaut.TofuRPG
             Log.Info($"TofuRPG {_appVersionProvider.Version} (c) Tofunaut 2020");
         }
     }
-}
+} 

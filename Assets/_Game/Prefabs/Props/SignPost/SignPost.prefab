@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6118134600030806947}
-  - component: {fileID: 58414312127492219}
   - component: {fileID: 6118134600030806946}
   m_Layer: 8
   m_Name: SignPost
@@ -33,21 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &58414312127492219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6118134600030806949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e64d885fc8278a348a0f954d896fab10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dialogLine: {fileID: 11400000, guid: 8d02be79d148e92469a0784c89db886c, type: 2}
-  _dialogPrefab: {fileID: 2553455776763406315, guid: 9ddcf7e18df36f64581801ce3011492c,
-    type: 3}
 --- !u!114 &6118134600030806946
 MonoBehaviour:
   m_ObjectHideFlags: 0

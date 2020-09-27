@@ -9,6 +9,7 @@ namespace Tofunaut.TofuRPG.Game
         void Remove(GridCollider gridCollider);
         bool TryMove(GridCollider gridCollider, Vector2Int from, Vector2Int to);
         bool CanOccupy(GridCollider gridCollider, Vector2Int coord);
+        void CenterOn(GridCollider gridCollider);
         List<GridCollider> GetCollidersAt(Vector2Int coord);
     }
 }
