@@ -9,6 +9,9 @@ namespace Tofunaut.TofuRPG
         public static ITofuLogger Log => _instance._log;
         public static TofuVersion AppVersion => _instance._appVersionProvider.Version;
 
+        protected override bool DestroyGameObjectWhenInstanceExists => true;
+        protected override bool SetDontDestroyOnLoad => true;
+
         private ITofuLogger _log;
         private ITofuVersionProvider _appVersionProvider;
 
@@ -19,8 +22,6 @@ namespace Tofunaut.TofuRPG
             MonoBehaviour[] components = GetComponents<MonoBehaviour>();
             _log = components.OfType<ITofuLogger>().FirstOrDefault();
             _appVersionProvider = components.OfType<ITofuVersionProvider>().FirstOrDefault();
-
-            DontDestroyOnLoad(gameObject);
         }
 
         private void Start()

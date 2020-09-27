@@ -19,12 +19,16 @@ namespace Tofunaut.TofuRPG.Game
 
         protected virtual void OnEnable()
         {
+            Debug.Log(gameObject.name + " add collider");
             GameContext.GridCollisionManager.Add(this);
         }
 
         protected virtual void OnDisable()
         {
-            GameContext.GridCollisionManager.Remove(this);
+            if(GameContext.HasInstance)
+            {
+                GameContext.GridCollisionManager.Remove(this);
+            }
         }
 
         public virtual bool TryMoveTo(Vector2Int newCoord)

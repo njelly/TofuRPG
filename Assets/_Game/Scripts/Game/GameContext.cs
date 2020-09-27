@@ -9,6 +9,8 @@ namespace Tofunaut.TofuRPG.Game
         public static IGridCollisionManager GridCollisionManager => _instance._gridCollisionManager;
         public static IGameCameraController GameCameraController => _instance._gameCameraController;
 
+        protected override bool DestroyGameObjectWhenInstanceExists => true;
+
         private IGridCollisionManager _gridCollisionManager;
         private IGameCameraController _gameCameraController;
 
@@ -16,8 +18,9 @@ namespace Tofunaut.TofuRPG.Game
         {
             base.Awake();
 
-            _gridCollisionManager = GetComponentsInChildren<MonoBehaviour>().OfType<IGridCollisionManager>().First();
-            _gameCameraController = GetComponentsInChildren<MonoBehaviour>().OfType<IGameCameraController>().First();
+            MonoBehaviour[] componentsInChildren = GetComponentsInChildren<MonoBehaviour>();
+            _gridCollisionManager = componentsInChildren.OfType<IGridCollisionManager>().First();
+            _gameCameraController = componentsInChildren.OfType<IGameCameraController>().First();
         }
     }
 }
