@@ -10,24 +10,21 @@ namespace Tofunaut.TofuRPG
         EAppState IAppStateMachine.CurrentAppState => _currentAppState;
 
         private EAppState _currentAppState;
-        private IInitializationState _initalizationState;
-        private IStartScreenState _startScreenState;
+        private IInitializationController _initalizationState;
+        private IStartScreenController _startScreenState;
         private IInGameState _inGameState;
 
-        private void Start()
+        protected override void Awake()
         {
-            _initalizationState = _states.OfType<IInitializationState>().FirstOrDefault();
-            _startScreenState = _states.OfType<IStartScreenState>().FirstOrDefault();
+            base.Awake();
+
+            _initalizationState = _states.OfType<IInitializationController>().FirstOrDefault();
+            _startScreenState = _states.OfType<IStartScreenController>().FirstOrDefault();
             _inGameState = _states.OfType<IInGameState>().FirstOrDefault();
 
-            _initalizationState.OnComplete += InitalizationState_OnComplete;
-
             EnterState(EAppState.Initialization);
-        }
 
-        private void OnDestroy()
-        {
-            _initalizationState.OnComplete -= InitalizationState_OnComplete;
+            DontDestroyOnLoad(gameObject);
         }
 
         public void EnterState(EAppState state)
@@ -52,10 +49,12 @@ namespace Tofunaut.TofuRPG
                     }
                     else
                     {
+                        _initalizationState.OnComplete += InitalizationState_OnComplete;
                         TransitionTo((_initalizationState as MonoBehaviour).name);
                     }
                     break;
                 case EAppState.StartScreen:
+                    _startScreenState.EnterGameRequested += StartScreenState_EnterGameRequested;
                     TransitionTo((_startScreenState as MonoBehaviour).name);
                     break;
                 case EAppState.InGame:
@@ -69,6 +68,16 @@ namespace Tofunaut.TofuRPG
 
             if (succesful)
             {
+                switch (_currentAppState)
+                {
+                    case EAppState.Initialization:
+                        _initalizationState.OnComplete -= InitalizationState_OnComplete;
+                        break;
+                    case EAppState.StartScreen:
+                        _startScreenState.EnterGameRequested -= StartScreenState_EnterGameRequested;
+                        break;
+                }
+
                 _currentAppState = state;
             }
         }
@@ -76,6 +85,11 @@ namespace Tofunaut.TofuRPG
         private void InitalizationState_OnComplete(object sender, EventArgs e)
         {
             EnterState(EAppState.StartScreen);
+        }
+
+        private void StartScreenState_EnterGameRequested(object sender, EventArgs e)
+        {
+            EnterState(EAppState.InGame);
         }
     }
 }

@@ -9,9 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6201439408236401362}
+  - component: {fileID: 1034828457546931166}
   - component: {fileID: 1395622873239389785}
   - component: {fileID: 7446695389935257005}
   - component: {fileID: 5890167050324886569}
+  - component: {fileID: 1620247417847911840}
   m_Layer: 5
   m_Name: branding_splash
   m_TagString: Untagged
@@ -39,6 +41,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1034828457546931166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4472226697632145363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183f1ca28e834874d8abde35004c42ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
 --- !u!114 &1395622873239389785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55,7 +72,7 @@ MonoBehaviour:
   lingerLength: 2
   fadeOutLength: 1
   canSkip: 1
-  OnSkip:
+  OnComplete:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3213617607542784555}
@@ -113,7 +130,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1395622873239389785}
-        m_MethodName: Skip
+        m_MethodName: Complete
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -135,6 +152,14 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!222 &1620247417847911840
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4472226697632145363}
+  m_CullTransparentMesh: 0
 --- !u!1 &4610779770714514543
 GameObject:
   m_ObjectHideFlags: 0

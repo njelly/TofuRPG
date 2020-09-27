@@ -12,7 +12,7 @@ namespace Tofunaut.TofuRPG
         public float lingerLength = 2;
         public float fadeOutLength = 1;
         public bool canSkip = true;
-        public UnityEvent OnSkip;
+        public UnityEvent OnComplete;
 
         private CanvasGroup _canvasGroup;
         private TofuAnimator.Sequence _sequence;
@@ -39,16 +39,16 @@ namespace Tofunaut.TofuRPG
                 .Then()
                 .Execute(() =>
                 {
-                    Skip();
+                    Complete();
                 });
 
             _sequence.Play();
         }
 
-        public void Skip()
+        public void Complete()
         {
             _sequence.Stop();
-            OnSkip?.Invoke();
+            OnComplete?.Invoke();
         }
     }
 }
