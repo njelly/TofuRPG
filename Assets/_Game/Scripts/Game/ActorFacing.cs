@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Tofunaut.TofuRPG.Game
 {
     [RequireComponent(typeof(Actor))]
-    public class ActorFacing : MonoBehaviour, Actor.IActorInputReceiver
+    public class ActorFacing : MonoBehaviour, IActorInputReceiver
     {
         public ECardinalDirection4 Direction { get; private set; }
 

@@ -24,6 +24,15 @@ namespace Tofunaut.TofuRPG
         {
             _actorInput.direction.SetDirection(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
 
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                _actorInput.interact.timePressed = Time.time;
+            }
+            else if(Input.GetKeyUp(KeyCode.Space))
+            {
+                _actorInput.interact.timeReleased = Time.time;
+            }
+
             return _actorInput;
         }
     }

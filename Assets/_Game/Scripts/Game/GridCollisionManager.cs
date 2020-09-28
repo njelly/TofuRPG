@@ -148,7 +148,7 @@ namespace Tofunaut.TofuRPG.Game
             return true;
         }
 
-        public List<GridCollider> GetCollidersAt(Vector2Int coord)
+        public GridCollider[] GetCollidersAt(Vector2Int coord)
         {
             Vector2Int adjustedCoord = coord - _offset;
             List<GridCollider> toReturn = new List<GridCollider>();
@@ -156,19 +156,13 @@ namespace Tofunaut.TofuRPG.Game
             {
                 toReturn.AddRange(colliders);
             }
-            return toReturn;
+            return toReturn.ToArray();
         }
 
         public void CenterOn(GridCollider gridCollider)
         {
             centeredOn = gridCollider;
         }
-
-        //public static Vector2Int ConvertToGridPosition(Vector3 position) => ConvertToGridPosition(new Vector3(position.x, position.y));
-        //public static Vector2Int ConvertToGridPosition(Vector2 position)
-        //{
-        //    return new Vector2Int(Mathf.CeilToInt(position.x), Mathf.CeilToInt(position.y));
-        //}
 
         private void RenderQuadTree<T>(Vector2IntQuadTree<T> tree)
         {

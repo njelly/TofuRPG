@@ -5,7 +5,7 @@ using static Tofunaut.TofuUnity.TofuAnimator;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class GridMover : GridCollider, Actor.IActorInputReceiver
+    public class GridMover : GridCollider, IActorInputReceiver
     {
         public ECardinalDirection4 MoveDirection { get; private set; }
         public bool IsMoving => _moveSequence != null;

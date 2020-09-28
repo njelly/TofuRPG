@@ -50,16 +50,6 @@ namespace Tofunaut.TofuRPG.Game
 
     public class Actor : MonoBehaviour
     {
-        public interface IInteractable
-        {
-            void BeginInteraction(Actor actor);
-            void EndInteraction(Actor actor);
-        }
-
-        public interface IActorInputReceiver
-        {
-            void ReceiveActorInput(ActorInput actorInput);
-        }
 
         public IActorInputProvider actorInputProvider;
 
