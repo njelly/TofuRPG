@@ -102,8 +102,7 @@ namespace Tofunaut.TofuRPG.Game
                 return false;
             }
 
-            Remove(gc);
-            Add(gc);
+            _quadTree.Translate(gc, from, to);
 
             return true;
         }

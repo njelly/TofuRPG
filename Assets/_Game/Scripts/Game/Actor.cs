@@ -16,9 +16,9 @@ namespace Tofunaut.TofuRPG.Game
 
             public float TimeHeld => !Held ? 0f : Time.time - timePressed;
 
-            public bool Pressed => Time.time - timePressed < Time.deltaTime;
+            public bool Pressed => Time.time - timePressed <= float.Epsilon;
             public bool Held => timePressed > timeReleased;
-            public bool Released => Time.time - timeReleased < Time.deltaTime;
+            public bool Released => Time.time - timeReleased < float.Epsilon;
         }
 
         public class DirectionButton : Button

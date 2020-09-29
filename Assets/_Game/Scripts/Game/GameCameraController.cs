@@ -19,7 +19,7 @@ namespace Tofunaut.TofuRPG.Game
             _camera = GetComponent<Camera>();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             if (_following)
             {

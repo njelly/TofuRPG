@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Tofunaut.TofuUnity;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ namespace Tofunaut.TofuRPG.Game
     {
         public Actor Actor { get; private set; }
         public IInteractable InteractingWith { get; private set; }
+        public Vector2Int InteractOffset => _interactOffset;
+
+        [SerializeField] private Vector2Int _interactOffset;
 
         private ActorFacing _actorFacing;
         private GridCollider _gridCollider;
@@ -22,16 +26,29 @@ namespace Tofunaut.TofuRPG.Game
             _gridCollider = GetComponent<GridCollider>();
         }
 
+        private void LateUpdate()
+        {
+            if(_actorFacing)
+            {
+                _interactOffset = _actorFacing.Direction.ToVector2Int();
+            }
+        }
+
         public void ReceiveActorInput(ActorInput actorInput)
         {
             if(InteractingWith == null && actorInput.interact.Pressed)
             {
-                Vector2Int interactWithCoord = _gridCollider.Coord + _actorFacing.Direction.ToVector2Int();
-                IInteractable interactable = GameContext.GridCollisionManager.GetCollidersAt(interactWithCoord).OfType<IInteractable>().FirstOrDefault();
-                if (interactable != null)
+                Vector2Int interactWithCoord = _gridCollider.Coord + _interactOffset;
+                GridCollider[] gridColliders = GameContext.GridCollisionManager.GetCollidersAt(interactWithCoord);
+                foreach(GridCollider gc in gridColliders)
                 {
-                    InteractingWith = interactable;
-                    InteractingWith.BeginInteraction(Actor);
+                    IInteractable[] interactables = gc.GetComponents<MonoBehaviour>().OfType<IInteractable>().ToArray();
+                    if(interactables.Length > 0)
+                    {
+                        InteractingWith = interactables[0];
+                        InteractingWith.BeginInteraction(Actor);
+                        break;
+                    }
                 }
             }
             else if (InteractingWith != null && actorInput.interact.Released)
