@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game
@@ -48,12 +49,19 @@ namespace Tofunaut.TofuRPG.Game
         }
     }
 
+    [Flags]
+    public enum EActorFlag
+    {
+        None                = 0,
+        IsInteracting       = 1 << 0,
+    }
+
     public class Actor : MonoBehaviour
     {
-
         public IActorInputProvider actorInputProvider;
 
         private IActorInputReceiver[] _actorInputReceivers;
+        private EActorFlag _flags;
 
         private void Awake()
         {
@@ -79,6 +87,23 @@ namespace Tofunaut.TofuRPG.Game
             {
                 receiver.ReceiveActorInput(actorInput);
             }
+        }
+
+        public void SetFlag(EActorFlag flag, bool on)
+        {
+            if(on)
+            {
+                _flags |= flag;
+            }
+            else
+            {
+                _flags &= ~flag;
+            }
+        }
+
+        public bool GetFlag(EActorFlag flag)
+        {
+            return (_flags & flag) != 0;
         }
     }
 }

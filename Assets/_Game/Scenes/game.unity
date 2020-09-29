@@ -3047,6 +3047,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f09e95d038778184ba2074c2f2674364, type: 3}
+--- !u!1 &1355038430 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8326068375403773195, guid: 19d385e4ad638e74384bb7b2544cac25,
+    type: 3}
+  m_PrefabInstance: {fileID: 8326068373616476595}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1362234737 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7159870411276746302, guid: f09e95d038778184ba2074c2f2674364,
@@ -4369,6 +4375,11 @@ PrefabInstance:
       propertyPath: m_ForceIntoRT
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4004638636455326731, guid: 3ff618a1a64555f4fac72eed574f31a4,
+        type: 3}
+      propertyPath: _following
+      value: 
+      objectReference: {fileID: 1355038430}
     - target: {fileID: 4004638636455326964, guid: 3ff618a1a64555f4fac72eed574f31a4,
         type: 3}
       propertyPath: m_CropFrameX
@@ -4410,6 +4421,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 79040546}
     m_Modifications:
+    - target: {fileID: 6955584608700426840, guid: 19d385e4ad638e74384bb7b2544cac25,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7272518002593181536, guid: 19d385e4ad638e74384bb7b2544cac25,
         type: 3}
       propertyPath: m_SortingOrder

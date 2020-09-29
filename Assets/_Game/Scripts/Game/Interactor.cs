@@ -46,6 +46,7 @@ namespace Tofunaut.TofuRPG.Game
                     if(interactables.Length > 0)
                     {
                         InteractingWith = interactables[0];
+                        Actor.SetFlag(EActorFlag.IsInteracting, true);
                         InteractingWith.BeginInteraction(Actor);
                         break;
                     }
@@ -54,6 +55,7 @@ namespace Tofunaut.TofuRPG.Game
             else if (InteractingWith != null && actorInput.interact.Released)
             {
                 InteractingWith.EndInteraction(Actor);
+                Actor.SetFlag(EActorFlag.IsInteracting, false);
                 InteractingWith = null;
             }
         }
