@@ -1,0 +1,46 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+namespace Tofunaut.TofuRPG.UI
+{
+    public class SplashSequencer : MonoBehaviour
+    {
+        public bool IsComplete { get; private set; }
+
+        public List<SplashImage> splashImages;
+        public UnityEvent OnComplete;
+
+        private int _splashIndex;
+
+        private void Awake()
+        {
+            foreach (var splashImage in splashImages)
+                splashImage.gameObject.SetActive(false);
+
+            _splashIndex = -1;
+            Next();
+        }
+
+        public void Next()
+        {
+            if (_splashIndex >= 0)
+                splashImages[_splashIndex].gameObject.SetActive(false);
+
+            _splashIndex++;
+            if (_splashIndex >= splashImages.Count && !IsComplete)
+            {
+                Complete();
+                return;
+            }
+
+            splashImages[_splashIndex].gameObject.SetActive(true);
+        }
+
+        private void Complete()
+        {
+            IsComplete = true;
+            OnComplete?.Invoke();
+        }
+    }
+}

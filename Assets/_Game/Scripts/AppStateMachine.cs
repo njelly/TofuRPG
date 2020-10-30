@@ -1,93 +1,45 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using Tofunaut.TofuUnity;
 using UnityEngine;
 
 namespace Tofunaut.TofuRPG
 {
-    public class AppStateMachine : TofuStateMachine, IAppStateMachine
+    public class AppStateMachine : MonoBehaviour
     {
-        EAppState IAppStateMachine.CurrentAppState => _currentAppState;
+        [Header("Development")]
+        [SerializeField] private bool _skipSplash;
 
-        private EAppState _currentAppState;
-        private IInitializationController _initalizationState;
-        private IStartScreenController _startScreenState;
-        private IInGameState _inGameState;
+        public LogService log;
+        private AppState<SplashScreenStateController> _splashState;
+        private AppState<StartScreenStateController> _startScreenState;
 
-        protected override void Awake()
+        private void Start()
         {
-            base.Awake();
+            _splashState = new AppState<SplashScreenStateController>(log, AppConsts.Scenes.Splash);
+            _splashState.OnComplete += SplashState_OnComplete;
 
-            _initalizationState = _states.OfType<IInitializationController>().FirstOrDefault();
-            _startScreenState = _states.OfType<IStartScreenController>().FirstOrDefault();
-            _inGameState = _states.OfType<IInGameState>().FirstOrDefault();
+            _startScreenState = new AppState<StartScreenStateController>(log, AppConsts.Scenes.StartScreen);
+            _startScreenState.OnComplete += StartScreenState_OnComplete;
 
-            EnterState(EAppState.Initialization);
+            _splashState.Enter();
         }
 
-        public void EnterState(EAppState state)
+        private void OnDestroy()
         {
-            if (_currentAppState == state)
-            {
-                return;
-            }
-
-            bool succesful = true;
-            switch (state)
-            {
-                case EAppState.None:
-                    AppContext.Log.Error($"Cannot transition to state {state}");
-                    succesful = false;
-                    break;
-                case EAppState.Initialization:
-                    if (_initalizationState.IsComplete)
-                    {
-                        AppContext.Log.Error($"Initalization state has already completed");
-                        succesful = false;
-                    }
-                    else
-                    {
-                        _initalizationState.OnComplete += InitalizationState_OnComplete;
-                        TransitionTo((_initalizationState as MonoBehaviour).name);
-                    }
-                    break;
-                case EAppState.StartScreen:
-                    _startScreenState.EnterGameRequested += StartScreenState_EnterGameRequested;
-                    TransitionTo((_startScreenState as MonoBehaviour).name);
-                    break;
-                case EAppState.InGame:
-                    TransitionTo((_inGameState as MonoBehaviour).name);
-                    break;
-                default:
-                    AppContext.Log.Error($"The state {state} has not not been implemented");
-                    succesful = false;
-                    break;
-            }
-
-            if (succesful)
-            {
-                switch (_currentAppState)
-                {
-                    case EAppState.Initialization:
-                        _initalizationState.OnComplete -= InitalizationState_OnComplete;
-                        break;
-                    case EAppState.StartScreen:
-                        _startScreenState.EnterGameRequested -= StartScreenState_EnterGameRequested;
-                        break;
-                }
-
-                _currentAppState = state;
-            }
+            _splashState.OnComplete -= SplashState_OnComplete;
+            _startScreenState.OnComplete -= StartScreenState_OnComplete;
         }
 
-        private void InitalizationState_OnComplete(object sender, EventArgs e)
+        private void SplashState_OnComplete(object sender, EventArgs e)
         {
-            EnterState(EAppState.StartScreen);
+            _splashState.Exit();
+            _startScreenState.Enter();
         }
 
-        private void StartScreenState_EnterGameRequested(object sender, EventArgs e)
+        private void StartScreenState_OnComplete(object sender, EventArgs e)
         {
-            EnterState(EAppState.InGame);
+            _startScreenState.Exit();
         }
     }
 }

@@ -6,27 +6,25 @@ namespace Tofunaut.TofuRPG
 {
     public class AppContext : SingletonBehaviour<AppContext>
     {
-        public static ITofuLogger Log => _instance._log;
-        public static TofuVersion AppVersion => _instance._appVersionProvider.Version;
-
-        protected override bool DestroyGameObjectWhenInstanceExists => true;
-        protected override bool SetDontDestroyOnLoad => true;
-
-        private ITofuLogger _log;
-        private ITofuVersionProvider _appVersionProvider;
+        private IVersionProvider _versionProvider;
+        private LogService _log;
+        private AppStateMachine _appStateMachine;
 
         protected override void Awake()
         {
-            base.Awake();
+            DontDestroyOnLoad(gameObject);
 
-            MonoBehaviour[] components = GetComponents<MonoBehaviour>();
-            _log = components.OfType<ITofuLogger>().FirstOrDefault();
-            _appVersionProvider = components.OfType<ITofuVersionProvider>().FirstOrDefault();
-        }
+            var components = GetComponents<MonoBehaviour>();
 
-        private void Start()
-        {
-            Log.Info($"TofuRPG {_appVersionProvider.Version} (c) Tofunaut 2020");
+            _log = new LogService();
+            _log.Register(new UnityLogger());
+            _log.Register(components.OfType<UnityGUILogger>().FirstOrDefault());
+
+            _versionProvider = components.OfType<IVersionProvider>().FirstOrDefault();
+            _log.Info($"TofuRPG {_versionProvider.Version} (c) Tofunaut 2020");
+
+            _appStateMachine = components.OfType<AppStateMachine>().FirstOrDefault();
+            _appStateMachine.log = _log;
         }
     }
-} 
+}
