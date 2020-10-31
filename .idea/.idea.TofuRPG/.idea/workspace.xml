@@ -20,24 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="80bcfd52-d4ce-4144-b107-8e5932419015" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/ActorInput.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/ActorInput.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GridCollider.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GridCollider.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GridCollisionManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GridCollisionManager.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GridMover.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GridMover.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/SpriteFlipXForGridMover.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.TofuRPG/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TofuRPG/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.TofuRPG/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TofuRPG/.idea/indexLayout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.TofuRPG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TofuRPG/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Game/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Prefabs/Game/Player.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/InGameStateController.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Prefabs/InGameStateController.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scenes/game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scenes/game.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interfaces/IActorInputProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interfaces/IActorInputProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/PlayerActorInputProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/PlayerActorInputProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/UI/SplashSequencer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/UI/SplashSequencer.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +38,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/_Game/Scripts/AppContext.cs" />
-        <option value="$PROJECT_DIR$/Assets/_Game/Scripts/UI/SplashSequencer.cs" />
         <option value="$PROJECT_DIR$/Assets/_Game/Scripts/Game/PlayerActor.cs" />
         <option value="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interfaces/IActorInputProvider.cs" />
         <option value="$PROJECT_DIR$/Assets/_Game/Scripts/Game/PlayerActorInputProvider.cs" />
@@ -65,6 +47,7 @@
         <option value="$PROJECT_DIR$/Assets/_Game/Scripts/Game/SpriteFlipXForGridMover.cs" />
         <option value="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GridCollider.cs" />
         <option value="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GridCollisionManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/_Game/Scripts/UI/SplashSequencer.cs" />
       </list>
     </option>
   </component>
@@ -109,7 +92,7 @@
       <updated>1604032492742</updated>
       <workItem from="1604032499703" duration="1000" />
       <workItem from="1604032726745" duration="86000" />
-      <workItem from="1604163826842" duration="7539000" />
+      <workItem from="1604163826842" duration="7859000" />
     </task>
     <servers />
   </component>
