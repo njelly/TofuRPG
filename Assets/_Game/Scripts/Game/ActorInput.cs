@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game
 {    
+    [Serializable]
     public class ActorInput
     {
         public readonly DirectionButton Direction;
@@ -13,6 +15,7 @@ namespace Tofunaut.TofuRPG.Game
             Interact = new Button();
         }
 
+        [Serializable]
         public class Button
         {
             public float TimePressed;
@@ -20,11 +23,12 @@ namespace Tofunaut.TofuRPG.Game
 
             public float TimeHeld => !Held ? 0f : Time.time - TimePressed;
 
-            public bool Pressed => Time.time - TimePressed <= float.Epsilon;
-            public bool Held => TimePressed > TimeReleased;
-            public bool Released => Time.time - TimeReleased < float.Epsilon;
+            public bool Pressed => Mathf.Abs(Time.time - Time.deltaTime) <= float.Epsilon;
+            public bool Held => TimePressed >= TimeReleased;
+            public bool Released => Mathf.Abs(Time.time - Time.deltaTime) <= float.Epsilon;
         }
 
+        [Serializable]
         public class DirectionButton : Button
         {
             public Vector2 Direction { get; private set; } = Vector2.zero;

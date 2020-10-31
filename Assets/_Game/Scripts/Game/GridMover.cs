@@ -7,9 +7,9 @@ using static Tofunaut.TofuUnity.TofuAnimator;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class GridMover : GridCollider
+    public class GridMover : GridCollider, IFacing
     {
-        public ECardinalDirection4 MoveDirection { get; private set; }
+        public ECardinalDirection4 Facing { get; private set; }
         public bool IsMoving => _moveSequence != null;
 
         [Header("Movement")]
@@ -29,23 +29,33 @@ namespace Tofunaut.TofuRPG.Game
         {
             base.Update();
             
+            ProcessActorInput();
+        }
+
+        private void ProcessActorInput()
+        {
             if (_actorInputProvider == null)
                 return;
-
+            
             var actorInput = _actorInputProvider.ActorInput;
-            if (actorInput.Direction.Direction.HasLength())
-                TryMoveTo(Coord + actorInput.Direction.Direction.ToCardinalDirection4().ToVector2Int());
+            if (!actorInput.Direction.Direction.HasLength()) 
+                return;
+            
+            var newCoord = Coord + actorInput.Direction.Direction.ToCardinalDirection4().ToVector2Int();
+            if (_moveSequence == null)
+                Facing = ((Vector2)(newCoord - Coord)).ToCardinalDirection4();
+            if (actorInput.Direction.TimeHeld > moveHesitationTime)
+                TryMoveTo(newCoord);
         }
 
         public override bool TryMoveTo(Vector2Int newCoord)
         {
             var prevCoord = Coord;
-
             if (_moveSequence != null)
                 // can't move while animation is playing
                 return false;
-
-            MoveDirection = ((Vector2)(newCoord - prevCoord)).ToCardinalDirection4();
+            
+            Facing = ((Vector2)(newCoord - prevCoord)).ToCardinalDirection4();
 
             if (!base.TryMoveTo(newCoord))
                 return false;
@@ -59,6 +69,7 @@ namespace Tofunaut.TofuRPG.Game
                 .Execute(() =>
                 {
                     _moveSequence = null;
+                    ProcessActorInput();
                 });
             _moveSequence.Play();
 

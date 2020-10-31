@@ -77,6 +77,9 @@ namespace Tofunaut.TofuRPG.Game
 
         public static void Remove(GridCollider gc)
         {
+            if (!_instance)
+                return;
+            
             _instance._gridColliders.Remove(gc);
 
             var min = _instance._size / -2;

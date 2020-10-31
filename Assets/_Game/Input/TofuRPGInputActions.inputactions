@@ -15,7 +15,7 @@
                 },
                 {
                     "name": "Interact",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "53690d9d-1f8d-41d3-96c1-26bc2793fdc0",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -157,11 +157,11 @@
                 },
                 {
                     "name": "",
-                    "id": "d3578883-0ea0-4f4e-b0df-a26180a45afb",
-                    "path": "*/{Submit}",
+                    "id": "c0c53fa2-eda6-48c2-a67b-af96d4f77f1b",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse;Gamepad",
+                    "groups": "",
                     "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false

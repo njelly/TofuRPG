@@ -1,19 +1,30 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using Tofunaut.TofuRPG.Game.Interfaces;
+using UnityEngine;
 using Tofunaut.TofuUnity;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class SpriteFlipXForGridMover : MonoBehaviour
+    public class SpriteFlipXForFacing : MonoBehaviour
     {
         public SpriteRenderer spriteRenderer;
-        public GridMover gridMover;
+        public GameObject facingRoot;
+
+        private IFacing _facing;
+
+        private void Awake()
+        {
+            var components = facingRoot.GetComponents<MonoBehaviour>();
+            _facing = components.OfType<IFacing>().FirstOrDefault();
+        }
 
         private void LateUpdate()
         {
-            if (!spriteRenderer || !gridMover)
+            if (!spriteRenderer || _facing == null)
                 return;
             
-            switch (gridMover.MoveDirection)
+            switch (_facing.Facing)
             {
                 case ECardinalDirection4.East when spriteRenderer.flipX:
                     spriteRenderer.flipX = false;

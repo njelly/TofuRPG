@@ -7,11 +7,6 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="_Game" t="Include">
-          <e p="Scenes" t="Include">
-            <e p="StreamingAssets" t="Include">
-              <e p="BuildNumber.txt" t="Include" />
-            </e>
-          </e>
           <e p="Scripts" t="Include">
             <e p="AppConsts.cs" t="Include" />
             <e p="AppState.cs" t="Include" />
@@ -20,14 +15,21 @@
             <e p="AppVersionProviderAsset.cs" t="Include" />
             <e p="Game" t="Include">
               <e p="ActorInput.cs" t="Include" />
+              <e p="GameCameraController.cs" t="Include" />
               <e p="GridCollider.cs" t="Include" />
               <e p="GridCollisionManager.cs" t="Include" />
               <e p="GridMover.cs" t="Include" />
+              <e p="Interactor.cs" t="Include" />
+              <e p="InteractorReticle.cs" t="Include" />
               <e p="Interfaces" t="Include">
                 <e p="IActorInputProvider.cs" t="Include" />
+                <e p="ICoordProvider.cs" t="Include" />
+                <e p="IFacing.cs" t="Include" />
+                <e p="IInteractable.cs" t="Include" />
               </e>
               <e p="PlayerActorInputProvider.cs" t="Include" />
-              <e p="SpriteFlipXForGridMover.cs" t="Include" />
+              <e p="SignPost.cs" t="Include" />
+              <e p="SpriteFlipXForFacing.cs" t="Include" />
             </e>
             <e p="InGameStateController.cs" t="Include" />
             <e p="SplashScreenStateController.cs" t="Include" />

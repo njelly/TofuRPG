@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Tofunaut.TofuRPG.Game.Interfaces;
+using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class GridCollider : MonoBehaviour
+    public class GridCollider : MonoBehaviour, ICoordProvider
     {
         public Vector2Int Coord { get; protected set; }
         public Vector2Int Size => _size;
