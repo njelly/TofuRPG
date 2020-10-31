@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7448415079455928182}
   - component: {fileID: 7448415079455928183}
+  - component: {fileID: 2389393712331433365}
   m_Layer: 0
   m_Name: InGameStateController
   m_TagString: Untagged
@@ -46,3 +47,18 @@ MonoBehaviour:
   OnComplete:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2389393712331433365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7448415079455928201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc22a1b9b2444db08c946c53670c64b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _size: {x: 64, y: 64}
+  _recenterInterval: {x: 16, y: 16}
+  centeredOn: {fileID: 0}

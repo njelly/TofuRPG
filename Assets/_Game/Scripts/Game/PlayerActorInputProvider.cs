@@ -51,17 +51,17 @@ namespace Tofunaut.TofuRPG.Game
         private void MoveAction(InputAction.CallbackContext context)
         {
             if (context.started || context.performed)
-                ActorInput.direction = context.ReadValue<Vector2>();
+                ActorInput.Direction.SetDirection(context.ReadValue<Vector2>());
             if (context.canceled)
-                ActorInput.direction = Vector2.zero;
+                ActorInput.Direction.SetDirection(Vector2.zero);
         }
 
         private void InteractAction(InputAction.CallbackContext context)
         {
-            if (context.started || context.performed)
-                ActorInput.interact = true;
+            if (context.started)
+                ActorInput.Interact.TimePressed = Time.time;
             if (context.canceled)
-                ActorInput.interact = false;
+                ActorInput.Interact.TimeReleased = Time.time;
         }
     }
 }

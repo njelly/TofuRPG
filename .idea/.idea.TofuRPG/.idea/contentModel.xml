@@ -13,10 +13,15 @@
             <e p="AppStateController.cs" t="Include" />
             <e p="AppStateMachine.cs" t="Include" />
             <e p="Game" t="Include">
+              <e p="ActorInput.cs" t="Include" />
+              <e p="GridCollider.cs" t="Include" />
+              <e p="GridCollisionManager.cs" t="Include" />
+              <e p="GridMover.cs" t="Include" />
               <e p="Interfaces" t="Include">
                 <e p="IActorInputProvider.cs" t="Include" />
               </e>
               <e p="PlayerActorInputProvider.cs" t="Include" />
+              <e p="SpriteFlipXForGridMover.cs" t="Include" />
             </e>
             <e p="InGameStateController.cs" t="Include" />
             <e p="SplashScreenStateController.cs" t="Include" />
