@@ -1,150 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="80bcfd52-d4ce-4144-b107-8e5932419015" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/SignPost.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SignPost.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Prefabs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/ActorBehaviours.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/ActorBehaviours/WandererBehaviour.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/ActorBehaviours/WandererBehaviour.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/AppContext.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Prefabs/AppContext.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/AppContext.prefab.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Prefabs/AppContext.prefab.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/AppStateMachine.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/AppStateMachine.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Game.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Game/GameContext.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Game/GameContext.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Game/PlayerActor.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Game/PlayerActor.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Chest.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Chest/AudioCue_Chest_Open.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Chest/AudioCue_Chest_Open.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Chest/Chest.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Chest/Chest.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Chest/Chest_AC.controller" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Chest/Chest_AC.controller.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Chest/Chest_Closed.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Chest/Chest_Closed.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Chest/Chest_Opened.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Chest/Chest_Opened.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Chest/SFX_Chest_Open.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Chest/SFX_Chest_Open.wav.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Dummy.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Dummy/AudioCue_Dummy_Poke.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Dummy/AudioCue_Dummy_Poke.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Dummy/Dummy.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Dummy/Dummy.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Dummy/SFX_Dummy_Poke.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Dummy/SFX_Dummy_Poke.wav.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost/AudioCue_SignPost_TypeWriter.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost/AudioCue_SignPost_TypeWriter.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost/DialogLIne_SignPostDefault.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost/DialogLIne_SignPostDefault.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost/SFX_SignPost_TypeWriter_0.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost/SFX_SignPost_TypeWriter_0.wav.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost/SFX_SignPost_TypeWriter_1.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost/SFX_SignPost_TypeWriter_1.wav.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost/SFX_SignPost_TypeWriter_2.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost/SFX_SignPost_TypeWriter_2.wav.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost/SFX_SignPost_TypeWriter_3.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost/SFX_SignPost_TypeWriter_3.wav.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost/SignPost.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/SignPost/SignPost.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Tree.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Tree/Tree.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Props/Tree/Tree.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/UI.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/UI/InGameHUD.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/UI/InGameHUD.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/UI/InitializationView.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/UI/InitializationView.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/UI/StartScreenRootView.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/UI/StartScreenRootView.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Weapons.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Weapons/DefaultMelee.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Weapons/DefaultMelee/Attack_DefaultMelee.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Weapons/DefaultMelee/Attack_DefaultMelee.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Weapons/DefaultMelee/DefaultMelee.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/Weapons/DefaultMelee/DefaultMelee.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TofuRPG/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TofuRPG/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TofuRPG/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TofuRPG/.idea/indexLayout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TofuRPG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TofuRPG/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/AppContext.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Game/Prefabs/AppContext.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Game/Scenes/game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scenes/game.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scenes/start.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scenes/start.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scripts.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/AppConsts.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/AppConsts.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/AppContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/AppContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/AppContext.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/AppContext.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/AppStateMachine.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/AppStateMachine.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Actor.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Actor.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/ActorFacing.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/ActorFacing.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/ActorView.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/ActorView.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/DamageMatrix.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/DamageMatrix.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/DialogLineAsset.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/DialogLineAsset.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GameCameraController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GameCameraController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GameContext.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GameContext.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GridCollider.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GridCollider.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GridCollisionManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GridCollisionManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GridMover.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/GridMover.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interactor.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interactor.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/InteractorView.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/InteractorView.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interfaces.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interfaces/IActorInputProvider.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interfaces/IActorInputProvider.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interfaces/IActorInputReceiver.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interfaces/IActorInputReceiver.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interfaces/IGameCameraController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interfaces/IGameCameraController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interfaces/IGridCollisionManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interfaces/IGridCollisionManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interfaces/IInteractable.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/Interfaces/IInteractable.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/PlayAudioCue.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/PlayAudioCue.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/PlayerActorInput.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Game/PlayerActorInput.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/InGameState.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/InGameState.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/InitializationController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/InitializationController.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scenes/init.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scenes/init.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scenes/splash.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scenes/splash.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scenes/startscreen.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scenes/startscreen.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/AppConsts.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/AppConsts.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/AppContext.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/AppContext.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/AppState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/AppState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/AppStateController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/AppStateController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/AppStateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/AppStateMachine.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Interfaces.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Interfaces/IAppStateMachine.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Interfaces/IAppStateMachine.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Interfaces/IInitializationController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Interfaces/IInitializationController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Interfaces/IStartScreenController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Interfaces/IStartScreenController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Interfaces/IStartScreenRootController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/Interfaces/IStartScreenRootController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/StartScreenController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/StartScreenController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/StartScreenRootController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/StartScreenRootController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/UI.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/UI/InitializationView.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/UI/InitializationView.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/UI/StartScreenRootView.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/UI/StartScreenRootView.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/UI/UISplashScreen.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/UI/UISplashScreen.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Game/Scripts/UI/SplashSequencer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Game/Scripts/UI/SplashSequencer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,10 +50,16 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/_Game/Scripts/Game/PlayerActorInputProvider.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/_Game/Scripts/AppContext.cs" />
+        <option value="$PROJECT_DIR$/Assets/_Game/Scripts/UI/SplashSequencer.cs" />
+        <option value="$PROJECT_DIR$/Assets/_Game/Scripts/Game/PlayerActor.cs" />
+        <option value="$PROJECT_DIR$/Assets/_Game/Scripts/Game/PlayerActorInputProvider.cs" />
       </list>
     </option>
   </component>
@@ -202,6 +104,7 @@
       <updated>1604032492742</updated>
       <workItem from="1604032499703" duration="1000" />
       <workItem from="1604032726745" duration="86000" />
+      <workItem from="1604163826842" duration="2053000" />
     </task>
     <servers />
   </component>
@@ -210,7 +113,24 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="93" y="100" width="1142" height="1207" key="VCS.FileHistoryDialog" timestamp="1604164749015">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="93" y="100" width="1142" height="1207" key="VCS.FileHistoryDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1604164749015" />
   </component>
 </project>

@@ -9,14 +9,12 @@ namespace Tofunaut.TofuUnity
     {
         public event EventHandler OnComplete;
 
-        private readonly LogService _log;
         private readonly int _sceneIndex;
 
         private T _stateController;
 
-        public AppState(LogService log, int sceneIndex)
+        public AppState(int sceneIndex)
         {
-            _log = log;
             _sceneIndex = sceneIndex;
         }
 
@@ -40,7 +38,6 @@ namespace Tofunaut.TofuUnity
 
             _stateController = UnityEngine.Object.FindObjectOfType<T>();
             _stateController.OnComplete.AddListener(() => { OnComplete?.Invoke(this, EventArgs.Empty); });
-            _stateController.log = _log;
         }
 
         private void OnSceneUnloaded(Scene scene)

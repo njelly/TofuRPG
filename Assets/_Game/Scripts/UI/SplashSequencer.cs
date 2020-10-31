@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 namespace Tofunaut.TofuRPG.UI
 {
@@ -25,7 +27,10 @@ namespace Tofunaut.TofuRPG.UI
         public void Next()
         {
             if (_splashIndex >= 0)
+            {
                 splashImages[_splashIndex].gameObject.SetActive(false);
+                EventSystem.current.SetSelectedGameObject(splashImages[_splashIndex].gameObject);
+            }
 
             _splashIndex++;
             if (_splashIndex >= splashImages.Count && !IsComplete)

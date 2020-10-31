@@ -8,7 +8,23 @@
       <e p="Assets" t="Include">
         <e p="_Game" t="Include">
           <e p="Scripts" t="Include">
-            <e p="AppContext.cs" t="Include" />
+            <e p="AppConsts.cs" t="Include" />
+            <e p="AppState.cs" t="Include" />
+            <e p="AppStateController.cs" t="Include" />
+            <e p="AppStateMachine.cs" t="Include" />
+            <e p="Game" t="Include">
+              <e p="Interfaces" t="Include">
+                <e p="IActorInputProvider.cs" t="Include" />
+              </e>
+              <e p="PlayerActorInputProvider.cs" t="Include" />
+            </e>
+            <e p="InGameStateController.cs" t="Include" />
+            <e p="SplashScreenStateController.cs" t="Include" />
+            <e p="StartScreenStateController.cs" t="Include" />
+            <e p="UI" t="Include">
+              <e p="SplashImage.cs" t="Include" />
+              <e p="SplashSequencer.cs" t="Include" />
+            </e>
           </e>
         </e>
         <e p="StreamingAssets" t="Include">
