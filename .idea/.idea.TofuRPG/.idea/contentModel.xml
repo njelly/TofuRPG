@@ -7,11 +7,17 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="_Game" t="Include">
+          <e p="Scenes" t="Include">
+            <e p="StreamingAssets" t="Include">
+              <e p="BuildNumber.txt" t="Include" />
+            </e>
+          </e>
           <e p="Scripts" t="Include">
             <e p="AppConsts.cs" t="Include" />
             <e p="AppState.cs" t="Include" />
             <e p="AppStateController.cs" t="Include" />
             <e p="AppStateMachine.cs" t="Include" />
+            <e p="AppVersionProviderAsset.cs" t="Include" />
             <e p="Game" t="Include">
               <e p="ActorInput.cs" t="Include" />
               <e p="GridCollider.cs" t="Include" />
@@ -27,6 +33,7 @@
             <e p="SplashScreenStateController.cs" t="Include" />
             <e p="StartScreenStateController.cs" t="Include" />
             <e p="UI" t="Include">
+              <e p="AppVersionLabel.cs" t="Include" />
               <e p="SplashImage.cs" t="Include" />
               <e p="SplashSequencer.cs" t="Include" />
             </e>

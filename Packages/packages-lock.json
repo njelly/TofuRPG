@@ -7,7 +7,7 @@
       "dependencies": {
         "com.unity.addressables": "1.15.1"
       },
-      "hash": "6c617e53d36e60a224193d498814cb3132c2b3ba"
+      "hash": "a5adbec0ead6da256b0bf462c01a19a7c84ab88a"
     },
     "com.unity.2d.animation": {
       "version": "3.2.5",
