@@ -8,15 +8,6 @@ namespace Tofunaut.TofuRPG.Game
     {
         public Vector3 offset;
         public Transform target;
-        public float lerpToTargetTime;
-
-        private Vector3 _defaultOffset;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            _defaultOffset = offset;
-        }
 
         public void LateUpdate()
         {
@@ -40,16 +31,6 @@ namespace Tofunaut.TofuRPG.Game
                 return;
 
             _instance.target = target;
-            var startOffset = _instance.target.position - _instance.transform.position;
-            var endOffset = _instance._defaultOffset;
-            _instance.offset = startOffset;
-            Debug.Log(startOffset);
-            _instance.gameObject.Sequence()
-                .Curve(TofuAnimator.EEaseType.EaseOutExpo, _instance.lerpToTargetTime, newValue =>
-                {
-                    _instance.offset = Vector3.Lerp(startOffset, endOffset, newValue);
-                })
-                .Play();
         }
     }
 }

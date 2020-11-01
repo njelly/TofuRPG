@@ -1,5 +1,6 @@
 ﻿using System;
 using Tofunaut.TofuUnity;
+using Tofunaut.TofuUnity.Interfaces;
 using UnityEngine;
 using Version = Tofunaut.TofuUnity.Version;
 

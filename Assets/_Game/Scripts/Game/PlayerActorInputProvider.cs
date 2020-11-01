@@ -6,62 +6,26 @@ using UnityEngine.InputSystem;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class PlayerActorInputProvider : MonoBehaviour, IActorInputProvider
+    public class PlayerActorInputProvider : MonoBehaviour, IActorInputProvider, IActorInputReceiver
     {
         public ActorInput ActorInput { get; private set; }
 
-        public AssetReference inputAssetReference;
-
-        private InputActionAsset _inputActionAsset;
-        private InputAction _moveAction;
-        private InputAction _interactAction;
+        public bool registerWithManagerOnStart;
 
         private void Awake()
         {
             ActorInput = new ActorInput();
         }
 
-        private async void Start()
+        public void Start()
         {
-            _inputActionAsset = await Addressables.LoadAssetAsync<InputActionAsset>(inputAssetReference).Task;
-            _inputActionAsset.Enable();
-
-            _moveAction = _inputActionAsset.FindAction("Move");
-            _moveAction.started += MoveAction;
-            _moveAction.performed += MoveAction;
-            _moveAction.canceled += MoveAction;
-
-            _interactAction = _inputActionAsset.FindAction("Interact");
-            _interactAction.started += InteractAction;
-            _interactAction.performed += InteractAction;
-            _interactAction.canceled += InteractAction;
+            if (registerWithManagerOnStart)
+                PlayerActorInputManager.Add(this);
         }
 
-        private void OnDestroy()
+        public void ReceiveActorInput(ActorInput actorInput)
         {
-            _moveAction.started -= MoveAction;
-            _moveAction.performed -= MoveAction;
-            _moveAction.canceled -= MoveAction;
-            
-            _interactAction.started -= MoveAction;
-            _interactAction.performed -= MoveAction;
-            _interactAction.canceled -= MoveAction;
-        }
-
-        private void MoveAction(InputAction.CallbackContext context)
-        {
-            if (context.started || context.performed)
-                ActorInput.Direction.SetDirection(context.ReadValue<Vector2>());
-            if (context.canceled)
-                ActorInput.Direction.SetDirection(Vector2.zero);
-        }
-
-        private void InteractAction(InputAction.CallbackContext context)
-        {
-            if (context.started)
-                ActorInput.Interact.TimePressed = Time.time;
-            if (context.canceled)
-                ActorInput.Interact.TimeReleased = Time.time;
+            ActorInput = actorInput;
         }
     }
 }

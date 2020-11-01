@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7448415079455928182}
   - component: {fileID: 7448415079455928183}
   - component: {fileID: 2389393712331433365}
+  - component: {fileID: 5960512926829082881}
   m_Layer: 0
   m_Name: InGameStateController
   m_TagString: Untagged
@@ -62,3 +63,18 @@ MonoBehaviour:
   _size: {x: 64, y: 64}
   _recenterInterval: {x: 16, y: 16}
   centeredOn: {fileID: 0}
+--- !u!114 &5960512926829082881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7448415079455928201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82bca6db0c500f6428a0257c419aa65e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputAssetReference:
+    m_AssetGUID: 396f43320fbbb7440b9ab43ca5508891
+    m_SubObjectName: 

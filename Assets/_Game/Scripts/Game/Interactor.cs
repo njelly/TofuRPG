@@ -7,13 +7,16 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class Interactor : MonoBehaviour
     {
-        public Vector2Int InteractOffset;
+        public Vector2Int InteractOffset { get; private set; }
         public IInteractable InteractingWith { get; private set; }
+
+        [SerializeField] private Vector2Int _baseInteractOffset;
         
         private IActorInputProvider _actorInputProvider;
         private IFacing _facing;
         private ICoordProvider _coordProvider;
         private ECardinalDirection4 _prevFacing;
+        private Vector2Int _defaultInteractOffset;
 
         private void Awake()
         {
@@ -32,29 +35,35 @@ namespace Tofunaut.TofuRPG.Game
                 UpdateInteractOffset();
 
             var actorInput = _actorInputProvider.ActorInput;
-            if (actorInput.Interact.Pressed)
-            {
-                InteractingWith = null;
-                foreach (var gc in GridCollisionManager.GetCollidersAt(_coordProvider.Coord + InteractOffset))
-                {
-                    // TODO: what's a clever way of doing this?
-                    InteractingWith = gc.gameObject.GetComponent<IInteractable>();
-                    if (InteractingWith != null)
-                        break;
-                }
-                if(InteractingWith != null)
-                    InteractingWith.BeginInteraction(this);
-            }
-            else if(actorInput.Interact.Released)
+            if (actorInput.interact.WasPressed)
+                TryInteract();
+            else if(actorInput.interact.WasReleased)
                 InteractingWith?.EndInteraction(this);
+        }
+
+        private void TryInteract()
+        {
+            InteractingWith = null;
+            foreach (var gc in GridCollisionManager.GetCollidersAt(_coordProvider.Coord + InteractOffset))
+            {
+                // TODO: what's a clever way of doing this?
+                InteractingWith = gc.gameObject.GetComponent<IInteractable>();
+                if (InteractingWith != null)
+                    break;
+            }
+
+            InteractingWith?.BeginInteraction(this);
         }
 
         private void UpdateInteractOffset()
         {
-            var facingVectorInt = _facing.Facing.ToVector2Int();
-            var facingVector = new Vector2(facingVectorInt.x, facingVectorInt.y);
-            var offsetVector = ((Vector2) InteractOffset).Rotate(Vector2.SignedAngle(Vector2.right, facingVector));
-            InteractOffset = new Vector2Int(Mathf.RoundToInt(offsetVector.x), Mathf.RoundToInt(offsetVector.y));
+            var baseInteractOffsetFloat = _baseInteractOffset.ToVector2();
+            var facingVec = _facing.Facing.ToVector2();
+            var angle = Vector2.SignedAngle(Vector2.right, facingVec);
+            baseInteractOffsetFloat = baseInteractOffsetFloat.Rotate(angle);
+            InteractOffset = baseInteractOffsetFloat.RoundToVector2Int();
+
+            _prevFacing = _facing.Facing;
         }
     }
 }

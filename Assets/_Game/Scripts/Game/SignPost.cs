@@ -5,16 +5,17 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class SignPost : MonoBehaviour, IInteractable
     {
+        [TextArea] public string[] pages;
+        
         public void BeginInteraction(Interactor interactor)
         {
-            GameCameraController.SetTarget(transform);
-            Debug.Log("begin interaction");
+            foreach(var s in pages)
+                Debug.Log(s);
         }
 
         public void EndInteraction(Interactor interactor)
         {
-            GameCameraController.SetTarget(interactor.transform);
-            Debug.Log("end interaction");
+            
         }
     }
 }
