@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace Tofunaut.TofuUnity
 {
-    public class AppState<T> where T : AppStateController
+    public class AppState<T> where T : AppStateController<T>
     {
         public event EventHandler OnComplete;
 

@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace Tofunaut.TofuRPG
 {
-    public class StartScreenStateController : AppStateController
+    public class StartScreenStateController : AppStateController<StartScreenStateController>
     {
 
     }

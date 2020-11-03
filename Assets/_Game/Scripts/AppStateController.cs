@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace Tofunaut.TofuUnity
 {
-    public abstract class AppStateController : MonoBehaviour
+    public abstract class AppStateController<T> : SingletonBehaviour<T> where T : MonoBehaviour
     {
         public UnityEvent OnComplete;
 

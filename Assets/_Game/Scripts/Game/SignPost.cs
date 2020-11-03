@@ -1,21 +1,18 @@
 ﻿using Tofunaut.TofuRPG.Game.Interfaces;
+using Tofunaut.TofuRPG.Game.UI;
 using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game
 {
     public class SignPost : MonoBehaviour, IInteractable
     {
-        [TextArea] public string[] pages;
+        [SerializeField] private Dialog _dialog;
         
         public void BeginInteraction(Interactor interactor)
         {
-            foreach(var s in pages)
-                Debug.Log(s);
+            InGameStateController.Blackboard?.Invoke(new EnqueueDialogEvent(_dialog));
         }
 
-        public void EndInteraction(Interactor interactor)
-        {
-            
-        }
+        public void EndInteraction(Interactor interactor) { }
     }
 }
