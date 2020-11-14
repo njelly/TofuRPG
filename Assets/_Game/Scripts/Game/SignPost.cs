@@ -6,11 +6,11 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class SignPost : MonoBehaviour, IInteractable
     {
-        [SerializeField] private Dialog _dialog;
+        public string dialog;
         
         public void BeginInteraction(Interactor interactor)
         {
-            InGameStateController.Blackboard?.Invoke(new EnqueueDialogEvent(_dialog));
+            InGameStateController.Blackboard?.Invoke(new EnqueueDialogEvent(dialog));
         }
 
         public void EndInteraction(Interactor interactor) { }

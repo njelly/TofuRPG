@@ -4,34 +4,40 @@ using TMPro;
 using Tofunaut.TofuUnity;
 using Tofunaut.TofuUnity.Interfaces;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Tofunaut.TofuRPG.Game.UI
 {
     public class EnqueueDialogEvent : IBlackboardEvent
     {
-        public readonly Dialog Dialog;
+        public readonly string Dialog;
 
-        public EnqueueDialogEvent(Dialog dialog)
+        public EnqueueDialogEvent(string dialog)
         {
             Dialog = dialog;
         }
     }
     
-    public class Dialog
-    {
-        [TextArea] public string[] pages;
-    }
-    
     public class DialogView : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI _text;
-        [SerializeField] private GameObject _rootView;
-        [SerializeField] private float _showNextCharDelay;
+        public bool IsShowing => rootView.gameObject.activeInHierarchy;
+        
+        public TextMeshProUGUI text;
+        public GameObject rootView;
+        public CanvasGroup canvasGroup;
+        public Image nextPageIcon;
+        public float fadeInTime;
+        public float showNextCharDelay;
 
-        private Queue<Dialog> _dialogs;
-        private Dialog _currentDialog;
-        private int _currentPageIndex;
+        private bool _isShowing;
+        private Queue<string> _dialogs;
+        private string _currentDialog;
+        private int _currentDialogPageIndex;
+        private int _currentTMPPageCharIndex;
+        private int _currentTMPPageIndex;
         private int _currentCharIndex;
+        private TofuAnimator.Sequence _fadeSequence;
+        private TofuAnimator.Sequence _typewriterSequence;
 
         private void Start()
         {
@@ -45,20 +51,62 @@ namespace Tofunaut.TofuRPG.Game.UI
                 InGameStateController.Blackboard.Unsubscribe<EnqueueDialogEvent>(OnEnqueueDialog);
         }
 
-        public bool Next()
+        private void Update()
         {
-            if (_dialogs.Count <= 0)
+            if (!_isShowing)
+                return;
+
+            //nextPageIcon.gameObject.SetActive(_currentTMPPageCharIndex == text.textInfo.pageInfo[_currentTMPPageIndex + 1]);
+        }
+
+        private void Show()
+        {
+            _isShowing = true;
+            _fadeSequence?.Stop();
+            _fadeSequence = gameObject.Sequence()
+                .Curve(TofuAnimator.EEaseType.Linear, fadeInTime, newValue =>
+                {
+                    canvasGroup.alpha = Mathf.LerpUnclamped(0f, 1f, newValue);
+                })
+                .Then()
+                .Execute(() =>
+                {
+                    _fadeSequence = null;
+                });
+            _fadeSequence.Play();
+        }
+
+        private void Hide()
+        {
+            _isShowing = false;
+            _fadeSequence?.Stop();
+            _fadeSequence = gameObject.Sequence()
+                .Curve(TofuAnimator.EEaseType.Linear, fadeInTime, newValue =>
+                {
+                    canvasGroup.alpha = Mathf.LerpUnclamped(1f, 0f, newValue);
+                })
+                .Then()
+                .Execute(() =>
+                {
+                    _fadeSequence = null;
+                });
+            _fadeSequence.Play();
+        }
+
+        private bool NextDialog()
+        {
+            if (_dialogs.Count <= 0 && IsShowing)
             {
-                _rootView.SetActive(false);
+                Hide();
                 return false;
             }
 
             _currentDialog = _dialogs.Dequeue();
-            _currentPageIndex = 0;
-            _currentCharIndex = 0;
-            
-            if(!_rootView.activeInHierarchy)
-                _rootView.SetActive(true);
+            _currentTMPPageCharIndex = 0;
+            _currentTMPPageIndex = 0;
+
+            if (!IsShowing)
+                Show();
 
             return true;
         }
@@ -70,5 +118,10 @@ namespace Tofunaut.TofuRPG.Game.UI
             
             _dialogs.Enqueue(e.Dialog);
         }
+
+        //private string GetStringForIndex(int index)
+        //{
+        //    
+        //}
     }
 }
