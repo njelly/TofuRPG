@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using Tofunaut.TofuUnity;
 using Tofunaut.TofuUnity.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+using Tofunaut.TofuRPG.Game.Interfaces;
 
 namespace Tofunaut.TofuRPG.Game.UI
 {
@@ -17,98 +18,79 @@ namespace Tofunaut.TofuRPG.Game.UI
             Dialog = dialog;
         }
     }
-    
-    public class DialogView : MonoBehaviour
+
+    public class DialogView : MonoBehaviour, IActorInputReceiver
     {
-        public bool IsShowing => rootView.gameObject.activeInHierarchy;
-        
         public TextMeshProUGUI text;
-        public GameObject rootView;
         public CanvasGroup canvasGroup;
         public Image nextPageIcon;
         public float fadeInTime;
-        public float showNextCharDelay;
 
         private bool _isShowing;
         private Queue<string> _dialogs;
-        private string _currentDialog;
-        private int _currentDialogPageIndex;
-        private int _currentTMPPageCharIndex;
-        private int _currentTMPPageIndex;
         private int _currentCharIndex;
-        private TofuAnimator.Sequence _fadeSequence;
         private TofuAnimator.Sequence _typewriterSequence;
 
         private void Start()
         {
-            if(InGameStateController.Blackboard != null)
+            _dialogs = new Queue<string>();
+
+            if (InGameStateController.Blackboard != null)
                 InGameStateController.Blackboard.Subscribe<EnqueueDialogEvent>(OnEnqueueDialog);
         }
 
         private void OnDestroy()
         {
-            if(InGameStateController.Blackboard != null)
+            if (InGameStateController.Blackboard != null)
                 InGameStateController.Blackboard.Unsubscribe<EnqueueDialogEvent>(OnEnqueueDialog);
-        }
-
-        private void Update()
-        {
-            if (!_isShowing)
-                return;
-
-            //nextPageIcon.gameObject.SetActive(_currentTMPPageCharIndex == text.textInfo.pageInfo[_currentTMPPageIndex + 1]);
         }
 
         private void Show()
         {
             _isShowing = true;
-            _fadeSequence?.Stop();
-            _fadeSequence = gameObject.Sequence()
-                .Curve(TofuAnimator.EEaseType.Linear, fadeInTime, newValue =>
-                {
-                    canvasGroup.alpha = Mathf.LerpUnclamped(0f, 1f, newValue);
-                })
-                .Then()
-                .Execute(() =>
-                {
-                    _fadeSequence = null;
-                });
-            _fadeSequence.Play();
+            canvasGroup.DOFade(1f, fadeInTime);
+            
+            PlayerActorInputManager.Add(this);
+
+            StartNextDialog();
         }
 
         private void Hide()
         {
             _isShowing = false;
-            _fadeSequence?.Stop();
-            _fadeSequence = gameObject.Sequence()
-                .Curve(TofuAnimator.EEaseType.Linear, fadeInTime, newValue =>
-                {
-                    canvasGroup.alpha = Mathf.LerpUnclamped(1f, 0f, newValue);
-                })
-                .Then()
-                .Execute(() =>
-                {
-                    _fadeSequence = null;
-                });
-            _fadeSequence.Play();
+            canvasGroup.DOFade(0f, fadeInTime);
+            
+            PlayerActorInputManager.Remove(this);
         }
 
-        private bool NextDialog()
+        private void StartNextDialog()
         {
-            if (_dialogs.Count <= 0 && IsShowing)
+            if (_dialogs.Count <= 0)
             {
                 Hide();
-                return false;
+                return;
             }
+            
+            text.text = _dialogs.Dequeue();
+            text.pageToDisplay = 0; // start at 0 because pages start at 1, and next page will increment to 1
+            StartNextPage();
+        }
 
-            _currentDialog = _dialogs.Dequeue();
-            _currentTMPPageCharIndex = 0;
-            _currentTMPPageIndex = 0;
+        private void StartNextPage()
+        {
+            text.pageToDisplay++;
+            if (text.pageToDisplay > text.textInfo.pageCount)
+            {
+                StartNextDialog();
+                return;
+            }
+            
+            nextPageIcon.gameObject.SetActive(text.pageToDisplay <= text.textInfo.pageCount - 1);
+        }
 
-            if (!IsShowing)
-                Show();
-
-            return true;
+        private void CompletePage()
+        {
+            StartNextPage();
         }
 
         private void OnEnqueueDialog(EnqueueDialogEvent e)
@@ -117,11 +99,15 @@ namespace Tofunaut.TofuRPG.Game.UI
                 return;
             
             _dialogs.Enqueue(e.Dialog);
+            
+            if (!_isShowing)
+                Show();
         }
 
-        //private string GetStringForIndex(int index)
-        //{
-        //    
-        //}
+        public void ReceiveActorInput(ActorInput actorInput)
+        {
+            if(actorInput.interact.WasPressed)
+                CompletePage();
+        }
     }
 }

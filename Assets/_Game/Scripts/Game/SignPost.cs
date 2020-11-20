@@ -6,7 +6,7 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class SignPost : MonoBehaviour, IInteractable
     {
-        public string dialog;
+        [TextArea] public string dialog;
         
         public void BeginInteraction(Interactor interactor)
         {
