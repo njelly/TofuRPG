@@ -7,7 +7,7 @@
       "dependencies": {
         "com.unity.addressables": "1.15.1"
       },
-      "hash": "2e265d532f9a52696f79865d918c28e7b5dedc70"
+      "hash": "d39e56a19596152138e810c4cb3ecdfda343ea38"
     },
     "com.unity.2d.animation": {
       "version": "3.2.5",
@@ -113,7 +113,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.vscode": {
-      "version": "1.2.2",
+      "version": "1.2.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
