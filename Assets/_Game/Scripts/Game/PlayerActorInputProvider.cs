@@ -1,12 +1,13 @@
 ﻿using System;
 using Tofunaut.TofuRPG.Game.Interfaces;
+using Tofunaut.TofuRPG.Game.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class PlayerActorInputProvider : MonoBehaviour, IActorInputProvider, IActorInputReceiver
+    public class PlayerActorInputProvider : MonoBehaviour, IActorInputProvider
     {
         public ActorInput ActorInput { get; private set; }
 
@@ -20,12 +21,31 @@ namespace Tofunaut.TofuRPG.Game
         public void Start()
         {
             if (registerWithManagerOnStart)
-                PlayerActorInputManager.Add(this);
+                RegisterWithPlayerActorInputManager();
         }
 
-        public void ReceiveActorInput(ActorInput actorInput)
+        private void RegisterWithPlayerActorInputManager()
         {
-            ActorInput = actorInput;
+            ActorInput = PlayerActorInputManager.InstanceActorInput;
+            InGameStateController.Blackboard?.Subscribe<ShowDialogEvent>(OnShowDialog);
+            InGameStateController.Blackboard?.Unsubscribe<HideDialogEvent>(OnHideDialog);
+        }
+
+        private void UnregisterWithPlayerActorInputManager()
+        {
+            ActorInput = new ActorInput();
+            InGameStateController.Blackboard?.Unsubscribe<ShowDialogEvent>(OnShowDialog);
+            InGameStateController.Blackboard?.Subscribe<HideDialogEvent>(OnHideDialog);
+        }
+
+        private void OnShowDialog(ShowDialogEvent e)
+        {
+            UnregisterWithPlayerActorInputManager();
+        }
+
+        private void OnHideDialog(HideDialogEvent e)
+        {
+            RegisterWithPlayerActorInputManager();
         }
     }
 }

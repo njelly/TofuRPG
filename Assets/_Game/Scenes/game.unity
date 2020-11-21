@@ -1408,10 +1408,8 @@ PrefabInstance:
     - target: {fileID: 1348825893012492111, guid: c90a145c1ee900d469861decc532c9d5,
         type: 3}
       propertyPath: dialog
-      value: This is a lot of text to show how a full block of dialog might look
-        on screen. When text overflows, it becomes paginated. This is what paginated
-        text looks like, it breaks on words and the rest of the text shows up on
-        the next page.
+      value: Hello, adventurer! Greetings from the land of the written word!<page>
+        <i> - The Sign Writer </i>
       objectReference: {fileID: 0}
     - target: {fileID: 1903076370337325588, guid: c90a145c1ee900d469861decc532c9d5,
         type: 3}
@@ -1742,7 +1740,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 5
-  m_firstOverflowCharacterIndex: 165
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -1762,7 +1760,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
+  m_pageToDisplay: 2
   m_margin: {x: 50, y: 30, z: 50, w: 30}
   m_textInfo:
     textComponent: {fileID: 868923815}

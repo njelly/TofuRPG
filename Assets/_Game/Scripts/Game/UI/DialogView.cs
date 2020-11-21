@@ -18,41 +18,61 @@ namespace Tofunaut.TofuRPG.Game.UI
             Dialog = dialog;
         }
     }
+    
+    public class ShowDialogEvent : IBlackboardEvent { }
+    public class HideDialogEvent : IBlackboardEvent { }
 
-    public class DialogView : MonoBehaviour, IActorInputReceiver
+    public class DialogView : MonoBehaviour
     {
         public TextMeshProUGUI text;
         public CanvasGroup canvasGroup;
         public Image nextPageIcon;
         public float fadeInTime;
 
+        private ActorInput _actorInput;
         private bool _isShowing;
         private Queue<string> _dialogs;
         private int _currentCharIndex;
         private TofuAnimator.Sequence _typewriterSequence;
+        private float _timeShown;
 
         private void Start()
         {
             _dialogs = new Queue<string>();
+            _actorInput = new ActorInput();
 
-            if (InGameStateController.Blackboard != null)
-                InGameStateController.Blackboard.Subscribe<EnqueueDialogEvent>(OnEnqueueDialog);
+            InGameStateController.Blackboard?.Subscribe<EnqueueDialogEvent>(OnEnqueueDialog);
+        }
+
+        private void Update()
+        {
+            ProcessActorInput();
         }
 
         private void OnDestroy()
         {
-            if (InGameStateController.Blackboard != null)
-                InGameStateController.Blackboard.Unsubscribe<EnqueueDialogEvent>(OnEnqueueDialog);
+            InGameStateController.Blackboard?.Unsubscribe<EnqueueDialogEvent>(OnEnqueueDialog);
+        }
+
+        private void ProcessActorInput()
+        {
+            if (Time.time.IsApproximately(_timeShown))
+                return;
+            
+            if(_actorInput.interact.WasPressed)
+                CompletePage();
         }
 
         private void Show()
         {
             _isShowing = true;
+            _timeShown = Time.time;
             canvasGroup.DOFade(1f, fadeInTime);
-            
-            PlayerActorInputManager.Add(this);
 
             StartNextDialog();
+            
+            InGameStateController.Blackboard?.Invoke(new ShowDialogEvent());
+            _actorInput = PlayerActorInputManager.InstanceActorInput;
         }
 
         private void Hide()
@@ -60,7 +80,8 @@ namespace Tofunaut.TofuRPG.Game.UI
             _isShowing = false;
             canvasGroup.DOFade(0f, fadeInTime);
             
-            PlayerActorInputManager.Remove(this);
+            InGameStateController.Blackboard?.Invoke(new HideDialogEvent());
+            _actorInput = new ActorInput();
         }
 
         private void StartNextDialog()
@@ -72,6 +93,7 @@ namespace Tofunaut.TofuRPG.Game.UI
             }
             
             text.text = _dialogs.Dequeue();
+            text.ForceMeshUpdate();
             text.pageToDisplay = 0; // start at 0 because pages start at 1, and next page will increment to 1
             StartNextPage();
         }
@@ -102,12 +124,6 @@ namespace Tofunaut.TofuRPG.Game.UI
             
             if (!_isShowing)
                 Show();
-        }
-
-        public void ReceiveActorInput(ActorInput actorInput)
-        {
-            if(actorInput.interact.WasPressed)
-                CompletePage();
         }
     }
 }

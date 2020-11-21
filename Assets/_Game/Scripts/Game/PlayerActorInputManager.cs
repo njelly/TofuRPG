@@ -7,11 +7,14 @@ using UnityEngine.InputSystem;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class PlayerActorInputManager : SingletonBehaviour<PlayerActorInputManager>
+    public class PlayerActorInputManager : SingletonBehaviour<PlayerActorInputManager>, IActorInputProvider
     {
+        public static ActorInput InstanceActorInput => _instance.ActorInput;
+
+        public ActorInput ActorInput { get; private set; }
+
         public AssetReference inputAssetReference;
 
-        private ActorInput _actorInput;
         private HashSet<IActorInputReceiver> _receivers;
         private HashSet<IActorInputReceiver> _toAdd;
         private HashSet<IActorInputReceiver> _toRemove;
@@ -23,7 +26,7 @@ namespace Tofunaut.TofuRPG.Game
         {
             base.Awake();
             
-            _actorInput = new ActorInput();
+            ActorInput = new ActorInput();
             _receivers = new HashSet<IActorInputReceiver>();
             _toAdd = new HashSet<IActorInputReceiver>();
             _toRemove = new HashSet<IActorInputReceiver>();
@@ -45,20 +48,6 @@ namespace Tofunaut.TofuRPG.Game
             _interactAction.canceled += InteractAction;
         }
 
-        private void Update()
-        {
-            foreach (var receiver in _toAdd)
-                _receivers.Add(receiver);
-            _toAdd.Clear();
-
-            foreach (var receiver in _toRemove)
-                _receivers.Remove(receiver);
-            _toRemove.Clear();
-
-            foreach (var receiver in _receivers)
-                receiver.ReceiveActorInput(_actorInput);
-        }
-
         protected override void OnDestroy()
         {
             _moveAction.started -= MoveAction;
@@ -73,27 +62,17 @@ namespace Tofunaut.TofuRPG.Game
         private void MoveAction(InputAction.CallbackContext context)
         {
             if (context.started || context.performed)
-                _actorInput.direction.SetAxis(context.ReadValue<Vector2>());
+                ActorInput.direction.SetAxis(context.ReadValue<Vector2>());
             if (context.canceled)
-                _actorInput.direction.SetAxis(Vector2.zero);
+                ActorInput.direction.SetAxis(Vector2.zero);
         }
 
         private void InteractAction(InputAction.CallbackContext context)
         {
             if (context.started)
-                _actorInput.interact.Press();
+                ActorInput.interact.Press();
             if (context.canceled)
-                _actorInput.interact.Release();
-        }
-
-        public static void Add(IActorInputReceiver receiver)
-        {
-            _instance._toAdd.Add(receiver);
-        }
-
-        public static void Remove(IActorInputReceiver receiver)
-        {
-            _instance._toRemove.Add(receiver);
+                ActorInput.interact.Release();
         }
     }
 }
