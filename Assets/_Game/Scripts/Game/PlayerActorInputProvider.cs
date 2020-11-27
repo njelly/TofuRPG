@@ -11,41 +11,68 @@ namespace Tofunaut.TofuRPG.Game
     {
         public ActorInput ActorInput { get; private set; }
 
-        public bool registerWithManagerOnStart;
+        public AssetReference inputAssetReference;
+        
+        private InputActionAsset _inputActionAsset;
+        private InputAction _moveAction;
+        private InputAction _interactAction;
 
         private void Awake()
         {
             ActorInput = new ActorInput();
         }
 
-        public void Start()
+        public async void Start()
         {
-            if (registerWithManagerOnStart)
-                RegisterWithPlayerActorInputManager();
+            _inputActionAsset = await Addressables.LoadAssetAsync<InputActionAsset>(inputAssetReference).Task;
+            _moveAction = _inputActionAsset.FindAction("Move");
+            _interactAction = _inputActionAsset.FindAction("Interact");
+            _inputActionAsset.Enable();
+            
+            SubscribeToInputActions();
         }
 
-        private void RegisterWithPlayerActorInputManager()
+        private void OnDestroy()
         {
-            ActorInput = PlayerActorInputManager.InstanceActorInput;
-            InGameStateController.Blackboard?.Subscribe<ShowDialogEvent>(OnShowDialog);
-            InGameStateController.Blackboard?.Unsubscribe<HideDialogEvent>(OnHideDialog);
+            UnsubscribeToInputActions();
         }
 
-        private void UnregisterWithPlayerActorInputManager()
+        private void SubscribeToInputActions()
         {
-            ActorInput = new ActorInput();
-            InGameStateController.Blackboard?.Unsubscribe<ShowDialogEvent>(OnShowDialog);
-            InGameStateController.Blackboard?.Subscribe<HideDialogEvent>(OnHideDialog);
+            _moveAction.started += MoveAction;
+            _moveAction.performed += MoveAction;
+            _moveAction.canceled += MoveAction;
+            
+            _interactAction.started += InteractAction;
+            _interactAction.performed += InteractAction;
+            _interactAction.canceled += InteractAction;
         }
 
-        private void OnShowDialog(ShowDialogEvent e)
+        private void UnsubscribeToInputActions()
         {
-            UnregisterWithPlayerActorInputManager();
+            _moveAction.started -= MoveAction;
+            _moveAction.performed -= MoveAction;
+            _moveAction.canceled -= MoveAction;
+            
+            _interactAction.started -= InteractAction;
+            _interactAction.performed -= InteractAction;
+            _interactAction.canceled -= InteractAction;
         }
 
-        private void OnHideDialog(HideDialogEvent e)
+        private void MoveAction(InputAction.CallbackContext context)
         {
-            RegisterWithPlayerActorInputManager();
+            if (context.started || context.performed)
+                ActorInput.direction.SetAxis(context.ReadValue<Vector2>());
+            if (context.canceled)
+                ActorInput.direction.SetAxis(Vector2.zero);
+        }
+
+        private void InteractAction(InputAction.CallbackContext context)
+        {
+            if (context.started)
+                ActorInput.interact.Press();
+            if (context.canceled)
+                ActorInput.interact.Release();
         }
     }
 }

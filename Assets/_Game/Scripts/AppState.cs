@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tofunaut.TofuRPG;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,7 +8,7 @@ namespace Tofunaut.TofuUnity
 {
     public class AppState<T> where T : AppStateController<T>
     {
-        public event EventHandler OnComplete;
+        public bool IsComplete => _stateController && _stateController.IsReady && _stateController.IsComplete;
 
         private readonly int _sceneIndex;
 
@@ -18,34 +19,15 @@ namespace Tofunaut.TofuUnity
             _sceneIndex = sceneIndex;
         }
 
-        public void Enter()
+        public virtual async Task Enter()
         {
-            SceneManager.LoadScene(_sceneIndex);
-            SceneManager.sceneLoaded += OnSceneLoaded;
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
-        }
-
-        public void Exit()
-        {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
-        }
-
-        private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
-        {
-            if (scene.buildIndex != _sceneIndex)
-                return;
+            var loadTask = SceneManager.LoadSceneAsync(_sceneIndex);
+            while (!loadTask.isDone)
+                await Task.Yield();
 
             _stateController = UnityEngine.Object.FindObjectOfType<T>();
-            _stateController.OnComplete.AddListener(() => { OnComplete?.Invoke(this, EventArgs.Empty); });
-        }
-
-        private void OnSceneUnloaded(Scene scene)
-        {
-            if (scene.buildIndex != _sceneIndex || !_stateController)
-                return;
-
-            _stateController.OnComplete.RemoveAllListeners();
+            if(!_stateController)
+                Debug.LogError($"no object found of type {nameof(T)}");
         }
     }
 }

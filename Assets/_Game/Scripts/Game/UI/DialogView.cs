@@ -12,7 +12,7 @@ namespace Tofunaut.TofuRPG.Game.UI
     public class EnqueueDialogEvent : IBlackboardEvent
     {
         public readonly string Dialog;
-
+ 
         public EnqueueDialogEvent(string dialog)
         {
             Dialog = dialog;
@@ -72,7 +72,7 @@ namespace Tofunaut.TofuRPG.Game.UI
             StartNextDialog();
             
             InGameStateController.Blackboard?.Invoke(new ShowDialogEvent());
-            _actorInput = PlayerActorInputManager.InstanceActorInput;
+            //_actorInput = PlayerActorInputManager.InstanceActorInput;
         }
 
         private void Hide()
