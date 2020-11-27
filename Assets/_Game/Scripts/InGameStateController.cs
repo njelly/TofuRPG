@@ -15,5 +15,10 @@ namespace Tofunaut.TofuRPG
             
             _blackboard = new Blackboard();
         }
+
+        private void Start()
+        {
+            IsReady = true;
+        }
     }
 }

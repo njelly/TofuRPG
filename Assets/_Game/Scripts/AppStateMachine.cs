@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tofunaut.TofuUnity;
 using UnityEngine;
 
@@ -8,54 +9,49 @@ namespace Tofunaut.TofuRPG
     public class AppStateMachine : MonoBehaviour
     {
         [Header("Development")]
-        [SerializeField] private bool _skipSplash;
-
-        private AppState<SplashScreenStateController> _splashState;
-        private AppState<StartScreenStateController> _startScreenState;
-        private AppState<InGameStateController> _inGameState;
+        public bool skipSplash;
 
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
         }
 
-        private void Start()
+        private async void Start()
         {
-            _splashState = new AppState<SplashScreenStateController>(AppConsts.Scenes.Splash);
-            _splashState.OnComplete += SplashState_OnComplete;
-
-            _startScreenState = new AppState<StartScreenStateController>(AppConsts.Scenes.StartScreen);
-            _startScreenState.OnComplete += StartScreenState_OnComplete;
-
-            _inGameState = new AppState<InGameStateController>(AppConsts.Scenes.Game);
-            _inGameState.OnComplete += InGameState_OnComplete;
-
-            _splashState.Enter();
+            await EnterSplash();
         }
 
-        private void OnDestroy()
+        private async Task EnterSplash()
         {
-            _splashState.OnComplete -= SplashState_OnComplete;
-            _startScreenState.OnComplete -= StartScreenState_OnComplete;
-            _inGameState.OnComplete -= InGameState_OnComplete;
+            if (!skipSplash)
+            {
+                var splashState = new AppState<SplashScreenStateController>(AppConsts.Scenes.Splash);
+                await splashState.Enter();
+                while(!splashState.IsComplete)
+                    await Task.Yield();
+            }
+
+            await EnterStart();
         }
 
-        private void SplashState_OnComplete(object sender, EventArgs e)
+        private async Task EnterStart()
         {
-            _splashState.Exit();
-            _startScreenState.Enter();
+            var startScreenState = new AppState<StartScreenStateController>(AppConsts.Scenes.StartScreen);
+            await startScreenState.Enter();
+            while(!startScreenState.IsComplete)
+                await Task.Yield();
+
+            await EnterGame();
         }
 
-        private void StartScreenState_OnComplete(object sender, EventArgs e)
+        private async Task EnterGame()
         {
-            _startScreenState.Exit();
-            _inGameState.Enter();
-        }
+            var inGameState = new AppState<InGameStateController>(AppConsts.Scenes.Game);
+            await inGameState.Enter();
+            while (!inGameState.IsComplete)
+                await Task.Yield();
 
-        private void InGameState_OnComplete(object sender, EventArgs e)
-        {
-            _inGameState.Exit();
-            _startScreenState.Enter();
+            await EnterStart();
         }
     }
 }

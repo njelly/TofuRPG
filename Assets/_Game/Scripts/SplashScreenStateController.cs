@@ -6,6 +6,9 @@ namespace Tofunaut.TofuRPG
 {
     public class SplashScreenStateController : AppStateController<SplashScreenStateController>
     {
-
+        private void Start()
+        {
+            IsReady = true;
+        }
     }
 }
