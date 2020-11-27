@@ -1405,6 +1405,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1626657848}
     m_Modifications:
+    - target: {fileID: 1348825893012492111, guid: c90a145c1ee900d469861decc532c9d5,
+        type: 3}
+      propertyPath: _dialog.pages.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1348825893012492111, guid: c90a145c1ee900d469861decc532c9d5,
+        type: 3}
+      propertyPath: _dialog.pages.Array.data[0]
+      value: Welcome, adventurer! I bring you good news! If you're reading this,
+        it all worked out. Amazing.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1348825893012492111, guid: c90a145c1ee900d469861decc532c9d5,
+        type: 3}
+      propertyPath: _dialog.pages.Array.data[1]
+      value: <i> - The Sign Writer </i>
+      objectReference: {fileID: 0}
     - target: {fileID: 1903076370337325588, guid: c90a145c1ee900d469861decc532c9d5,
         type: 3}
       propertyPath: m_Name

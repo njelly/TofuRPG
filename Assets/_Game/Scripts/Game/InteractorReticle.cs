@@ -14,7 +14,7 @@ namespace Tofunaut.TofuRPG.Game
         public Color pressedColor;
         public float lerpPositionTime;
         public float lerpPressColorTime;
-        
+
         private IActorInputProvider _actorInputProvider;
         private SpriteRenderer _spriteRenderer;
         private Vector2Int _prevInteractOffset;
@@ -36,13 +36,13 @@ namespace Tofunaut.TofuRPG.Game
 
         private void Update()
         {
-            if(_prevInteractOffset != interactor.InteractOffset)
+            if (_prevInteractOffset != interactor.InteractOffset)
                 UpdatePosition();
-            
+
             var actorInput = _actorInputProvider.ActorInput;
-            if(actorInput.interact.WasPressed)
+            if (actorInput.interact.WasPressed)
                 UpdateColor(true);
-            else if(actorInput.interact.WasReleased)
+            else if (actorInput.interact.WasReleased)
                 UpdateColor(false);
         }
 
@@ -50,13 +50,10 @@ namespace Tofunaut.TofuRPG.Game
         {
             var magnitude = interactor.InteractOffset.magnitude;
             var from = _lerpAngle * Mathf.Rad2Deg;
-            var to = Vector2.SignedAngle(Vector2.right, interactor.InteractOffset.ToVector2());
-            if (Mathf.Abs(to - from) > 180)
-                if(from > 0)
-                    from *= -1;
-                else if (to > 0)
-                    to *= -1;
-            
+            var absoluteTo = Vector2.SignedAngle(Vector2.right, interactor.InteractOffset.ToVector2());
+            var shortestDiff = MathfUtils.SmallestAngleDifferenceDeg(from, absoluteTo);
+            var to = from + shortestDiff;
+
             gameObject.Sequence()
                 .Curve(TofuAnimator.EEaseType.Linear, lerpPositionTime, newValue =>
                 {
@@ -64,7 +61,7 @@ namespace Tofunaut.TofuRPG.Game
                     _t.localPosition = new Vector2(Mathf.Cos(_lerpAngle), Mathf.Sin(_lerpAngle) * magnitude);
                 })
                 .Play();
-            
+
             _prevInteractOffset = interactor.InteractOffset;
         }
 

@@ -17,6 +17,7 @@ namespace Tofunaut.TofuRPG.Game.UI
         }
     }
     
+    [Serializable]
     public class Dialog
     {
         [TextArea] public string[] pages;

@@ -1,5 +1,6 @@
 ﻿{
     "editor.fontSize": 12,
+    "editor.fontLigatures": true,
     "editor.codeLens": false,
     "editor.formatOnSave": true,
     "terminal.integrated.fontSize": 12,
