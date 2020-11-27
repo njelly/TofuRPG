@@ -7,10 +7,13 @@ namespace Tofunaut.TofuRPG.Game
     public class SignPost : MonoBehaviour, IInteractable
     {
         [TextArea] public string dialog;
-        
+
         public void BeginInteraction(Interactor interactor)
         {
-            InGameStateController.Blackboard?.Invoke(new EnqueueDialogEvent(dialog));
+            InGameStateController.Blackboard?.Invoke(new EnqueueDialogEvent(new Dialog()
+            {
+                pages = new string[] { dialog },
+            }));
         }
 
         public void EndInteraction(Interactor interactor) { }

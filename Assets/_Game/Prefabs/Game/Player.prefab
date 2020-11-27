@@ -159,7 +159,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f907a586db835bc448a9cbc3004e2c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registerWithManagerOnStart: 1
+  inputAssetReference:
+    m_AssetGUID: 396f43320fbbb7440b9ab43ca5508891
+    m_SubObjectName: 
 --- !u!114 &6156721617014782146
 MonoBehaviour:
   m_ObjectHideFlags: 0
