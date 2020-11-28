@@ -38,13 +38,13 @@ namespace Tofunaut.TofuRPG.Game
                 return;
             
             var actorInput = _actorInputProvider.ActorInput;
-            if (!actorInput.direction.Held)
+            if (!actorInput.Direction.Held)
                 return;
             
-            var newCoord = Coord + ((Vector2)actorInput.direction).ToCardinalDirection4().ToVector2Int();
+            var newCoord = Coord + ((Vector2)actorInput.Direction).ToCardinalDirection4().ToVector2Int();
             if (_moveSequence == null)
                 Facing = ((Vector2)(newCoord - Coord)).ToCardinalDirection4();
-            if (actorInput.direction.TimeHeld > moveHesitationTime)
+            if (actorInput.Direction.TimeHeld > moveHesitationTime)
                 TryMoveTo(newCoord);
         }
 

@@ -35,9 +35,9 @@ namespace Tofunaut.TofuRPG.Game
                 UpdateInteractOffset();
 
             var actorInput = _actorInputProvider.ActorInput;
-            if (actorInput.interact.WasPressed)
+            if (actorInput.Interact.WasPressed)
                 TryInteract();
-            else if(actorInput.interact.WasReleased)
+            else if(actorInput.Interact.WasReleased)
                 TryEndInteract();
         }
 

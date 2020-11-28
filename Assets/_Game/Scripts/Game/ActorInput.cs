@@ -6,13 +6,13 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class ActorInput
     {
-        public readonly InputDoubleAxis direction;
-        public readonly InputButton interact;
+        public readonly InputDoubleAxis Direction;
+        public readonly InputButton Interact;
 
         public ActorInput()
         {
-            direction = new InputDoubleAxis();
-            interact = new InputButton();
+            Direction = new InputDoubleAxis();
+            Interact = new InputButton();
         }
     }
 }

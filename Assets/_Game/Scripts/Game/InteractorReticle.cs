@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using DG.Tweening;
 using Tofunaut.TofuRPG.Game.Interfaces;
 using Tofunaut.TofuUnity;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace Tofunaut.TofuRPG.Game
         private float _lerpAngle;
         private Color _lerpColor;
         private Transform _t;
+        private bool _wasPressed;
 
         private void Awake()
         {
@@ -40,9 +42,9 @@ namespace Tofunaut.TofuRPG.Game
                 UpdatePosition();
 
             var actorInput = _actorInputProvider.ActorInput;
-            if (actorInput.interact.WasPressed)
+            if(actorInput.Interact.WasPressed)
                 UpdateColor(true);
-            else if (actorInput.interact.WasReleased)
+            else if(actorInput.Interact.WasReleased)
                 UpdateColor(false);
         }
 
@@ -54,28 +56,25 @@ namespace Tofunaut.TofuRPG.Game
             var shortestDiff = MathfUtils.SmallestAngleDifferenceDeg(from, absoluteTo);
             var to = from + shortestDiff;
 
-            gameObject.Sequence()
-                .Curve(TofuAnimator.EEaseType.Linear, lerpPositionTime, newValue =>
-                {
-                    _lerpAngle = Mathf.LerpUnclamped(from, to, newValue) * Mathf.Deg2Rad;
-                    _t.localPosition = new Vector2(Mathf.Cos(_lerpAngle), Mathf.Sin(_lerpAngle) * magnitude);
-                })
-                .Play();
+            DOTween.To(() => from, newValue =>
+            {
+                from = newValue;
+                _lerpAngle = newValue * Mathf.Deg2Rad;
+                _t.localPosition = new Vector2(Mathf.Cos(_lerpAngle), Mathf.Sin(_lerpAngle) * magnitude);
+            }, to, lerpPositionTime);
 
             _prevInteractOffset = interactor.InteractOffset;
         }
 
         private void UpdateColor(bool wasPressed)
         {
+            if (_wasPressed == wasPressed)
+                return;
+            
+            _wasPressed = wasPressed;
             var from = _lerpColor;
             var to = wasPressed ? pressedColor : unPressedColor;
-            gameObject.Sequence()
-                .Curve(TofuAnimator.EEaseType.Linear, lerpPressColorTime, newValue =>
-                {
-                    _lerpColor = Color.LerpUnclamped(from, to, newValue);
-                    _spriteRenderer.color = _lerpColor;
-                })
-                .Play();
+            _spriteRenderer.DOColor(to, lerpPressColorTime);
         }
     }
 }
