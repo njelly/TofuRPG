@@ -5,7 +5,16 @@ namespace Tofunaut.TofuRPG.UI
 {
     public abstract class ViewController : MonoBehaviour
     {
-        public abstract Task Show();
-        public abstract Task Hide();
+        public bool IsShowing { get; private set; }
+
+        public virtual void Show()
+        {
+            IsShowing = true;
+        }
+
+        public virtual void Hide()
+        {
+            IsShowing = false;
+        }
     }
 }

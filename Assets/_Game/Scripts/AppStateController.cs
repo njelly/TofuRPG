@@ -10,7 +10,6 @@ namespace Tofunaut.TofuUnity
 
         public void Complete()
         {
-            Debug.Log("Complete!");
             IsComplete = true;
         }
     }

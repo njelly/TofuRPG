@@ -136,7 +136,7 @@ PrefabInstance:
     - target: {fileID: 7346183456043619482, guid: 832740bb22402224fa5e3daae99b5b0c,
         type: 3}
       propertyPath: skipSplash
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7346183456043619483, guid: 832740bb22402224fa5e3daae99b5b0c,
         type: 3}
