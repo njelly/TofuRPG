@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class SignPost : MonoBehaviour, IInteractable
+    public class NPCDialogInteractable : MonoBehaviour, IInteractable
     {
         public event EventHandler<InteractableEventArgs> InteractionBegan;
         public event EventHandler<InteractableEventArgs> InteractionEnded;

@@ -59,9 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a2abf86c727ff429b09c235b2a69eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pages:
-  - Greetings, traveler!
-  - '- the sign maker'
+  dialog: Hello, adventurer!
 --- !u!1 &5479795203291082159
 GameObject:
   m_ObjectHideFlags: 0
