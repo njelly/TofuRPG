@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Tofunaut.TofuRPG.UI
 {
@@ -7,14 +8,32 @@ namespace Tofunaut.TofuRPG.UI
     {
         public bool IsShowing { get; private set; }
 
-        public virtual void Show()
+        public virtual async Task Show()
         {
             IsShowing = true;
+            await Task.CompletedTask;
         }
 
-        public virtual void Hide()
+        public virtual async Task Hide()
         {
             IsShowing = false;
+            await Task.CompletedTask;
         }
+
+        public void StartListeningForInput(PlayerInput playerInput)
+        {
+            playerInput.actions["UI/Submit"].started += OnSubmit;
+            playerInput.actions["UI/Submit"].performed += OnSubmit;
+            playerInput.actions["UI/Submit"].canceled += OnSubmit;
+        }
+
+        public void StopListeningForInput(PlayerInput playerInput)
+        {
+            playerInput.actions["UI/Submit"].started -= OnSubmit;
+            playerInput.actions["UI/Submit"].performed -= OnSubmit;
+            playerInput.actions["UI/Submit"].canceled -= OnSubmit;
+        }
+
+        protected virtual void OnSubmit(InputAction.CallbackContext context) { }
     }
 }

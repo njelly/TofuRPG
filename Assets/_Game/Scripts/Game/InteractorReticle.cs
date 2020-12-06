@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using Tofunaut.TofuRPG.Game.Interfaces;
 using Tofunaut.TofuUnity;
 using UnityEngine;
@@ -20,9 +22,9 @@ namespace Tofunaut.TofuRPG.Game
         private SpriteRenderer _spriteRenderer;
         private Vector2Int _prevInteractOffset;
         private float _lerpAngle;
-        private Color _lerpColor;
         private Transform _t;
         private bool _wasPressed;
+        private TweenerCore<Color, Color, ColorOptions> _flashTween; 
 
         private void Awake()
         {
@@ -32,7 +34,6 @@ namespace Tofunaut.TofuRPG.Game
             _spriteRenderer.color = unPressedColor;
             _prevInteractOffset = interactor.InteractOffset;
             _lerpAngle = Vector2.SignedAngle(Vector2.right, _prevInteractOffset.ToVector2()) * Mathf.Deg2Rad;
-            _lerpColor = unPressedColor;
             _t = transform;
         }
 
@@ -44,7 +45,7 @@ namespace Tofunaut.TofuRPG.Game
             var actorInput = _actorInputProvider.ActorInput;
             if(actorInput.Interact.WasPressed)
                 UpdateColor(true);
-            else if(actorInput.Interact.WasReleased)
+            else if(!actorInput.Interact.Held)
                 UpdateColor(false);
         }
 
@@ -66,15 +67,18 @@ namespace Tofunaut.TofuRPG.Game
             _prevInteractOffset = interactor.InteractOffset;
         }
 
-        private void UpdateColor(bool wasPressed)
+        private async void UpdateColor(bool wasPressed)
         {
             if (_wasPressed == wasPressed)
                 return;
             
             _wasPressed = wasPressed;
-            var from = _lerpColor;
+
+            if (_flashTween != null && !_flashTween.IsComplete())
+                await _flashTween.AsyncWaitForCompletion();
+            
             var to = wasPressed ? pressedColor : unPressedColor;
-            _spriteRenderer.DOColor(to, lerpPressColorTime);
+            _flashTween = _spriteRenderer.DOColor(to, lerpPressColorTime);
         }
     }
 }

@@ -33,10 +33,10 @@ namespace Tofunaut.TofuRPG.Game
             }
         }
 
-        private void LateUpdate()
+        private void Update()
         {
-            if(IsBeingInteractedWith && ActorInput.Direction.Held)
-                ActorInput.Direction.SetAxis(Vector2.zero);
+            if(IsBeingInteractedWith)
+                ActorInput.Reset();
         }
 
         private void Interactable_InteractionBegan(object sender, InteractableEventArgs e)

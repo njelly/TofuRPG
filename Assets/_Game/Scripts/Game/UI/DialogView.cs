@@ -49,47 +49,44 @@ namespace Tofunaut.TofuRPG.Game.UI
                 InGameStateController.Blackboard.Unsubscribe<EnqueueDialogEvent>(OnEnqueueDialog);
         }
 
-        public override async void Show()
+        public override async Task Show()
         {
-            base.Show();
+            await base.Show();
             await canvasGroup.DOFade(1f, canvasFadeInTime).AsyncWaitForCompletion();
-            playerInput.SwitchCurrentActionMap("UI");
-            playerInput.actions["UI/Submit"].performed += Submit_Performed;
         }
 
-        public override async void Hide()
+        public override async Task Hide()
         {
-            base.Hide();
+            await base.Hide();
             await canvasGroup.DOFade(0f, canvasFadeInTime).AsyncWaitForCompletion();
-            playerInput.SwitchCurrentActionMap("Player");
-            playerInput.actions["UI/Submit"].performed -= Submit_Performed;
         }
 
         private void Next()
         {
             if (_dialogs.Count <= 0)
             {
-                Hide();
+                ViewControllerStack.Pop(this);
                 return;
             }
 
             text.text = _dialogs.Dequeue();
             _currentPageIndex = 0;
             _currentCharIndex = 0;
-
-            if (!IsShowing)
-                Show();
         }
 
-        private void Submit_Performed(InputAction.CallbackContext obj)
+        protected override void OnSubmit(InputAction.CallbackContext context)
         {
-            Next();
+            if (context.performed)
+                Next();
         }
 
         private void OnEnqueueDialog(EnqueueDialogEvent e)
         {
             if (e.Dialog == null)
                 return;
+
+            if (_dialogs.Count <= 0)
+                ViewControllerStack.Push(this);
 
             _dialogs.Enqueue(e.Dialog);
             Next();

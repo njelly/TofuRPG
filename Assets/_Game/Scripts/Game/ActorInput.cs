@@ -14,5 +14,13 @@ namespace Tofunaut.TofuRPG.Game
             Direction = new InputDoubleAxis();
             Interact = new InputButton();
         }
+
+        public void Reset()
+        {
+            if(Direction.Axis.HasLength())
+                Direction.SetAxis(Vector2.zero);
+            if(Interact.Held)
+                Interact.Release();
+        }
     }
 }

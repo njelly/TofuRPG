@@ -12,10 +12,9 @@ namespace Tofunaut.TofuRPG.Game
         public ActorInput ActorInput { get; private set; }
 
         public AssetReference inputAssetReference;
-        
+        public PlayerInput playerInput;
+
         private InputActionAsset _inputActionAsset;
-        private InputAction _moveAction;
-        private InputAction _interactAction;
 
         private void Awake()
         {
@@ -25,41 +24,39 @@ namespace Tofunaut.TofuRPG.Game
         public async void Start()
         {
             _inputActionAsset = await Addressables.LoadAssetAsync<InputActionAsset>(inputAssetReference).Task;
-            _moveAction = _inputActionAsset.FindAction("Move");
-            _interactAction = _inputActionAsset.FindAction("Interact");
             _inputActionAsset.Enable();
+
+            if (!playerInput)
+                playerInput = FindObjectOfType<PlayerInput>();
             
-            SubscribeToInputActions();
+            playerInput.actions["Player/Move"].started += OnMove;
+            playerInput.actions["Player/Move"].performed += OnMove;
+            playerInput.actions["Player/Move"].canceled += OnMove;
+            playerInput.actions["Player/Interact"].started += OnInteract;
+            playerInput.actions["Player/Interact"].performed += OnInteract;
+            playerInput.actions["Player/Interact"].canceled += OnInteract;
+        }
+
+        private void Update()
+        {
+            if (playerInput && !playerInput.currentActionMap.name.Equals("Player"))
+                ActorInput.Reset();
         }
 
         private void OnDestroy()
         {
-            UnsubscribeToInputActions();
-        }
-
-        private void SubscribeToInputActions()
-        {
-            _moveAction.started += MoveAction;
-            _moveAction.performed += MoveAction;
-            _moveAction.canceled += MoveAction;
+            if (!playerInput)
+                return;
             
-            _interactAction.started += InteractAction;
-            _interactAction.performed += InteractAction;
-            _interactAction.canceled += InteractAction;
+            playerInput.actions["Player/Move"].started -= OnMove;
+            playerInput.actions["Player/Move"].performed -= OnMove;
+            playerInput.actions["Player/Move"].canceled -= OnMove;
+            playerInput.actions["Player/Interact"].started -= OnInteract;
+            playerInput.actions["Player/Interact"].performed -= OnInteract;
+            playerInput.actions["Player/Interact"].canceled -= OnInteract;
         }
 
-        private void UnsubscribeToInputActions()
-        {
-            _moveAction.started -= MoveAction;
-            _moveAction.performed -= MoveAction;
-            _moveAction.canceled -= MoveAction;
-            
-            _interactAction.started -= InteractAction;
-            _interactAction.performed -= InteractAction;
-            _interactAction.canceled -= InteractAction;
-        }
-
-        private void MoveAction(InputAction.CallbackContext context)
+        private void OnMove(InputAction.CallbackContext context)
         {
             if (context.started || context.performed)
                 ActorInput.Direction.SetAxis(context.ReadValue<Vector2>());
@@ -67,7 +64,7 @@ namespace Tofunaut.TofuRPG.Game
                 ActorInput.Direction.SetAxis(Vector2.zero);
         }
 
-        private void InteractAction(InputAction.CallbackContext context)
+        private void OnInteract(InputAction.CallbackContext context)
         {
             if (context.started)
                 ActorInput.Interact.Press();
