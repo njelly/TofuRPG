@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e56af2364dfb74dbf9c5f638df22e5, type: 3}
   m_Name: DefaultWanderBrain
   m_EditorClassIdentifier: 
-  minWaitTime: 0
-  maxWaitTime: 0
-  range: 0
+  minWaitTime: 2
+  maxWaitTime: 10
+  range: 4
+  repathWhenBlockedTimer: 2
