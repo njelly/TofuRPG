@@ -8,6 +8,8 @@ namespace Tofunaut.TofuRPG.UI
 {
     public class ViewControllerStack : SingletonBehaviour<ViewControllerStack>
     {
+        public static int Count => _instance._stack.Count;
+        
         protected override bool SetDontDestroyOnLoad => false;
 
         public Canvas canvas;

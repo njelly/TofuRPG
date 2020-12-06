@@ -37,7 +37,7 @@ namespace Tofunaut.TofuRPG.Game
             var actorInput = _actorInputProvider.ActorInput;
             if (actorInput.Interact.WasPressed)
                 TryInteract();
-            else if(actorInput.Interact.WasReleased)
+            else if(!actorInput.Interact.Held)
                 TryEndInteract();
         }
 

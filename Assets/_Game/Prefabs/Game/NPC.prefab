@@ -159,6 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b73e7be15965e48a3047381aba39b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  brainAsset: {fileID: 11400000, guid: e9dba7e263458074b90dad7277010f55, type: 2}
 --- !u!114 &5007577468786259100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _size: {x: 1, y: 1}
   _offset: {x: 0, y: 0}
-  moveSpeed: 5
+  moveSpeed: 3
   moveHesitationTime: 0.2
 --- !u!114 &5872838018147685460
 MonoBehaviour:

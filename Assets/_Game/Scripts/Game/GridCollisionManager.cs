@@ -12,6 +12,11 @@ namespace Tofunaut.TofuRPG.Game
         [SerializeField] private Vector2Int _recenterInterval;
         public GridCollider centeredOn;
 
+    #if UNITY_EDITOR
+        [Header("Develop")] 
+        public bool renderQuadTree;
+    #endif
+
         private List<GridCollider> _gridColliders = new List<GridCollider>();
         private Vector2IntQuadTree<GridCollider> _quadTree;
         private Vector2Int _offset;
@@ -43,7 +48,8 @@ namespace Tofunaut.TofuRPG.Game
             }
 
 #if UNITY_EDITOR
-            RenderQuadTree(_quadTree);
+            if(renderQuadTree)
+                RenderQuadTree(_quadTree);
 #endif
         }
 
@@ -108,6 +114,9 @@ namespace Tofunaut.TofuRPG.Game
 
         public static bool CanOccupy(GridCollider gc, Vector2Int coord)
         {
+            if (!_instance)
+                return false;
+            
             var min = _instance._size / -2;
             var max = _instance._size / 2;
             GetMinMax(gc, coord, out var gcMin, out var gcMax);
