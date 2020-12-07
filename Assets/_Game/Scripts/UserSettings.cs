@@ -18,5 +18,10 @@ namespace Tofunaut.TofuRPG
             get => PlayerPrefs.GetFloat(MusicVolumeKey, 1f);
             set => PlayerPrefs.SetFloat(MusicVolumeKey, value);
         }
+
+        public static void Save()
+        {
+            PlayerPrefs.Save();
+        }
     }
 }

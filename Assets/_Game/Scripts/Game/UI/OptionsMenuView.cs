@@ -37,8 +37,9 @@ namespace Tofunaut.TofuRPG.Game.UI
 
         public override async Task OnHide()
         {
+            UserSettings.Save();
+
             await base.OnHide();
-            await canvasGroup.DOFade(0f, canvasFadeInTime).AsyncWaitForCompletion();
         }
         
         public void SetSFXPercent(float percent)

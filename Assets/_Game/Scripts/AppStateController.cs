@@ -8,7 +8,7 @@ namespace Tofunaut.TofuUnity
         public bool IsComplete { get; private set; }
         public bool IsReady { get; protected set; }
 
-        public void Complete()
+        public virtual void Complete()
         {
             IsComplete = true;
         }
