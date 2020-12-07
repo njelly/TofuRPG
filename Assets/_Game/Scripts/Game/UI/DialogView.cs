@@ -49,15 +49,15 @@ namespace Tofunaut.TofuRPG.Game.UI
                 InGameStateController.Blackboard.Unsubscribe<EnqueueDialogEvent>(OnEnqueueDialog);
         }
 
-        public override async Task Show()
+        public override async Task OnShow()
         {
-            await base.Show();
+            await base.OnShow();
             await canvasGroup.DOFade(1f, canvasFadeInTime).AsyncWaitForCompletion();
         }
 
-        public override async Task Hide()
+        public override async Task OnHide()
         {
-            await base.Hide();
+            await base.OnHide();
             await canvasGroup.DOFade(0f, canvasFadeInTime).AsyncWaitForCompletion();
         }
 

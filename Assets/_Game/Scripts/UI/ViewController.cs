@@ -8,13 +8,13 @@ namespace Tofunaut.TofuRPG.UI
     {
         public bool IsShowing { get; private set; }
 
-        public virtual async Task Show()
+        public virtual async Task OnShow()
         {
             IsShowing = true;
             await Task.CompletedTask;
         }
 
-        public virtual async Task Hide()
+        public virtual async Task OnHide()
         {
             IsShowing = false;
             await Task.CompletedTask;
@@ -25,6 +25,9 @@ namespace Tofunaut.TofuRPG.UI
             playerInput.actions["UI/Submit"].started += OnSubmit;
             playerInput.actions["UI/Submit"].performed += OnSubmit;
             playerInput.actions["UI/Submit"].canceled += OnSubmit;
+            playerInput.actions["UI/Cancel"].started += OnCancel;
+            playerInput.actions["UI/Cancel"].performed += OnCancel;
+            playerInput.actions["UI/Cancel"].canceled += OnCancel;
         }
 
         public void StopListeningForInput(PlayerInput playerInput)
@@ -32,8 +35,13 @@ namespace Tofunaut.TofuRPG.UI
             playerInput.actions["UI/Submit"].started -= OnSubmit;
             playerInput.actions["UI/Submit"].performed -= OnSubmit;
             playerInput.actions["UI/Submit"].canceled -= OnSubmit;
+            playerInput.actions["UI/Cancel"].started -= OnCancel;
+            playerInput.actions["UI/Cancel"].performed -= OnCancel;
+            playerInput.actions["UI/Cancel"].canceled -= OnCancel;
         }
 
         protected virtual void OnSubmit(InputAction.CallbackContext context) { }
+        
+        protected virtual void OnCancel(InputAction.CallbackContext context) { }
     }
 }
