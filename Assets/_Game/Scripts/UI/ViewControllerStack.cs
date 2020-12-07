@@ -9,6 +9,7 @@ namespace Tofunaut.TofuRPG.UI
     public class ViewControllerStack : SingletonBehaviour<ViewControllerStack>
     {
         public static int Count => _instance._stack.Count;
+        public static PlayerInput PlayerInput => _instance.playerInput;
         
         protected override bool SetDontDestroyOnLoad => false;
 
@@ -51,6 +52,9 @@ namespace Tofunaut.TofuRPG.UI
 
         public static async void Pop(ViewController vc)
         {
+            if (Count <= 0)
+                return;
+            
             if (vc == _instance._stack.Peek())
             {
                 _instance._stack.Pop();

@@ -23,10 +23,8 @@ namespace Tofunaut.TofuRPG.Game.UI
 
     public class DialogView : ViewController
     {
+        [Header("Dialog")]
         public TextMeshProUGUI text;
-        public CanvasGroup canvasGroup;
-        public float canvasFadeInTime;
-        public PlayerInput playerInput;
 
         private Queue<string> _dialogs;
         private int _currentPageIndex;
@@ -47,18 +45,6 @@ namespace Tofunaut.TofuRPG.Game.UI
         {
             if (InGameStateController.Blackboard != null)
                 InGameStateController.Blackboard.Unsubscribe<EnqueueDialogEvent>(OnEnqueueDialog);
-        }
-
-        public override async Task OnShow()
-        {
-            await base.OnShow();
-            await canvasGroup.DOFade(1f, canvasFadeInTime).AsyncWaitForCompletion();
-        }
-
-        public override async Task OnHide()
-        {
-            await base.OnHide();
-            await canvasGroup.DOFade(0f, canvasFadeInTime).AsyncWaitForCompletion();
         }
 
         private void Next()

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using DG.Tweening;
 using Tofunaut.TofuRPG.UI;
 using UnityEngine;
@@ -9,11 +10,22 @@ namespace Tofunaut.TofuRPG.Game.UI
 {
     public class OptionsMenuView : ViewController
     {
-        public PlayerInput playerInput;
-        public CanvasGroup canvasGroup;
-        public float canvasFadeInTime;
+        [Header("OptionsMenu")]
         public Slider sfxVolumeSlider;
         public Slider musicVolumeSlider;
+
+        private InputAction _showOptionsAction;
+
+        private void Start()
+        {
+            _showOptionsAction = ViewControllerStack.PlayerInput.actions["Player/ShowOptions"];
+            _showOptionsAction.performed += OnShowOptions;
+        }
+
+        private void OnDestroy()
+        {
+            _showOptionsAction.performed -= OnShowOptions;
+        }
 
         public override async Task OnShow()
         {
@@ -21,7 +33,6 @@ namespace Tofunaut.TofuRPG.Game.UI
             musicVolumeSlider.value = UserSettings.MusicVolume;
             
             await base.OnShow();
-            await canvasGroup.DOFade(1f, canvasFadeInTime).AsyncWaitForCompletion();
         }
 
         public override async Task OnHide()
@@ -47,7 +58,14 @@ namespace Tofunaut.TofuRPG.Game.UI
 
         protected override void OnCancel(InputAction.CallbackContext context)
         {
-            OnCloseClicked();
+            if(context.performed)
+                OnCloseClicked();
+        }
+
+        private void OnShowOptions(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                ViewControllerStack.Push(this);
         }
     }
 }

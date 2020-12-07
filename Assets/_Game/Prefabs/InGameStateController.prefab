@@ -1576,10 +1576,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: affc2398c3894e86948bb0fb849b6dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 4008780404569209871}
   canvasGroup: {fileID: 8266152324153214673}
   canvasFadeInTime: 0.1
-  playerInput: {fileID: 3606197018845375617}
+  text: {fileID: 4008780404569209871}
 --- !u!222 &5957089194537274473
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1602,7 +1601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.5882353}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1627,7 +1626,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 1
-  m_BlocksRaycasts: 0
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &3814261595011853374
 GameObject:
@@ -1757,11 +1756,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ba7d2daddecf034096849cdfb2e8768, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInput: {fileID: 0}
   canvasGroup: {fileID: 1909537892286044332}
   canvasFadeInTime: 0.1
-  sfxVolumeSlider: {fileID: 0}
-  musicVolumeSlider: {fileID: 0}
+  sfxVolumeSlider: {fileID: 2841399126011326601}
+  musicVolumeSlider: {fileID: 6191434946331754902}
 --- !u!222 &6740438404523111177
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1784,7 +1782,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.5882353}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1807,9 +1805,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4210627614106106550}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
-  m_BlocksRaycasts: 0
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &4220058365634744257
 GameObject:
