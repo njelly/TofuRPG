@@ -7,20 +7,21 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class SignPost : MonoBehaviour, IInteractable
     {
+        public bool IsBeingInteractedWith => false;
+
         public event EventHandler<InteractableEventArgs> InteractionBegan;
-        public event EventHandler<InteractableEventArgs> InteractionEnded;
         
         [TextArea] public string dialog;
 
         public void BeginInteraction(Interactor interactor)
         {
-            InGameStateController.Blackboard?.Invoke(new EnqueueDialogEvent(dialog));
+            InGameStateController.Blackboard?.Invoke(new EnqueueDialogEvent(new Dialog
+            {
+               Text = dialog,
+               OnDialogComplete = null,
+            }));
+            
             InteractionBegan?.Invoke(this, new InteractableEventArgs(interactor));
-        }
-
-        public void EndInteraction(Interactor interactor)
-        {
-            InteractionEnded?.Invoke(this, new InteractableEventArgs(interactor));
         }
     }
 }

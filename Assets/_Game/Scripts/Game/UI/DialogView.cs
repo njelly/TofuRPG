@@ -13,12 +13,18 @@ namespace Tofunaut.TofuRPG.Game.UI
 {
     public class EnqueueDialogEvent : IBlackboardEvent
     {
-        public readonly string Dialog;
+        public readonly Dialog Dialog;
 
-        public EnqueueDialogEvent(string dialog)
+        public EnqueueDialogEvent(Dialog dialog)
         {
             Dialog = dialog;
         }
+    }
+
+    public class Dialog
+    {
+        public string Text;
+        public Action OnDialogComplete;
     }
 
     public class DialogView : ViewController
@@ -26,13 +32,14 @@ namespace Tofunaut.TofuRPG.Game.UI
         [Header("Dialog")]
         public TextMeshProUGUI text;
 
-        private Queue<string> _dialogs;
+        private Queue<Dialog> _queuedDialogs;
         private int _currentPageIndex;
         private int _currentCharIndex;
+        private Dialog _currentDialog;
 
         private void Awake()
         {
-            _dialogs = new Queue<string>();
+            _queuedDialogs = new Queue<Dialog>();
         }
 
         private void Start()
@@ -49,13 +56,16 @@ namespace Tofunaut.TofuRPG.Game.UI
 
         private void Next()
         {
-            if (_dialogs.Count <= 0)
+            _currentDialog?.OnDialogComplete?.Invoke();
+            if (_queuedDialogs.Count <= 0)
             {
+                _currentDialog = null;
                 ViewControllerStack.Pop(this);
                 return;
             }
 
-            text.text = _dialogs.Dequeue();
+            _currentDialog = _queuedDialogs.Dequeue();
+            text.text = _currentDialog.Text;
             _currentPageIndex = 0;
             _currentCharIndex = 0;
         }
@@ -71,10 +81,10 @@ namespace Tofunaut.TofuRPG.Game.UI
             if (e.Dialog == null)
                 return;
 
-            if (_dialogs.Count <= 0)
+            if (_queuedDialogs.Count <= 0)
                 ViewControllerStack.Push(this);
 
-            _dialogs.Enqueue(e.Dialog);
+            _queuedDialogs.Enqueue(e.Dialog);
             Next();
         }
     }

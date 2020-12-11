@@ -37,8 +37,6 @@ namespace Tofunaut.TofuRPG.Game
             var actorInput = _actorInputProvider.ActorInput;
             if (actorInput.Interact.WasPressed)
                 TryInteract();
-            else if(!actorInput.Interact.Held)
-                TryEndInteract();
         }
 
         private void TryInteract()
@@ -53,11 +51,6 @@ namespace Tofunaut.TofuRPG.Game
             }
 
             InteractingWith?.BeginInteraction(this);
-        }
-
-        private void TryEndInteract()
-        {
-            InteractingWith?.EndInteraction(this);
         }
 
         private void UpdateInteractOffset()

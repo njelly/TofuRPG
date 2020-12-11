@@ -4,10 +4,9 @@ namespace Tofunaut.TofuRPG.Game.Interfaces
 {
     public interface IInteractable
     {
+        bool IsBeingInteractedWith { get; }
         event EventHandler<InteractableEventArgs> InteractionBegan;
-        event EventHandler<InteractableEventArgs> InteractionEnded;
         void BeginInteraction(Interactor interactor);
-        void EndInteraction(Interactor interactor);
     }
 
     public class InteractableEventArgs : EventArgs

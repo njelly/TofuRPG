@@ -7,20 +7,26 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class NPCDialogInteractable : MonoBehaviour, IInteractable
     {
+        public bool IsBeingInteractedWith => _interactor;
+
         public event EventHandler<InteractableEventArgs> InteractionBegan;
-        public event EventHandler<InteractableEventArgs> InteractionEnded;
         
         [TextArea] public string dialog;
 
+        private Interactor _interactor;
+
         public void BeginInteraction(Interactor interactor)
         {
-            InGameStateController.Blackboard?.Invoke(new EnqueueDialogEvent(dialog));
+            _interactor = interactor;
+            InGameStateController.Blackboard?.Invoke(new EnqueueDialogEvent(new Dialog
+            {
+                Text = dialog,
+                OnDialogComplete = () =>
+                {
+                    _interactor = null;
+                },
+            }));
             InteractionBegan?.Invoke(this, new InteractableEventArgs(interactor));
-        }
-
-        public void EndInteraction(Interactor interactor)
-        {
-            InteractionEnded?.Invoke(this, new InteractableEventArgs(interactor));
         }
     }
 }

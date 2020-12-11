@@ -10,21 +10,14 @@ namespace Tofunaut.TofuRPG.Game.AI
 {
     public class NPCActorInputProvider : MonoBehaviour , IActorInputProvider
     {
-        [Flags]
-        private enum NPCFlags
-        {
-            Nothing = 0,
-            IsBeingInteractedWith = 1 << 0,
-        }
         
         public ActorInput ActorInput { get; private set; }
-        public bool IsBeingInteractedWith => (_flags & NPCFlags.IsBeingInteractedWith) != 0;
         
         public NPCBrain brainAsset;
 
-        private NPCFlags _flags;
         private GridCollider _collider;
         private NPCBrain _brain;
+        private IInteractable _interactable;
 
         private void Awake()
         {
@@ -32,12 +25,9 @@ namespace Tofunaut.TofuRPG.Game.AI
 
             var components = GetComponents<MonoBehaviour>();
             
-            var interactables = components.OfType<IInteractable>();
-            foreach (var interactable in interactables)
-            {
-                interactable.InteractionBegan += Interactable_InteractionBegan;
-                interactable.InteractionEnded += Interactable_InteractionEnded;
-            }
+            _interactable = components.OfType<IInteractable>().FirstOrDefault();
+            if(_interactable != null)
+                _interactable.InteractionBegan += Interactable_InteractionBegan;
 
             _collider = components.OfType<GridCollider>().FirstOrDefault();
 
@@ -47,7 +37,7 @@ namespace Tofunaut.TofuRPG.Game.AI
 
         private void Update()
         {
-            if (IsBeingInteractedWith)
+            if (_interactable != null && _interactable.IsBeingInteractedWith)
             {
                 ActorInput.Reset();
                 return;
@@ -72,14 +62,8 @@ namespace Tofunaut.TofuRPG.Game.AI
 
         private void Interactable_InteractionBegan(object sender, InteractableEventArgs e)
         {
-            _flags |= NPCFlags.IsBeingInteractedWith;
             var toInteractor = ((Vector2) (e.Interactor.transform.position - transform.localPosition)).RoundToVector2Int().ToVector2();
             ActorInput.Direction.SetAxis(toInteractor);
-        }
-
-        private void Interactable_InteractionEnded(object sender, InteractableEventArgs e)
-        {
-            _flags &= ~NPCFlags.IsBeingInteractedWith;
         }
         
         
