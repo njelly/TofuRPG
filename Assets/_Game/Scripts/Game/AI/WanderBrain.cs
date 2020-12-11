@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Tofunaut.TofuRPG.Game.Interfaces;
 using Tofunaut.TofuUnity;
@@ -61,6 +62,7 @@ namespace Tofunaut.TofuRPG.Game.AI
 
             Path = ChoosePath();
             _state = State.Walking;
+            _blockedTimer = 0f;
         }
 
         private void UpdateWalking()
@@ -104,6 +106,10 @@ namespace Tofunaut.TofuRPG.Game.AI
             {
                 pathArray = Vector2IntPathfinder.GetPath(_collider.Coord, target,
                     coord => GridCollisionManager.CanOccupy(_collider, coord), 999);
+                
+                // ensure the length of the path is never beyond our range (ex: we tried to path to the other side of a very long wall)
+                if (pathArray.Length > range)
+                    pathArray = new ArraySegment<Vector2Int>(pathArray, 0, range).ToArray();
             }
             catch
             {

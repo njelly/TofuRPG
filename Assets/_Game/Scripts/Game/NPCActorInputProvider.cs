@@ -22,7 +22,10 @@ namespace Tofunaut.TofuRPG.Game.AI
         private void Awake()
         {
             ActorInput = new ActorInput();
+        }
 
+        private void Start()
+        {
             var components = GetComponents<MonoBehaviour>();
             
             _interactable = components.OfType<IInteractable>().FirstOrDefault();
