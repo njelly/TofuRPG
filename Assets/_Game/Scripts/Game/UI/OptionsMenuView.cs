@@ -27,19 +27,15 @@ namespace Tofunaut.TofuRPG.Game.UI
             _showOptionsAction.performed -= OnShowOptions;
         }
 
-        public override async Task OnShow()
+        protected override void OnShow()
         {
             sfxVolumeSlider.value = UserSettings.SFXVolume;
             musicVolumeSlider.value = UserSettings.MusicVolume;
-            
-            await base.OnShow();
         }
 
-        public override async Task OnHide()
+        protected override void OnHide()
         {
             UserSettings.Save();
-
-            await base.OnHide();
         }
         
         public void SetSFXPercent(float percent)

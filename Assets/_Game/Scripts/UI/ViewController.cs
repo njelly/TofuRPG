@@ -14,19 +14,28 @@ namespace Tofunaut.TofuRPG.UI
         [Header("ViewController")]
         public CanvasGroup canvasGroup;
 
-        public virtual async Task OnShow()
+        public async Task Show()
         {
             IsShowing = true;
             canvasGroup.interactable = true;
+            
+            OnShow();
+            
             await canvasGroup.DOFade(1f, CanvasFadeInTime).AsyncWaitForCompletion();
         }
 
-        public virtual async Task OnHide()
+        public async Task Hide()
         {
             IsShowing = false;
             canvasGroup.interactable = false;
+            
+            OnHide();
+            
             await canvasGroup.DOFade(0f, CanvasFadeInTime).AsyncWaitForCompletion();
         }
+
+        protected virtual void OnShow() { }
+        protected virtual void OnHide() { }
 
         public void StartListeningForInput(PlayerInput playerInput)
         {

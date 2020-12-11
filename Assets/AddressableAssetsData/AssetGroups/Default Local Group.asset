@@ -23,6 +23,24 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
+  - m_GUID: 2a8827bacb092a44f8258c00174dc828
+    m_Address: ItemSpec_Stick
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: cb70b4ba2cfc07b4c9b5f078f71f7270
+    m_Address: ItemSpec_Charcoal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 4807ad037c0af4b45b91bf6211a97fc4
+    m_Address: ItemSpec_Gold
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8715f040ad23068469e4bfde2e947ad0, type: 2}
   m_SchemaSet:

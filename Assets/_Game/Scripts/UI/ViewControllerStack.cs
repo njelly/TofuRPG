@@ -47,7 +47,7 @@ namespace Tofunaut.TofuRPG.UI
             vc.StartListeningForInput(_instance.playerInput);
             _instance._stack.Push(vc);
             
-            await vc.OnShow();
+            await vc.Show();
         }
 
         public static async void Pop(ViewController vc)
@@ -59,7 +59,7 @@ namespace Tofunaut.TofuRPG.UI
             {
                 _instance._stack.Pop();
                 vc.StopListeningForInput(_instance.playerInput);
-                await vc.OnHide();
+                await vc.Hide();
             }
             else
             {

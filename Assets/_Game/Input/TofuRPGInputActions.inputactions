@@ -28,6 +28,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "ShowInventory",
+                    "type": "Button",
+                    "id": "90e26029-504c-4384-85f8-8794e8fbdfb9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ShowPartyStats",
+                    "type": "Button",
+                    "id": "86eefe15-aa83-4632-86fa-e67597c57113",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -193,6 +209,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "ShowOptions",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1b7770e3-7375-4878-a5ee-ff7bd4448f68",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShowInventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d71ae5a2-789e-4620-a0dd-187733ce7ccb",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShowPartyStats",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
