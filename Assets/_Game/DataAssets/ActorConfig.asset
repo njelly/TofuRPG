@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actorModels:
   - Name: Player
+    ViewAsset: PlayerActorView
     ActorInputSource: 1
-    AIAssetKey: 
+    AIAsset: 
     BaseHealth: 100
     MoveSpeed: 5
     ColliderSize: {x: 1, y: 1}
@@ -23,8 +24,9 @@ MonoBehaviour:
     MoveHesitationTime: 0.2
     BaseInteractOffset: {x: 1, y: 0}
   - Name: NPC_Child
+    ViewAsset: DefaultActorView
     ActorInputSource: 2
-    AIAssetKey: 
+    AIAsset: DefaultWanderBrain
     BaseHealth: 50
     MoveSpeed: 4
     ColliderSize: {x: 1, y: 1}
@@ -32,8 +34,9 @@ MonoBehaviour:
     MoveHesitationTime: 0
     BaseInteractOffset: {x: 1, y: 0}
   - Name: NPC_Adult
+    ViewAsset: DefaultActorView
     ActorInputSource: 2
-    AIAssetKey: 
+    AIAsset: DefaultWanderBrain
     BaseHealth: 80
     MoveSpeed: 4
     ColliderSize: {x: 1, y: 1}
@@ -41,8 +44,9 @@ MonoBehaviour:
     MoveHesitationTime: 0
     BaseInteractOffset: {x: 1, y: 0}
   - Name: NPC_Senior
+    ViewAsset: DefaultActorView
     ActorInputSource: 2
-    AIAssetKey: 
+    AIAsset: DefaultWanderBrain
     BaseHealth: 70
     MoveSpeed: 2
     ColliderSize: {x: 1, y: 1}
@@ -50,8 +54,9 @@ MonoBehaviour:
     MoveHesitationTime: 0
     BaseInteractOffset: {x: 1, y: 0}
   - Name: Skeleton
+    ViewAsset: DefaultActorView
     ActorInputSource: 2
-    AIAssetKey: 
+    AIAsset: DefaultWanderBrain
     BaseHealth: 50
     MoveSpeed: 2
     ColliderSize: {x: 1, y: 1}

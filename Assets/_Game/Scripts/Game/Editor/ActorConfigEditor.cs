@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Newtonsoft.Json;
 using Tofunaut.TofuUnity.Editor;
 using UnityEditor;
@@ -12,15 +13,41 @@ namespace Tofunaut.TofuRPG.Game.Editor
         public override void OnInspectorGUI()
         {
             if (GUILayout.Button("Import JSON"))
-                TextImportWindow.Init("Import ActorConfig JSON", Deserialize);
+                ShowTextImportWindow();
             
             DrawDefaultInspector();
+        }
+
+        private void ShowTextImportWindow()
+        {
+            var actorConfig = (ActorConfig) target;
+            var initialText = JsonConvert.SerializeObject(actorConfig.actorModels, Formatting.Indented,new Vector2IntConverter());
+            TextImportWindow.Init("Import ActorConfig JSON", initialText, Deserialize);
         }
 
         private void Deserialize(string s)
         {
             var actorModels = JsonConvert.DeserializeObject<ActorModel[]>(s, new Vector2IntConverter());
+            if (actorModels == null)
+            {
+                Debug.LogError("could not deserialize ActorModel array JSON");
+                return;
+            }
+            
             var actorConfig = (ActorConfig) target;
+            var duplicates = actorModels.GroupBy(x => x.Name)
+                .Where(g => g.Count() > 1)
+                .Select(g => g.Key);
+            
+            var duplicateArray = duplicates as string[] ?? duplicates.ToArray();
+            if (duplicateArray.Any())
+            {
+                foreach (var duplicateName in duplicateArray)
+                    Debug.LogError($"multiple ActorModels with name {duplicateName}");
+
+                return;
+            }
+            
             actorConfig.actorModels = actorModels;
             EditorUtility.SetDirty(target);
         }
