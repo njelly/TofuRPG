@@ -7,14 +7,13 @@ using static Tofunaut.TofuUnity.TofuAnimator;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class GridMover : GridCollider, IFacing
+    public class ActorGridMover : ActorGridCollider, IFacing
     {
         public ECardinalDirection4 Facing { get; private set; }
         public bool IsMoving => _moveSequence != null;
 
-        [Header("Movement")]
-        public float moveSpeed;
-        public float moveHesitationTime;
+        private float _moveSpeed;
+        private float _moveHesitationTime;
 
         private Sequence _moveSequence;
         private IActorInputProvider _actorInputProvider;
@@ -32,6 +31,14 @@ namespace Tofunaut.TofuRPG.Game
             ProcessActorInput();
         }
 
+        public override void Initialize(Actor actor, ActorModel model)
+        {
+            _moveSpeed = model.MoveSpeed;
+            _moveHesitationTime = model.MoveHesitationTime;
+            
+            base.Initialize(actor, model);
+        }
+
         private void ProcessActorInput()
         {
             if (_actorInputProvider == null)
@@ -44,7 +51,7 @@ namespace Tofunaut.TofuRPG.Game
             var newCoord = Coord + ((Vector2)actorInput.Direction).ToCardinalDirection4().ToVector2Int();
             if (_moveSequence == null)
                 Facing = ((Vector2)(newCoord - Coord)).ToCardinalDirection4();
-            if (actorInput.Direction.TimeHeld > moveHesitationTime)
+            if (actorInput.Direction.TimeHeld > _moveHesitationTime)
                 TryMoveTo(newCoord);
         }
 
@@ -61,7 +68,7 @@ namespace Tofunaut.TofuRPG.Game
                 return false;
 
             _moveSequence = gameObject.Sequence()
-                .Curve(EEaseType.Linear, 1f / moveSpeed, (float newValue) =>
+                .Curve(EEaseType.Linear, 1f / _moveSpeed, (float newValue) =>
                 {
                     transform.position = Vector2.LerpUnclamped(prevCoord, Coord, newValue);
                 })

@@ -10,15 +10,15 @@ namespace Tofunaut.TofuRPG.Game
     {
         [SerializeField] private Vector2Int _size;
         [SerializeField] private Vector2Int _recenterInterval;
-        public GridCollider centeredOn;
+        public IGridCollider centeredOn;
 
     #if UNITY_EDITOR
         [Header("Develop")] 
         public bool renderQuadTree;
     #endif
 
-        private List<GridCollider> _gridColliders = new List<GridCollider>();
-        private Vector2IntQuadTree<GridCollider> _quadTree;
+        private List<IGridCollider> _gridColliders = new List<IGridCollider>();
+        private Vector2IntQuadTree<IGridCollider> _quadTree;
         private Vector2Int _offset;
 
         protected override void Awake()
@@ -26,13 +26,13 @@ namespace Tofunaut.TofuRPG.Game
             base.Awake();
             
             _offset = Vector2Int.zero;
-            _quadTree = new Vector2IntQuadTree<GridCollider>(_size / -2, _size / 2);
+            _quadTree = new Vector2IntQuadTree<IGridCollider>(_size / -2, _size / 2);
         }
 
         private async void Update()
         {
             var newOffset = Vector2Int.zero;
-            if (centeredOn)
+            if (centeredOn != null)
             {
                 var coord = centeredOn.Coord;
                 newOffset = new Vector2Int(Mathf.CeilToInt(coord.x / (float)_recenterInterval.x) * _recenterInterval.x, 
@@ -53,7 +53,7 @@ namespace Tofunaut.TofuRPG.Game
 #endif
         }
 
-        public static async Task Add(GridCollider gc)
+        public static async Task Add(IGridCollider gc)
         {
             while (!_instance)
                 await Task.Yield();
@@ -75,13 +75,13 @@ namespace Tofunaut.TofuRPG.Game
                 }
         }
 
-        private static void GetMinMax(GridCollider gridCollider, Vector2Int at, out Vector2Int min, out Vector2Int max)
+        private static void GetMinMax(IGridCollider gridCollider, Vector2Int at, out Vector2Int min, out Vector2Int max)
         {
             min = at + gridCollider.Offset;
             max = min + gridCollider.Size;
         }
 
-        public static void Remove(GridCollider gc)
+        public static void Remove(IGridCollider gc)
         {
             if (!_instance)
                 return;
@@ -90,7 +90,7 @@ namespace Tofunaut.TofuRPG.Game
 
             var min = _instance._size / -2;
             var max = _instance._size / 2;
-            GetMinMax(gc, gc.Coord, out Vector2Int gcMin, out Vector2Int gcMax);
+            GetMinMax(gc, gc.Coord, out var gcMin, out var gcMax);
             for (var x = gcMin.x; x < gcMax.x; x++)
                 for (var y = gcMin.y; y < gcMax.y; y++)
                 {
@@ -102,7 +102,7 @@ namespace Tofunaut.TofuRPG.Game
                 }
         }
 
-        public static bool TryMove(GridCollider gc, Vector2Int from, Vector2Int to)
+        public static bool TryMove(IGridCollider gc, Vector2Int from, Vector2Int to)
         {
             if (!CanOccupy(gc, to))
                 return false;
@@ -112,7 +112,7 @@ namespace Tofunaut.TofuRPG.Game
             return true;
         }
 
-        public static bool CanOccupy(GridCollider gc, Vector2Int coord)
+        public static bool CanOccupy(IGridCollider gc, Vector2Int coord)
         {
             if (!_instance)
                 return false;
@@ -135,27 +135,27 @@ namespace Tofunaut.TofuRPG.Game
                                 // ignore self
                                 continue;
 
-                            layerMask |= collider.gameObject.layer;
+                            layerMask |= collider.Layer;
                         }
                     
-                    if ((gc.gameObject.layer & layerMask) != 0)
+                    if ((gc.Layer & layerMask) != 0)
                         return false;
                 }
 
             return true;
         }
 
-        public static GridCollider[] GetCollidersAt(Vector2Int coord)
+        public static IGridCollider[] GetCollidersAt(Vector2Int coord)
         {
             var adjustedCoord = coord - _instance._offset;
-            var toReturn = new List<GridCollider>();
-            if (_instance._quadTree.TryGet(adjustedCoord, out List<GridCollider> colliders))
+            var toReturn = new List<IGridCollider>();
+            if (_instance._quadTree.TryGet(adjustedCoord, out List<IGridCollider> colliders))
                 toReturn.AddRange(colliders);
             
             return toReturn.ToArray();
         }
 
-        public static void CenterOn(GridCollider gridCollider)
+        public static void CenterOn(IGridCollider gridCollider)
         {
             _instance.centeredOn = gridCollider;
         }

@@ -6,31 +6,32 @@ using Tofunaut.TofuUnity;
 
 namespace Tofunaut.TofuRPG.Game
 {
+    [RequireComponent(typeof(SpriteRenderer))]
     public class SpriteFlipXForFacing : MonoBehaviour
     {
-        public SpriteRenderer spriteRenderer;
-        public GameObject facingRoot;
-
+        private SpriteRenderer _spriteRenderer;
         private IFacing _facing;
 
-        private void Awake()
+        private void Start()
         {
-            var components = facingRoot.GetComponents<MonoBehaviour>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            
+            var components = transform.parent.GetComponents<MonoBehaviour>();
             _facing = components.OfType<IFacing>().FirstOrDefault();
         }
 
         private void LateUpdate()
         {
-            if (!spriteRenderer || _facing == null)
+            if (!_spriteRenderer || _facing == null)
                 return;
             
             switch (_facing.Facing)
             {
-                case ECardinalDirection4.East when spriteRenderer.flipX:
-                    spriteRenderer.flipX = false;
+                case ECardinalDirection4.East when _spriteRenderer.flipX:
+                    _spriteRenderer.flipX = false;
                     break;
-                case ECardinalDirection4.West when !spriteRenderer.flipX:
-                    spriteRenderer.flipX = true;
+                case ECardinalDirection4.West when !_spriteRenderer.flipX:
+                    _spriteRenderer.flipX = true;
                     break;
             }
         }

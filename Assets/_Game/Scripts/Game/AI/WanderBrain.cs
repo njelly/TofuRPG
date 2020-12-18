@@ -69,7 +69,7 @@ namespace Tofunaut.TofuRPG.Game.AI
         {
             if (HasPath)
             {
-                var gridMover = (GridMover) _collider;
+                var gridMover = (ActorGridMover) _collider;
                 if (gridMover && !gridMover.IsMoving)
                     _blockedTimer += Time.deltaTime;
 

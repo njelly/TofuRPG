@@ -5,24 +5,29 @@ using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class Interactor : MonoBehaviour
+    public class Interactor : ActorComponent
     {
         public Vector2Int InteractOffset { get; private set; }
         public IInteractable InteractingWith { get; private set; }
 
-        [SerializeField] private Vector2Int _baseInteractOffset;
-        
+        private Vector2Int _baseInteractOffset;
         private IActorInputProvider _actorInputProvider;
         private IFacing _facing;
         private ICoordProvider _coordProvider;
         private ECardinalDirection4 _prevFacing;
         private Vector2Int _defaultInteractOffset;
 
-        private void Awake()
+        private void Start()
         {
             var components = GetComponents<MonoBehaviour>();
             _actorInputProvider = components.OfType<IActorInputProvider>().FirstOrDefault();
             _facing = components.OfType<IFacing>().FirstOrDefault();
+            if (_facing == null)
+            {
+                Debug.LogError("parent does not contain a component of type IFacing");
+                return;
+            }
+            
             _coordProvider = components.OfType<ICoordProvider>().FirstOrDefault();
             _prevFacing = _facing?.Facing ?? ECardinalDirection4.East;
             
@@ -39,13 +44,22 @@ namespace Tofunaut.TofuRPG.Game
                 TryInteract();
         }
 
+        public override void Initialize(Actor actor, ActorModel model)
+        {
+            _baseInteractOffset = model.BaseInteractOffset;
+        }
+
         private void TryInteract()
         {
             InteractingWith = null;
             foreach (var gc in GridCollisionManager.GetCollidersAt(_coordProvider.Coord + InteractOffset))
             {
+                var gcGameObject = gc as MonoBehaviour;
+                if (gcGameObject == null)
+                    continue;
+                
                 // TODO: what's a clever way of doing this?
-                InteractingWith = gc.gameObject.GetComponent<IInteractable>();
+                InteractingWith = gcGameObject.GetComponent<IInteractable>();
                 if (InteractingWith != null)
                     break;
             }

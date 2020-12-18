@@ -1,18 +1,17 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tofunaut.TofuRPG.Game.Interfaces;
 using Tofunaut.TofuRPG.Game.UI;
+using Tofunaut.TofuRPG.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class PlayerActorInputProvider : MonoBehaviour, IActorInputProvider
+    public class PlayerActorInputProvider : ActorComponent, IActorInputProvider
     {
         public ActorInput ActorInput { get; private set; }
-
-        public AssetReference inputAssetReference;
-        public PlayerInput playerInput;
 
         private InputActionAsset _inputActionAsset;
 
@@ -23,38 +22,39 @@ namespace Tofunaut.TofuRPG.Game
 
         public async void Start()
         {
-            _inputActionAsset = await Addressables.LoadAssetAsync<InputActionAsset>(inputAssetReference).Task;
-            _inputActionAsset.Enable();
-
-            if (!playerInput)
-                playerInput = FindObjectOfType<PlayerInput>();
+            while (!ViewControllerStack.PlayerInput)
+                await Task.Yield();
             
-            playerInput.actions["Player/Move"].started += OnMove;
-            playerInput.actions["Player/Move"].performed += OnMove;
-            playerInput.actions["Player/Move"].canceled += OnMove;
-            playerInput.actions["Player/Interact"].started += OnInteract;
-            playerInput.actions["Player/Interact"].performed += OnInteract;
-            playerInput.actions["Player/Interact"].canceled += OnInteract;
+            GameCameraManager.SetTarget(transform);
+            
+            ViewControllerStack.PlayerInput.actions["Player/Move"].started += OnMove;
+            ViewControllerStack.PlayerInput.actions["Player/Move"].performed += OnMove;
+            ViewControllerStack.PlayerInput.actions["Player/Move"].canceled += OnMove;
+            ViewControllerStack.PlayerInput.actions["Player/Interact"].started += OnInteract;
+            ViewControllerStack.PlayerInput.actions["Player/Interact"].performed += OnInteract;
+            ViewControllerStack.PlayerInput.actions["Player/Interact"].canceled += OnInteract;
         }
 
         private void Update()
         {
-            if (playerInput && !playerInput.currentActionMap.name.Equals("Player"))
+            if (ViewControllerStack.PlayerInput && !ViewControllerStack.PlayerInput.currentActionMap.name.Equals("Player"))
                 ActorInput.Reset();
         }
 
         private void OnDestroy()
         {
-            if (!playerInput)
+            if (ViewControllerStack.PlayerInput == null)
                 return;
             
-            playerInput.actions["Player/Move"].started -= OnMove;
-            playerInput.actions["Player/Move"].performed -= OnMove;
-            playerInput.actions["Player/Move"].canceled -= OnMove;
-            playerInput.actions["Player/Interact"].started -= OnInteract;
-            playerInput.actions["Player/Interact"].performed -= OnInteract;
-            playerInput.actions["Player/Interact"].canceled -= OnInteract;
+            ViewControllerStack.PlayerInput.actions["Player/Move"].started -= OnMove;
+            ViewControllerStack.PlayerInput.actions["Player/Move"].performed -= OnMove;
+            ViewControllerStack.PlayerInput.actions["Player/Move"].canceled -= OnMove;
+            ViewControllerStack.PlayerInput.actions["Player/Interact"].started -= OnInteract;
+            ViewControllerStack.PlayerInput.actions["Player/Interact"].performed -= OnInteract;
+            ViewControllerStack.PlayerInput.actions["Player/Interact"].canceled -= OnInteract;
         }
+
+        public override void Initialize(Actor actor, ActorModel model) { }
 
         private void OnMove(InputAction.CallbackContext context)
         {

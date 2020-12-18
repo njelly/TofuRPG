@@ -16,8 +16,11 @@ namespace Tofunaut.TofuRPG.Game.UI
 
         private InputAction _showOptionsAction;
 
-        private void Start()
+        private async void Start()
         {
+            while (ViewControllerStack.PlayerInput == null)
+                await Task.Yield();
+
             _showOptionsAction = ViewControllerStack.PlayerInput.actions["Player/ShowOptions"];
             _showOptionsAction.performed += OnShowOptions;
         }

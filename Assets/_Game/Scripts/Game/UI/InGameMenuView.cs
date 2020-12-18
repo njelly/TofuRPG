@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tofunaut.TofuRPG.UI;
 using Tofunaut.TofuUnity.UI;
 using UnityEngine;
@@ -13,8 +14,11 @@ namespace Tofunaut.TofuRPG.Game.UI
         private InputAction _showInventoryAction;
         private InputAction _showPartyStatsAction;
 
-        private void Start()
+        private async void Start()
         {
+            while (ViewControllerStack.PlayerInput == null)
+                await Task.Yield();
+            
             _showInventoryAction = ViewControllerStack.PlayerInput.actions["Player/ShowInventory"];
             _showPartyStatsAction = ViewControllerStack.PlayerInput.actions["Player/ShowPartyStats"];
             _showInventoryAction.performed += OnShowInventory;

@@ -3698,6 +3698,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b00e5351a93a64ba0c99dd58e4791b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actorConfigAssetReference:
+    m_AssetGUID: 87b22912ce52deb4396e15e6989c1071
+    m_SubObjectName: 
+    m_SubObjectType: 
 --- !u!114 &2389393712331433365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3712,7 +3716,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _size: {x: 64, y: 64}
   _recenterInterval: {x: 16, y: 16}
-  centeredOn: {fileID: 0}
   renderQuadTree: 1
 --- !u!114 &2578317888818446126
 MonoBehaviour:

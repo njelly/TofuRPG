@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d14bd704b39df924c9c1e814571b7c28, type: 3}
+  m_Name: ActorConfig
+  m_EditorClassIdentifier: 
+  actorModels:
+  - Name: Player
+    ActorInputSource: 1
+    AIAssetKey: 
+    BaseHealth: 100
+    MoveSpeed: 5
+    ColliderSize: {x: 1, y: 1}
+    ColliderOffset: {x: 0, y: 0}
+    MoveHesitationTime: 0.2
+    BaseInteractOffset: {x: 1, y: 0}
+  - Name: NPC_Child
+    ActorInputSource: 2
+    AIAssetKey: 
+    BaseHealth: 50
+    MoveSpeed: 4
+    ColliderSize: {x: 1, y: 1}
+    ColliderOffset: {x: 0, y: 0}
+    MoveHesitationTime: 0
+    BaseInteractOffset: {x: 1, y: 0}
+  - Name: NPC_Adult
+    ActorInputSource: 2
+    AIAssetKey: 
+    BaseHealth: 80
+    MoveSpeed: 4
+    ColliderSize: {x: 1, y: 1}
+    ColliderOffset: {x: 0, y: 0}
+    MoveHesitationTime: 0
+    BaseInteractOffset: {x: 1, y: 0}
+  - Name: NPC_Senior
+    ActorInputSource: 2
+    AIAssetKey: 
+    BaseHealth: 70
+    MoveSpeed: 2
+    ColliderSize: {x: 1, y: 1}
+    ColliderOffset: {x: 0, y: 0}
+    MoveHesitationTime: 0
+    BaseInteractOffset: {x: 1, y: 0}
+  - Name: Skeleton
+    ActorInputSource: 2
+    AIAssetKey: 
+    BaseHealth: 50
+    MoveSpeed: 2
+    ColliderSize: {x: 1, y: 1}
+    ColliderOffset: {x: 0, y: 0}
+    MoveHesitationTime: 0
+    BaseInteractOffset: {x: 1, y: 0}

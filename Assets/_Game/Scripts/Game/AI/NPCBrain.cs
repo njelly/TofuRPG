@@ -13,7 +13,7 @@ namespace Tofunaut.TofuRPG.Game.AI
         public Queue<Vector2Int> Path { get; protected set; }
         public IInteractable TargetInteractable { get; protected set; }
 
-        protected GridCollider _collider;
+        protected ActorGridCollider _collider;
 
         private void Awake()
         {
@@ -23,7 +23,7 @@ namespace Tofunaut.TofuRPG.Game.AI
         public virtual void Initialize(GameObject actor)
         {
             var components = actor.GetComponents<MonoBehaviour>();
-            _collider = components.OfType<GridCollider>().FirstOrDefault();
+            _collider = components.OfType<ActorGridCollider>().FirstOrDefault();
             Path = new Queue<Vector2Int>();
         }
 

@@ -41,6 +41,18 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
+  - m_GUID: 87b22912ce52deb4396e15e6989c1071
+    m_Address: ActorConfig
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: d96bfb3d13b4a8d4ba51a19456ab76e3
+    m_Address: PlayerActorView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8715f040ad23068469e4bfde2e947ad0, type: 2}
   m_SchemaSet:

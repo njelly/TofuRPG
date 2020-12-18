@@ -9,7 +9,7 @@ namespace Tofunaut.TofuRPG.UI
     public class ViewControllerStack : SingletonBehaviour<ViewControllerStack>
     {
         public static int Count => _instance._stack.Count;
-        public static PlayerInput PlayerInput => _instance.playerInput;
+        public static PlayerInput PlayerInput => !_instance ? null : _instance.playerInput;
         
         protected override bool SetDontDestroyOnLoad => false;
 

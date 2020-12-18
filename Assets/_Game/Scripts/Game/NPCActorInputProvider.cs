@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tofunaut.TofuRPG.Game.Interfaces;
 using Tofunaut.TofuRPG.UI;
 using Tofunaut.TofuUnity;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Tofunaut.TofuRPG.Game.AI
 {
-    public class NPCActorInputProvider : MonoBehaviour , IActorInputProvider
+    public class NPCActorInputProvider : ActorComponent , IActorInputProvider
     {
-        
         public ActorInput ActorInput { get; private set; }
-        
-        public NPCBrain brainAsset;
 
-        private GridCollider _collider;
+        private ActorGridCollider _collider;
         private NPCBrain _brain;
         private IInteractable _interactable;
 
@@ -24,7 +23,7 @@ namespace Tofunaut.TofuRPG.Game.AI
             ActorInput = new ActorInput();
         }
 
-        private void Start()
+        private async void Start()
         {
             var components = GetComponents<MonoBehaviour>();
             
@@ -32,9 +31,11 @@ namespace Tofunaut.TofuRPG.Game.AI
             if(_interactable != null)
                 _interactable.InteractionBegan += Interactable_InteractionBegan;
 
-            _collider = components.OfType<GridCollider>().FirstOrDefault();
+            _collider = components.OfType<ActorGridCollider>().FirstOrDefault();
 
-            _brain = Instantiate(brainAsset);
+            while (!_brain)
+                await Task.Yield();
+            
             _brain.Initialize(gameObject);
         }
 
@@ -46,9 +47,24 @@ namespace Tofunaut.TofuRPG.Game.AI
                 return;
             }
             
+            if(_brain)
+                UpdateBrain();
+        }
+
+        private void UpdateBrain()
+        {
             _brain.Update();
-            
             CheckBrainPath();
+        }
+
+        public override async void Initialize(Actor actor, ActorModel model)
+        {
+            if (!string.IsNullOrEmpty(model.AIAsset))
+            {
+                var npcBrain = await Addressables.LoadAssetAsync<NPCBrain>(model.AIAsset).Task;
+                _brain = Instantiate(npcBrain);
+                _brain.Initialize(gameObject);
+            }
         }
 
         private void CheckBrainPath()
