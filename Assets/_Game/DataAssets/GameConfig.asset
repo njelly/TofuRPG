@@ -1,0 +1,166 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 898f62f58bf64544daeac98b772e93a7, type: 3}
+  m_Name: GameConfig
+  m_EditorClassIdentifier: 
+  actorModels:
+  - Name: Player
+    ViewAsset: PlayerActorView
+    ActorInputSource: 1
+    AIAsset: 
+    MoveSpeed: 5
+    ColliderSize: {x: 1, y: 1}
+    ColliderOffset: {x: 0, y: 0}
+    MoveHesitationTime: 0.2
+    BaseInteractOffset: {x: 1, y: 0}
+    Health: 100
+    ImpactResistance: 0
+    CrushResistance: 10
+    SlashResistance: 0
+    PierceResistance: 0
+    BurnResistance: 0
+    FreezeResistance: 0
+    ShockResistance: 0
+    PoisonResitance: 0
+    BaseStrength: 8
+    BaseInteligence: 8
+    BaseCharisma: 8
+  - Name: NPC_Child
+    ViewAsset: DefaultActorView
+    ActorInputSource: 2
+    AIAsset: DefaultWanderBrain
+    MoveSpeed: 4
+    ColliderSize: {x: 1, y: 1}
+    ColliderOffset: {x: 0, y: 0}
+    MoveHesitationTime: 0
+    BaseInteractOffset: {x: 1, y: 0}
+    Health: 50
+    ImpactResistance: 0
+    CrushResistance: 10
+    SlashResistance: 0
+    PierceResistance: 0
+    BurnResistance: 0
+    FreezeResistance: 0
+    ShockResistance: 0
+    PoisonResitance: 0
+    BaseStrength: 3
+    BaseInteligence: 5
+    BaseCharisma: 7
+  - Name: NPC_Adult
+    ViewAsset: DefaultActorView
+    ActorInputSource: 2
+    AIAsset: DefaultWanderBrain
+    MoveSpeed: 4
+    ColliderSize: {x: 1, y: 1}
+    ColliderOffset: {x: 0, y: 0}
+    MoveHesitationTime: 0
+    BaseInteractOffset: {x: 1, y: 0}
+    Health: 80
+    ImpactResistance: 0
+    CrushResistance: 10
+    SlashResistance: 0
+    PierceResistance: 0
+    BurnResistance: 0
+    FreezeResistance: 0
+    ShockResistance: 0
+    PoisonResitance: 0
+    BaseStrength: 7
+    BaseInteligence: 7
+    BaseCharisma: 7
+  - Name: NPC_Senior
+    ViewAsset: DefaultActorView
+    ActorInputSource: 2
+    AIAsset: DefaultWanderBrain
+    MoveSpeed: 2
+    ColliderSize: {x: 1, y: 1}
+    ColliderOffset: {x: 0, y: 0}
+    MoveHesitationTime: 0
+    BaseInteractOffset: {x: 1, y: 0}
+    Health: 70
+    ImpactResistance: 0
+    CrushResistance: 10
+    SlashResistance: 0
+    PierceResistance: 0
+    BurnResistance: 0
+    FreezeResistance: 0
+    ShockResistance: 0
+    PoisonResitance: 0
+    BaseStrength: 5
+    BaseInteligence: 7
+    BaseCharisma: 7
+  - Name: Skeleton
+    ViewAsset: DefaultActorView
+    ActorInputSource: 2
+    AIAsset: DefaultWanderBrain
+    MoveSpeed: 2
+    ColliderSize: {x: 1, y: 1}
+    ColliderOffset: {x: 0, y: 0}
+    MoveHesitationTime: 0
+    BaseInteractOffset: {x: 1, y: 0}
+    Health: 50
+    ImpactResistance: 0
+    CrushResistance: 0
+    SlashResistance: 0
+    PierceResistance: 0
+    BurnResistance: 50
+    FreezeResistance: 50
+    ShockResistance: 50
+    PoisonResitance: 0
+    BaseStrength: 4
+    BaseInteligence: 2
+    BaseCharisma: 0
+  attackModels:
+  - Name: Player
+    DamageType: 0
+    Damage: 0
+    BloodiedChance: 0
+    BurnedChance: 0
+    FrozenChance: 0
+    StunnedChance: 0
+    PoisonedChance: 0
+    Difficulty: 0
+  - Name: NPC_Child
+    DamageType: 0
+    Damage: 0
+    BloodiedChance: 0
+    BurnedChance: 0
+    FrozenChance: 0
+    StunnedChance: 0
+    PoisonedChance: 0
+    Difficulty: 0
+  - Name: NPC_Adult
+    DamageType: 0
+    Damage: 0
+    BloodiedChance: 0
+    BurnedChance: 0
+    FrozenChance: 0
+    StunnedChance: 0
+    PoisonedChance: 0
+    Difficulty: 0
+  - Name: NPC_Senior
+    DamageType: 0
+    Damage: 0
+    BloodiedChance: 0
+    BurnedChance: 0
+    FrozenChance: 0
+    StunnedChance: 0
+    PoisonedChance: 0
+    Difficulty: 0
+  - Name: Skeleton
+    DamageType: 0
+    Damage: 0
+    BloodiedChance: 0
+    BurnedChance: 0
+    FrozenChance: 0
+    StunnedChance: 0
+    PoisonedChance: 0
+    Difficulty: 0

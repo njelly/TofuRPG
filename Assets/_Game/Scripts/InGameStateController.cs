@@ -8,13 +8,13 @@ namespace Tofunaut.TofuRPG
 {
     public class InGameStateController : AppStateController<InGameStateController>
     {
-        public static ActorConfig ActorConfig => _instance ? _instance.IsReady ? _instance._actorConfig : null : null;
+        public static GameConfig Config => _instance && _instance.IsReady ? _instance._gameConfig : null;
         public static Blackboard Blackboard => _instance ? _instance._blackboard : null;
 
-        public AssetReference actorConfigAssetReference;
+        public AssetReference gameConfigAssetReference;
 
         private Blackboard _blackboard;
-        private ActorConfig _actorConfig;
+        private GameConfig _gameConfig;
 
         protected override void Awake()
         {
@@ -25,7 +25,7 @@ namespace Tofunaut.TofuRPG
 
         private async void Start()
         {
-            _actorConfig = await Addressables.LoadAssetAsync<ActorConfig>(actorConfigAssetReference).Task;
+            _gameConfig = await Addressables.LoadAssetAsync<GameConfig>(gameConfigAssetReference).Task;
             IsReady = true;
         }
     }

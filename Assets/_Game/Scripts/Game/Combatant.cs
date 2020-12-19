@@ -2,15 +2,33 @@
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class Combatant : MonoBehaviour
+    public class Combatant : ActorComponent
     {
         public Attack[] attacks;
 
-        public void DoAttack(int attackIndex, Damageable target)
+        private Actor _actor;
+
+        public void DoAttack(string attackKey, Damageable target)
         {
-            var attack = Instantiate(attacks[attackIndex]);
-            attack.Initialize(this);
+            if (InGameStateController.Config == null)
+            {
+                Debug.LogError("cant attack, config is null");
+                return;
+            }
+
+            if (!InGameStateController.Config.TryGetAttackModel(attackKey, out var attackModel))
+            {
+                Debug.LogError($"could not find attack with key {attackKey}");
+                return;
+            }
+            
+            var attack = new Attack(this, attackModel);
             target.TakeDamage(attack);
+        }
+
+        public override void Initialize(Actor actor, ActorModel model)
+        {
+            _actor = actor;
         }
     }
 }

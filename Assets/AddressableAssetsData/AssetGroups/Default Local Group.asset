@@ -41,12 +41,6 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
-  - m_GUID: 87b22912ce52deb4396e15e6989c1071
-    m_Address: ActorConfig
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
   - m_GUID: d96bfb3d13b4a8d4ba51a19456ab76e3
     m_Address: PlayerActorView
     m_ReadOnly: 0
@@ -61,6 +55,12 @@ MonoBehaviour:
     m_TargetAsset: {fileID: 0}
   - m_GUID: e9dba7e263458074b90dad7277010f55
     m_Address: DefaultWanderBrain
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: e50ea1d868c8f3347bf99fef6110db21
+    m_Address: Assets/_Game/DataAssets/GameConfig.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}

@@ -2,16 +2,17 @@
 
 namespace Tofunaut.TofuRPG.Game
 {
-    [CreateAssetMenu(fileName = "new Attack", menuName = "TofuRPG/Attack")]
-    public class Attack : ScriptableObject
+    public class Attack
     {
-        public Combatant Instigator { get; private set; }
-        public string DisplayName;
-        public float BaseDamage;
+        public float Damage => _model.Damage;
+        public readonly Combatant instigator;
 
-        public void Initialize(Combatant instigator)
+        private readonly AttackModel _model;
+        
+        public Attack(Combatant instigator, AttackModel model)
         {
-            Instigator = instigator;
+            this.instigator = instigator;
+            _model = model;
         }
     }
 }

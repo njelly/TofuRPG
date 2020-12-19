@@ -6006,6 +6006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actorModelKey: NPC_Adult
+  initialXp: 0
 --- !u!4 &749916901 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8808666605540164433, guid: 53efe3111739e5c42bca42b66506ab10,
@@ -6629,6 +6630,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actorModelKey: Player
+  initialXp: 0
 --- !u!1001 &912431237
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16167,7 +16169,7 @@ PrefabInstance:
     - target: {fileID: 4273005820661722738, guid: e621a7e356680a747bd59b7e183188dc,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000043239554
+      value: 0.48858428
       objectReference: {fileID: 0}
     - target: {fileID: 4295198488594610361, guid: e621a7e356680a747bd59b7e183188dc,
         type: 3}
@@ -16432,7 +16434,7 @@ PrefabInstance:
     - target: {fileID: 5001975891463621222, guid: e621a7e356680a747bd59b7e183188dc,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000043239554
+      value: 0.48858428
       objectReference: {fileID: 0}
     - target: {fileID: 5029574437532619535, guid: e621a7e356680a747bd59b7e183188dc,
         type: 3}

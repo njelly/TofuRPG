@@ -12,10 +12,17 @@ namespace Tofunaut.TofuRPG.Game
         private static uint _idCounter;
         
         public uint Id { get; private set; }
+        public int Xp { get; private set; }
+
+        private float _baseStrength;
+        private float _baseIntelligence;
+        private float _baseCharisma;
         
-        public async Task Initialize(ActorModel model)
+        public async Task Initialize(ActorModel model, int xp)
         {
             Id = ++ _idCounter;
+            Xp = xp;
+            
             gameObject.name = $"{model.Name}_{Id}";
             gameObject.layer = LayerMask.NameToLayer("Actor");
             
@@ -38,6 +45,9 @@ namespace Tofunaut.TofuRPG.Game
                     gameObject.AddComponent<ActorGridCollider>().Initialize(this, model);
 
             gameObject.AddComponent<Interactor>().Initialize(this, model);
+
+            if (model.Health > 0)
+                gameObject.AddComponent<Damageable>().Initialize(this, model);
             
             // instantiate the view last, return if there is no view
             if (string.IsNullOrEmpty(model.ViewAsset))

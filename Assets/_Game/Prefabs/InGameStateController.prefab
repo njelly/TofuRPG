@@ -3698,8 +3698,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b00e5351a93a64ba0c99dd58e4791b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actorConfigAssetReference:
-    m_AssetGUID: 87b22912ce52deb4396e15e6989c1071
+  gameConfigAssetReference:
+    m_AssetGUID: e50ea1d868c8f3347bf99fef6110db21
     m_SubObjectName: 
     m_SubObjectType: 
 --- !u!114 &2389393712331433365
