@@ -64,6 +64,8 @@ namespace Tofunaut.TofuRPG.Game
         public float BaseStrength;
         public float BaseInteligence;
         public float BaseCharisma;
+        public float AggroRange;
+        public string DefaultAttack;
     }
 
     [Serializable]

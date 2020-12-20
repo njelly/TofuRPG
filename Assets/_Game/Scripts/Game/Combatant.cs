@@ -7,6 +7,8 @@ namespace Tofunaut.TofuRPG.Game
         public Attack[] attacks;
 
         private Actor _actor;
+        private string _defaultAttack;
+        private float _baseAggroRange;
 
         public void DoAttack(string attackKey, Damageable target)
         {
@@ -29,6 +31,8 @@ namespace Tofunaut.TofuRPG.Game
         public override void Initialize(Actor actor, ActorModel model)
         {
             _actor = actor;
+            _defaultAttack = model.DefaultAttack;
+            _baseAggroRange = model.AggroRange;
         }
     }
 }

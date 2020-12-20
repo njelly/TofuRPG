@@ -17,7 +17,7 @@ namespace Tofunaut.TofuRPG.Game
         public bool renderQuadTree;
     #endif
 
-        private List<IGridCollider> _gridColliders = new List<IGridCollider>();
+        private Dictionary<IGridCollider, BoxCollider2D> _gridColliders = new Dictionary<IGridCollider, BoxCollider2D>();
         private Vector2IntQuadTree<IGridCollider> _quadTree;
         private Vector2Int _offset;
 
@@ -43,7 +43,7 @@ namespace Tofunaut.TofuRPG.Game
             {
                 _offset = newOffset;
                 _quadTree.Clear();
-                foreach (var gc in _gridColliders)
+                foreach (var gc in _gridColliders.Keys)
                     await Add(gc);
             }
 
@@ -57,8 +57,14 @@ namespace Tofunaut.TofuRPG.Game
         {
             while (!_instance)
                 await Task.Yield();
-            
-            _instance._gridColliders.Add(gc);
+
+            var boxCollider = gc is Component component ? component.gameObject.RequireComponent<BoxCollider2D>() : null;
+            if (boxCollider != null)
+            {
+                boxCollider.size = gc.Size;
+                boxCollider.isTrigger = true;
+            }
+            _instance._gridColliders.Add(gc, boxCollider);
 
             var min = new Vector2Int(int.MinValue, int.MinValue);
             var max = new Vector2Int(int.MaxValue, int.MaxValue);

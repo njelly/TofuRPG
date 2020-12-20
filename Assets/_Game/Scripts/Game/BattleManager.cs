@@ -1,6 +1,8 @@
-﻿namespace _Game.Scripts.Game
+﻿using Tofunaut.TofuUnity;
+
+namespace Tofunaut.TofuRPG.Game
 {
-    public class BattleManager
+    public class BattleManager : SingletonBehaviour<BattleManager>
     {
         
     }

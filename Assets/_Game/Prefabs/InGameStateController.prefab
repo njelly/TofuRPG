@@ -3662,6 +3662,7 @@ GameObject:
   - component: {fileID: 2389393712331433365}
   - component: {fileID: 2578317888818446126}
   - component: {fileID: 4506120149387484520}
+  - component: {fileID: 583063124340123263}
   m_Layer: 0
   m_Name: InGameStateController
   m_TagString: Untagged
@@ -3746,6 +3747,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 4737371050364712903}
   playerInput: {fileID: 3606197018845375617}
+--- !u!114 &583063124340123263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7448415079455928201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9160f528be432eaf9d671703119878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7557668201882888701
 GameObject:
   m_ObjectHideFlags: 0

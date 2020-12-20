@@ -1,9 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Tofunaut.TofuRPG.Game.AI;
+using Tofunaut.TofuUnity;
+using UnityEditor;
+
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+
+#endif
 
 namespace Tofunaut.TofuRPG.Game
 {
@@ -12,10 +17,15 @@ namespace Tofunaut.TofuRPG.Game
     
     }
     
+    [ExecuteInEditMode]
     public class ActorSpawner : MonoBehaviour
     {
         [ActorModelName] public string actorModelKey;
         public int initialXp;
+
+        private string _prevActorModelKey;
+        private SpriteRenderer _spriteRenderer;
+        private GameConfig _loadedGameConfig;
 
         private async void Start()
         {
@@ -42,5 +52,51 @@ namespace Tofunaut.TofuRPG.Game
 
             await gameObject.AddComponent<Actor>().Initialize(model, initialXp);
         }
+
+#if UNITY_EDITOR
+        public  void OnValidate()
+        {
+            // automatically create a sprite renderer using the sprite from the view this will spawn
+            
+            if (actorModelKey.Equals(_prevActorModelKey))
+                return;
+
+            if (!_spriteRenderer)
+            {
+                _spriteRenderer = gameObject.RequireComponent<SpriteRenderer>();
+                _spriteRenderer.sortingLayerName = "Actor";
+                var orderInLayerByY = gameObject.RequireComponent<SpriteOrderInLayerByY>();
+                orderInLayerByY.spriteRenderer = _spriteRenderer;
+                orderInLayerByY.invert = true;
+            }
+
+            if (!_loadedGameConfig)
+            {
+                var guid = AssetDatabase.FindAssets("t:GameConfig").FirstOrDefault();
+                if(string.IsNullOrEmpty(guid))
+                    Debug.LogError("no GameConfig exists in the project");
+
+                _loadedGameConfig = AssetDatabase.LoadAssetAtPath<GameConfig>(AssetDatabase.GUIDToAssetPath(guid));
+            }
+            
+            if (!_loadedGameConfig.TryGetActorModel(actorModelKey, out var actorModel))
+                Debug.LogError($"no actor model found for {actorModelKey}");
+
+            _prevActorModelKey = actorModelKey;
+            
+            // if there's no view asset, just return
+            if (string.IsNullOrEmpty(actorModel.ViewAsset))
+                return;
+            
+            SetSprite(actorModel.ViewAsset);
+        }
+
+        private async void SetSprite(string viewKey)
+        {
+            var viewPrefab = await Addressables.LoadAssetAsync<GameObject>(viewKey).Task;
+            var spriteRendPrefab = viewPrefab.GetComponent<SpriteRenderer>();
+            _spriteRenderer.sprite = Instantiate(spriteRendPrefab.sprite);
+        }
+#endif
     }
 }

@@ -34,6 +34,8 @@ MonoBehaviour:
     BaseStrength: 8
     BaseInteligence: 8
     BaseCharisma: 8
+    AggroRange: 5
+    DefaultAttack: HumanMelee
   - Name: NPC_Child
     ViewAsset: DefaultActorView
     ActorInputSource: 2
@@ -55,6 +57,8 @@ MonoBehaviour:
     BaseStrength: 3
     BaseInteligence: 5
     BaseCharisma: 7
+    AggroRange: 0
+    DefaultAttack: 
   - Name: NPC_Adult
     ViewAsset: DefaultActorView
     ActorInputSource: 2
@@ -76,6 +80,8 @@ MonoBehaviour:
     BaseStrength: 7
     BaseInteligence: 7
     BaseCharisma: 7
+    AggroRange: 0
+    DefaultAttack: 
   - Name: NPC_Senior
     ViewAsset: DefaultActorView
     ActorInputSource: 2
@@ -97,6 +103,8 @@ MonoBehaviour:
     BaseStrength: 5
     BaseInteligence: 7
     BaseCharisma: 7
+    AggroRange: 0
+    DefaultAttack: 
   - Name: Skeleton
     ViewAsset: DefaultActorView
     ActorInputSource: 2
@@ -118,47 +126,22 @@ MonoBehaviour:
     BaseStrength: 4
     BaseInteligence: 2
     BaseCharisma: 0
+    AggroRange: 8
+    DefaultAttack: SkeletonMelee
   attackModels:
-  - Name: Player
+  - Name: HumanMelee
     DamageType: 0
-    Damage: 0
-    BloodiedChance: 0
+    Damage: 30
+    BloodiedChance: 5
     BurnedChance: 0
     FrozenChance: 0
     StunnedChance: 0
     PoisonedChance: 0
     Difficulty: 0
-  - Name: NPC_Child
+  - Name: SkeletonMelee
     DamageType: 0
-    Damage: 0
-    BloodiedChance: 0
-    BurnedChance: 0
-    FrozenChance: 0
-    StunnedChance: 0
-    PoisonedChance: 0
-    Difficulty: 0
-  - Name: NPC_Adult
-    DamageType: 0
-    Damage: 0
-    BloodiedChance: 0
-    BurnedChance: 0
-    FrozenChance: 0
-    StunnedChance: 0
-    PoisonedChance: 0
-    Difficulty: 0
-  - Name: NPC_Senior
-    DamageType: 0
-    Damage: 0
-    BloodiedChance: 0
-    BurnedChance: 0
-    FrozenChance: 0
-    StunnedChance: 0
-    PoisonedChance: 0
-    Difficulty: 0
-  - Name: Skeleton
-    DamageType: 0
-    Damage: 0
-    BloodiedChance: 0
+    Damage: 20
+    BloodiedChance: 5
     BurnedChance: 0
     FrozenChance: 0
     StunnedChance: 0

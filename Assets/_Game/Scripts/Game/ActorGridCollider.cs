@@ -38,6 +38,7 @@ namespace Tofunaut.TofuRPG.Game
         {
             _size = model.ColliderSize;
             _offset = model.ColliderOffset;
+            
             await GridCollisionManager.Add(this);
         }
 
