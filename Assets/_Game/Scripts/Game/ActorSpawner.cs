@@ -54,13 +54,16 @@ namespace Tofunaut.TofuRPG.Game
         }
 
 #if UNITY_EDITOR
-        public  void OnValidate()
+        /*
+        public void Update()
         {
             // automatically create a sprite renderer using the sprite from the view this will spawn
-            
-            if (actorModelKey.Equals(_prevActorModelKey))
-                return;
+            if (!actorModelKey.Equals(_prevActorModelKey))
+                SetSprite();
+        }
 
+        private async void SetSprite()
+        {
             if (!_spriteRenderer)
             {
                 _spriteRenderer = gameObject.RequireComponent<SpriteRenderer>();
@@ -76,7 +79,7 @@ namespace Tofunaut.TofuRPG.Game
                 if(string.IsNullOrEmpty(guid))
                     Debug.LogError("no GameConfig exists in the project");
 
-                _loadedGameConfig = AssetDatabase.LoadAssetAtPath<GameConfig>(AssetDatabase.GUIDToAssetPath(guid));
+                _loadedGameConfig = Instantiate(AssetDatabase.LoadAssetAtPath<GameConfig>(AssetDatabase.GUIDToAssetPath(guid)));
             }
             
             if (!_loadedGameConfig.TryGetActorModel(actorModelKey, out var actorModel))
@@ -88,15 +91,11 @@ namespace Tofunaut.TofuRPG.Game
             if (string.IsNullOrEmpty(actorModel.ViewAsset))
                 return;
             
-            SetSprite(actorModel.ViewAsset);
-        }
-
-        private async void SetSprite(string viewKey)
-        {
-            var viewPrefab = await Addressables.LoadAssetAsync<GameObject>(viewKey).Task;
+            var viewPrefab = await Addressables.LoadAssetAsync<GameObject>(actorModel.ViewAsset).Task;
             var spriteRendPrefab = viewPrefab.GetComponent<SpriteRenderer>();
-            _spriteRenderer.sprite = Instantiate(spriteRendPrefab.sprite);
+            _spriteRenderer.sprite = spriteRendPrefab.sprite;
         }
+        */
 #endif
     }
 }
