@@ -42,13 +42,13 @@ MonoBehaviour:
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
   - m_GUID: d96bfb3d13b4a8d4ba51a19456ab76e3
-    m_Address: PlayerActorView
+    m_Address: PlayerMale
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
   - m_GUID: 7be3e5aa6911314428aaed079cc05d4b
-    m_Address: DefaultActorView
+    m_Address: NPCMale
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
@@ -61,6 +61,58 @@ MonoBehaviour:
     m_TargetAsset: {fileID: 0}
   - m_GUID: e50ea1d868c8f3347bf99fef6110db21
     m_Address: Assets/_Game/DataAssets/GameConfig.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 6f2a78ec0837f664fbbe778b52e44d4a
+    m_Address: actors_atlas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 9de1a98ca3c78af45b03534d617bbfb9
+    m_Address: NPCFemale
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 2111000409873727313, guid: 9de1a98ca3c78af45b03534d617bbfb9,
+      type: 3}
+    m_TargetAsset: {fileID: 2111000409873727313, guid: 9de1a98ca3c78af45b03534d617bbfb9,
+      type: 3}
+  - m_GUID: 49f4b9a560e42f4479b0bc9e23a109c1
+    m_Address: PlayerFemale
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 2111000409873727313, guid: 49f4b9a560e42f4479b0bc9e23a109c1,
+      type: 3}
+    m_TargetAsset: {fileID: 2111000409873727313, guid: 49f4b9a560e42f4479b0bc9e23a109c1,
+      type: 3}
+  - m_GUID: 0ecd10fa650620a42b4c6b9d0b0c87cd
+    m_Address: Skeleton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: ba3a8841eb59c0143988208b5001dd68
+    m_Address: NPCFemaleChild
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 87c91529436c53040a6f6029fde963b0
+    m_Address: NPCFemaleSenior
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: cc2c5f9173d94d4458af34b627942966
+    m_Address: NPCMaleSenior
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 1b6f356334b073842a74fccd99c2b5bc
+    m_Address: NPCMaleChild
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}

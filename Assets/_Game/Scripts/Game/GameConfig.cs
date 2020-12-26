@@ -48,6 +48,7 @@ namespace Tofunaut.TofuRPG.Game
         public EActorInputSource ActorInputSource;
         public string AIAsset;
         public float MoveSpeed;
+        public int Team;
         public Vector2Int ColliderSize;
         public Vector2Int ColliderOffset;
         public float MoveHesitationTime;
@@ -61,10 +62,12 @@ namespace Tofunaut.TofuRPG.Game
         public float FreezeResistance;
         public float ShockResistance;
         public float PoisonResitance;
-        public float BaseStrength;
-        public float BaseInteligence;
+        public float BaseAgility;
         public float BaseCharisma;
+        public float BaseInteligence;
+        public float BaseStrength;
         public float AggroRange;
+        public float ChaseRange;
         public string DefaultAttack;
     }
 

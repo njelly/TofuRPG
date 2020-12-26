@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actorModels:
   - Name: Player
-    ViewAsset: PlayerActorView
+    ViewAsset: PlayerMale
     ActorInputSource: 1
     AIAsset: 
     MoveSpeed: 5
@@ -31,13 +31,14 @@ MonoBehaviour:
     FreezeResistance: 0
     ShockResistance: 0
     PoisonResitance: 0
-    BaseStrength: 8
-    BaseInteligence: 8
+    BaseAgility: 8
     BaseCharisma: 8
+    BaseInteligence: 8
+    BaseStrength: 8
     AggroRange: 5
     DefaultAttack: HumanMelee
   - Name: NPC_Child
-    ViewAsset: DefaultActorView
+    ViewAsset: NPCFemaleChild
     ActorInputSource: 2
     AIAsset: DefaultWanderBrain
     MoveSpeed: 4
@@ -54,13 +55,14 @@ MonoBehaviour:
     FreezeResistance: 0
     ShockResistance: 0
     PoisonResitance: 0
-    BaseStrength: 3
-    BaseInteligence: 5
+    BaseAgility: 7
     BaseCharisma: 7
+    BaseInteligence: 5
+    BaseStrength: 3
     AggroRange: 0
-    DefaultAttack: 
+    DefaultAttack: HumanMelee
   - Name: NPC_Adult
-    ViewAsset: DefaultActorView
+    ViewAsset: NPCFemale
     ActorInputSource: 2
     AIAsset: DefaultWanderBrain
     MoveSpeed: 4
@@ -77,13 +79,14 @@ MonoBehaviour:
     FreezeResistance: 0
     ShockResistance: 0
     PoisonResitance: 0
-    BaseStrength: 7
-    BaseInteligence: 7
+    BaseAgility: 7
     BaseCharisma: 7
+    BaseInteligence: 7
+    BaseStrength: 7
     AggroRange: 0
-    DefaultAttack: 
+    DefaultAttack: HumanMelee
   - Name: NPC_Senior
-    ViewAsset: DefaultActorView
+    ViewAsset: NPCFemaleSenior
     ActorInputSource: 2
     AIAsset: DefaultWanderBrain
     MoveSpeed: 2
@@ -100,13 +103,14 @@ MonoBehaviour:
     FreezeResistance: 0
     ShockResistance: 0
     PoisonResitance: 0
-    BaseStrength: 5
-    BaseInteligence: 7
+    BaseAgility: 7
     BaseCharisma: 7
+    BaseInteligence: 7
+    BaseStrength: 5
     AggroRange: 0
-    DefaultAttack: 
+    DefaultAttack: HumanMelee
   - Name: Skeleton
-    ViewAsset: DefaultActorView
+    ViewAsset: Skeleton
     ActorInputSource: 2
     AIAsset: DefaultWanderBrain
     MoveSpeed: 2
@@ -123,9 +127,10 @@ MonoBehaviour:
     FreezeResistance: 50
     ShockResistance: 50
     PoisonResitance: 0
-    BaseStrength: 4
-    BaseInteligence: 2
+    BaseAgility: 4
     BaseCharisma: 0
+    BaseInteligence: 2
+    BaseStrength: 4
     AggroRange: 8
     DefaultAttack: SkeletonMelee
   attackModels:

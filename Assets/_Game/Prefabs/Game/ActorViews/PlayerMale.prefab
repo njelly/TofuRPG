@@ -9,11 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3861708435728773095}
+  - component: {fileID: 1032842248608251659}
   - component: {fileID: 5279299681190849495}
   - component: {fileID: 5795155856342401833}
   - component: {fileID: 4149555393651104721}
   m_Layer: 8
-  m_Name: View
+  m_Name: PlayerMaleActorView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,6 +35,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1032842248608251659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111000409873727313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d1251eab7808244ebadcea4b5c46b14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &5279299681190849495
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -111,8 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13c180a57bd8422449b4d6bcdea0546b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 5279299681190849495}
-  facingRoot: {fileID: 0}
 --- !u!1 &8757734659549008797
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +219,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfed34f9f45f4f5682a0bdc3ca0435a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactor: {fileID: 0}
   unPressedColor: {r: 1, g: 1, b: 1, a: 0.3137255}
   pressedColor: {r: 1, g: 1, b: 1, a: 0.627451}
   lerpPositionTime: 0.1

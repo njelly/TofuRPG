@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tofunaut.TofuRPG.Game.AI;
+using Tofunaut.TofuUnity;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -14,16 +17,19 @@ namespace Tofunaut.TofuRPG.Game
         public uint Id { get; private set; }
         public int Xp { get; private set; }
 
-        public float Strength => _baseStrength;
-        public float Intelligence => _baseIntelligence;
+        public float Agility => _baseAgility;
         public float Charisma => _baseCharisma;
+        public float Intelligence => _baseIntelligence;
+        public float Strength => _baseStrength;
 
-        private float _baseStrength;
-        private float _baseIntelligence;
+        private Dictionary<Type, ActorComponent> _typeToActorComponent;
+        private float _baseAgility;
         private float _baseCharisma;
+        private float _baseIntelligence;
+        private float _baseStrength;
         private BoxCollider2D _unityCollider;
-        
-        public async Task Initialize(ActorModel model, int xp)
+
+        public async Task Initialize(ActorModel model, int xp, AssetReference viewOverride)
         {
             Id = ++ _idCounter;
             Xp = xp;
@@ -40,35 +46,61 @@ namespace Tofunaut.TofuRPG.Game
             switch (model.ActorInputSource)
             {
                 case ActorModel.EActorInputSource.Player:
-                    gameObject.AddComponent<PlayerActorInputProvider>().Initialize(this, model);
+                    gameObject.AddComponent<PlayerActorInputProvider>();
                     break;
                 case ActorModel.EActorInputSource.AI:
-                    gameObject.AddComponent<NPCActorInputProvider>().Initialize(this, model);
+                    gameObject.AddComponent<NPCActorInputProvider>();
                     break;
+                case ActorModel.EActorInputSource.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             if (model.ColliderSize.magnitude > 1)
             {
                 if(model.MoveSpeed > 0)
-                    gameObject.AddComponent<ActorGridMover>().Initialize(this, model);
+                    gameObject.AddComponent<ActorGridMover>();
                 else
-                    gameObject.AddComponent<ActorGridCollider>().Initialize(this, model);
+                    gameObject.AddComponent<ActorGridCollider>();
             }
 
-            gameObject.AddComponent<Interactor>().Initialize(this, model);
+            gameObject.AddComponent<Interactor>();
 
             if (model.Health > 0)
-                gameObject.AddComponent<Damageable>().Initialize(this, model);
+                gameObject.AddComponent<Damageable>();
 
             if (model.AggroRange > 0)
-                gameObject.AddComponent<Combatant>().Initialize(this, model);
+                gameObject.AddComponent<Combatant>();
+
+            // register actor components, then initialize them
+            _typeToActorComponent = new Dictionary<Type, ActorComponent>();
+            var actorComponents = gameObject.GetComponents<ActorComponent>();
+            foreach (var actorComponent in actorComponents)
+                _typeToActorComponent.Add(actorComponent.GetType(), actorComponent);
+            foreach (var actorComponent in actorComponents)
+                actorComponent.Initialize(this, model);
             
-            // instantiate the view last, return if there is no view
-            if (string.IsNullOrEmpty(model.ViewAsset))
+            // instantiate the view last
+            var prefab = default(GameObject);
+            if (!string.IsNullOrEmpty(viewOverride.AssetGUID))
+                prefab = await Addressables.LoadAssetAsync<GameObject>(viewOverride).Task;
+            else if (!string.IsNullOrEmpty(model.ViewAsset))
+                prefab = await Addressables.LoadAssetAsync<GameObject>(model.ViewAsset).Task;
+            else
                 return;
             
-            var viewPrefab = await Addressables.LoadAssetAsync<GameObject>(model.ViewAsset).Task;
-            Instantiate(viewPrefab, transform, false);
+            Instantiate(prefab, transform, false).RequireComponent<ActorView>().Initialize(this);
+        }
+
+        public bool TryGet<T>(out T actorComponent) where T : ActorComponent
+        {
+            actorComponent = default;
+            if (!_typeToActorComponent.TryGetValue(typeof(T), out var ac))
+                return false;
+
+            actorComponent = (T) ac;
+            return true;
         }
     }
 }

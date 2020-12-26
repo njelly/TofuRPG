@@ -1,14 +1,51 @@
-﻿using UnityEngine;
+﻿using System;
+using DG.Tweening;
+using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game
 {
     public class Combatant : ActorComponent
     {
-        public Attack[] attacks;
+        public Actor Actor { get; private set; }
+        public string DefaultAttack { get; private set; }
+        public Damageable Target { get; private set; }
+        public float ChaseRange => _baseChaseRange;
+        public float AggroRange => _baseAggroRange;
 
-        private Actor _actor;
-        private string _defaultAttack;
         private float _baseAggroRange;
+        private float _baseChaseRange;
+
+        private void Update()
+        {
+            if(Target)
+                UpdateTarget();
+            
+            Target = GetBestTarget();
+        }
+
+        private void UpdateTarget()
+        {
+            var toTarget = (Target.transform.position - transform.position).sqrMagnitude;
+            if (toTarget > Mathf.Pow(ChaseRange, 2f))
+                Target = null;
+        }
+
+        private Damageable GetBestTarget()
+        {
+            var hits = new Collider2D[8];
+            var size = Physics2D.OverlapCircleNonAlloc(transform.position, _baseAggroRange, hits, LayerMask.GetMask("Actor"));
+            for (var i = 0; i < size; i++)
+            {
+                var hitDamageable = hits[i].GetComponent<Damageable>();
+                if (hitDamageable == null)
+                    continue;
+                
+                
+            }
+
+            // TODO: THIS FUNCTION
+            return null;
+        }
 
         public void DoAttack(string attackKey, Damageable target)
         {
@@ -30,8 +67,8 @@ namespace Tofunaut.TofuRPG.Game
 
         public override void Initialize(Actor actor, ActorModel model)
         {
-            _actor = actor;
-            _defaultAttack = model.DefaultAttack;
+            Actor = actor;
+            DefaultAttack = model.DefaultAttack;
             _baseAggroRange = model.AggroRange;
         }
     }

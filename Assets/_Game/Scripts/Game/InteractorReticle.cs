@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Tofunaut.TofuRPG.Game
 {
     [RequireComponent(typeof(SpriteRenderer))]
-    public class InteractorReticle : MonoBehaviour
+    public class InteractorReticle : ActorViewComponent
     {
         public Color unPressedColor;
         public Color pressedColor;
@@ -28,19 +28,14 @@ namespace Tofunaut.TofuRPG.Game
 
         private void Start()
         {
-            var actor = transform.GetComponentInParent<Actor>();
-            var actorComponents = actor.GetComponents<MonoBehaviour>();
-            _interactor = actorComponents.OfType<Interactor>().FirstOrDefault();
-            _actorInputProvider = actorComponents.OfType<IActorInputProvider>().FirstOrDefault();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            _spriteRenderer.color = unPressedColor;
-            _prevInteractOffset = _interactor.InteractOffset;
-            _lerpAngle = Vector2.SignedAngle(Vector2.right, _prevInteractOffset.ToVector2()) * Mathf.Deg2Rad;
             _t = transform;
         }
 
         private void Update()
         {
+            if (!IsInitialized)
+                return;
+            
             if (_prevInteractOffset != _interactor.InteractOffset)
                 UpdatePosition();
 
@@ -49,6 +44,19 @@ namespace Tofunaut.TofuRPG.Game
                 UpdateColor(true);
             else if(!actorInput.Interact.Held)
                 UpdateColor(false);
+        }
+
+        public override void Initialize(ActorView actorView)
+        {
+            base.Initialize(actorView);
+            
+            var actorComponents = actorView.Actor.GetComponents<MonoBehaviour>();
+            _interactor = actorComponents.OfType<Interactor>().FirstOrDefault();
+            _actorInputProvider = actorComponents.OfType<IActorInputProvider>().FirstOrDefault();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _spriteRenderer.color = unPressedColor;
+            _prevInteractOffset = _interactor.InteractOffset;
+            _lerpAngle = Vector2.SignedAngle(Vector2.right, _prevInteractOffset.ToVector2()) * Mathf.Deg2Rad;
         }
 
         private void UpdatePosition()
