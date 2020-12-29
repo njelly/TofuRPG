@@ -5,33 +5,41 @@ using UnityEngine.InputSystem;
 
 namespace Tofunaut.TofuRPG.UI
 {
+    [RequireComponent(typeof(CanvasGroup))]
     public abstract class ViewController : MonoBehaviour
     {
         public bool IsShowing { get; private set; }
 
         protected virtual float CanvasFadeInTime => 0.1f;
-        
-        [Header("ViewController")]
-        public CanvasGroup canvasGroup;
+        protected CanvasGroup _canvasGroup;
+
+        protected virtual void Start()
+        {
+            _canvasGroup = GetComponent<CanvasGroup>();
+        }
 
         public async Task Show()
         {
             IsShowing = true;
-            canvasGroup.interactable = true;
+
+            if (!_canvasGroup)
+                _canvasGroup = GetComponent<CanvasGroup>();
+            
+            _canvasGroup.interactable = true;
             
             OnShow();
             
-            await canvasGroup.DOFade(1f, CanvasFadeInTime).AsyncWaitForCompletion();
+            await _canvasGroup.DOFade(1f, CanvasFadeInTime).AsyncWaitForCompletion();
         }
 
         public async Task Hide()
         {
             IsShowing = false;
-            canvasGroup.interactable = false;
+            _canvasGroup.interactable = false;
             
             OnHide();
             
-            await canvasGroup.DOFade(0f, CanvasFadeInTime).AsyncWaitForCompletion();
+            await _canvasGroup.DOFade(0f, CanvasFadeInTime).AsyncWaitForCompletion();
         }
 
         protected virtual void OnShow() { }

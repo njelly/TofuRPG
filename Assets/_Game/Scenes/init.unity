@@ -133,9 +133,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: AppStateMachine
       objectReference: {fileID: 0}
-    - target: {fileID: 7346183456043619482, guid: 832740bb22402224fa5e3daae99b5b0c,
+    - target: {fileID: 7346183456043619483, guid: 832740bb22402224fa5e3daae99b5b0c,
         type: 3}
-      propertyPath: skipSplash
+      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7346183456043619483, guid: 832740bb22402224fa5e3daae99b5b0c,
@@ -155,6 +155,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7346183456043619483, guid: 832740bb22402224fa5e3daae99b5b0c,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7346183456043619483, guid: 832740bb22402224fa5e3daae99b5b0c,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -166,16 +171,6 @@ PrefabInstance:
     - target: {fileID: 7346183456043619483, guid: 832740bb22402224fa5e3daae99b5b0c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7346183456043619483, guid: 832740bb22402224fa5e3daae99b5b0c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7346183456043619483, guid: 832740bb22402224fa5e3daae99b5b0c,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7346183456043619483, guid: 832740bb22402224fa5e3daae99b5b0c,
