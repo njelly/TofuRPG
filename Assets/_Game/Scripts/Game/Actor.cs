@@ -57,6 +57,9 @@ namespace Tofunaut.TofuRPG.Game
                     throw new ArgumentOutOfRangeException();
             }
 
+            gameObject.AddComponent<ActorAlignment>();
+            gameObject.AddComponent<Interactor>();
+
             if (model.ColliderSize.magnitude > 1)
             {
                 if(model.MoveSpeed > 0)
@@ -64,8 +67,6 @@ namespace Tofunaut.TofuRPG.Game
                 else
                     gameObject.AddComponent<ActorGridCollider>();
             }
-
-            gameObject.AddComponent<Interactor>();
 
             if (model.Health > 0)
                 gameObject.AddComponent<Damageable>();

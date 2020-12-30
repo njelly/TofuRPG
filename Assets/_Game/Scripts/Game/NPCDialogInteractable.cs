@@ -5,8 +5,9 @@ using UnityEngine;
 
 namespace Tofunaut.TofuRPG.Game
 {
-    public class NPCDialogInteractable : MonoBehaviour, IInteractable
+    public class NPCDialogInteractable : ActorComponent, IInteractable
     {
+        public Actor Actor { get; private set; }
         public bool IsBeingInteractedWith => _interactor;
 
         public event EventHandler<InteractableEventArgs> InteractionBegan;
@@ -27,6 +28,11 @@ namespace Tofunaut.TofuRPG.Game
                 },
             }));
             InteractionBegan?.Invoke(this, new InteractableEventArgs(interactor));
+        }
+
+        public override void Initialize(Actor actor, ActorModel model)
+        {
+            Actor = actor;
         }
     }
 }

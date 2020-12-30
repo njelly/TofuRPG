@@ -18,6 +18,7 @@ MonoBehaviour:
     ActorInputSource: 1
     AIAsset: 
     MoveSpeed: 5
+    Team: 0
     ColliderSize: {x: 1, y: 1}
     ColliderOffset: {x: 0, y: 0}
     MoveHesitationTime: 0.2
@@ -36,12 +37,15 @@ MonoBehaviour:
     BaseInteligence: 8
     BaseStrength: 8
     AggroRange: 5
+    ChaseRange: 5
     DefaultAttack: HumanMelee
+    Alignment: 1
   - Name: NPC_Child
     ViewAsset: NPCFemaleChild
     ActorInputSource: 2
     AIAsset: DefaultWanderBrain
     MoveSpeed: 4
+    Team: 0
     ColliderSize: {x: 1, y: 1}
     ColliderOffset: {x: 0, y: 0}
     MoveHesitationTime: 0
@@ -60,12 +64,15 @@ MonoBehaviour:
     BaseInteligence: 5
     BaseStrength: 3
     AggroRange: 0
+    ChaseRange: 5
     DefaultAttack: HumanMelee
+    Alignment: 0
   - Name: NPC_Adult
     ViewAsset: NPCFemale
     ActorInputSource: 2
     AIAsset: DefaultWanderBrain
     MoveSpeed: 4
+    Team: 0
     ColliderSize: {x: 1, y: 1}
     ColliderOffset: {x: 0, y: 0}
     MoveHesitationTime: 0
@@ -84,12 +91,15 @@ MonoBehaviour:
     BaseInteligence: 7
     BaseStrength: 7
     AggroRange: 0
+    ChaseRange: 5
     DefaultAttack: HumanMelee
+    Alignment: 0
   - Name: NPC_Senior
     ViewAsset: NPCFemaleSenior
     ActorInputSource: 2
     AIAsset: DefaultWanderBrain
     MoveSpeed: 2
+    Team: 0
     ColliderSize: {x: 1, y: 1}
     ColliderOffset: {x: 0, y: 0}
     MoveHesitationTime: 0
@@ -108,12 +118,15 @@ MonoBehaviour:
     BaseInteligence: 7
     BaseStrength: 5
     AggroRange: 0
+    ChaseRange: 5
     DefaultAttack: HumanMelee
+    Alignment: 0
   - Name: Skeleton
     ViewAsset: Skeleton
     ActorInputSource: 2
     AIAsset: DefaultWanderBrain
     MoveSpeed: 2
+    Team: 0
     ColliderSize: {x: 1, y: 1}
     ColliderOffset: {x: 0, y: 0}
     MoveHesitationTime: 0
@@ -132,7 +145,9 @@ MonoBehaviour:
     BaseInteligence: 2
     BaseStrength: 4
     AggroRange: 8
+    ChaseRange: 15
     DefaultAttack: SkeletonMelee
+    Alignment: 3
   attackModels:
   - Name: HumanMelee
     DamageType: 0

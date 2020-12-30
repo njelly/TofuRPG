@@ -7,6 +7,7 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class SignPost : MonoBehaviour, IInteractable
     {
+        public Actor Actor => null;
         public bool IsBeingInteractedWith => false;
 
         public event EventHandler<InteractableEventArgs> InteractionBegan;

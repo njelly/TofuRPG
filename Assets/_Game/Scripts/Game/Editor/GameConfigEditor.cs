@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tofunaut.TofuUnity.Editor;
@@ -14,25 +16,50 @@ namespace Tofunaut.TofuRPG.Game.Editor
         public override void OnInspectorGUI()
         {
             if (GUILayout.Button("Import JSON"))
-                ShowTextImportWindow();
+                DownloadConfig();
             
             DrawDefaultInspector();
         }
 
-        private void ShowTextImportWindow()
+        private void DownloadConfig()
         {
-            var actorConfig = (GameConfig) target;
-            var a = new object[]
+            // hard-coded key defined in the Google Sheets web app source
+            const string key = "c1252116-93db-4d23-b629-b28cb44efe8d";
+            
+            // url of google sheets web app
+            const string url =
+                "https://script.google.com/macros/s/AKfycbyL4GY7WW6QO1ohHMnVe3cH01uO0YqoNRj0E07cO_EFzQRMHDeY/exec";
+            
+            var httpWebRequest = (HttpWebRequest) WebRequest.Create($"{url}?key={key}");
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Accept = "*/*";
+            httpWebRequest.Method = "GET";
+
+            var responseStream = httpWebRequest.GetResponse().GetResponseStream();
+            if (responseStream == null)
             {
-                actorConfig.actorModels,
-                actorConfig.attackModels,
-            };
-            var initialText = JsonConvert.SerializeObject(a, Formatting.Indented,
-                new Vector2IntConverter(),
-                new StringConverter(),
-                new FloatConverter());
-            TextImportWindow.Init("Import ActorConfig JSON", initialText, Deserialize);
+                Debug.LogError("response stream is null");
+                return;
+            }
+            
+            var content = new StreamReader(responseStream).ReadToEnd();
+            Deserialize(content);
         }
+
+        //private void ShowTextImportWindow()
+        //{
+        //    var actorConfig = (GameConfig) target;
+        //    var a = new object[]
+        //    {
+        //        actorConfig.actorModels,
+        //        actorConfig.attackModels,
+        //    };
+        //    var initialText = JsonConvert.SerializeObject(a, Formatting.Indented,
+        //        new Vector2IntConverter(),
+        //        new StringConverter(),
+        //        new FloatConverter());
+        //    TextImportWindow.Init("Import ActorConfig JSON", initialText, Deserialize);
+        //}
 
         private void Deserialize(string s)
         {

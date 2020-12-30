@@ -30,7 +30,6 @@ namespace Tofunaut.TofuRPG.Game
         
         public bool TryGetActorModel(string key, out ActorModel actorModel) => _actorLookUp.TryGetValue(key, out actorModel);
         public bool TryGetAttackModel(string key, out AttackModel actorModel) => _attackLookUp.TryGetValue(key, out actorModel);
-
     }
 
     [Serializable]
@@ -69,6 +68,7 @@ namespace Tofunaut.TofuRPG.Game
         public float AggroRange;
         public float ChaseRange;
         public string DefaultAttack;
+        public ActorAlignment.EAlignment Alignment;
     }
 
     [Serializable]
