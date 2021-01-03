@@ -9,7 +9,8 @@ namespace Tofunaut.TofuRPG.Game
     {
         public Vector2Int InteractOffset { get; private set; }
         public IInteractable InteractingWith { get; private set; }
-
+        public IGridCollider CurrentlyFacing { get; private set; }
+        
         private Vector2Int _baseInteractOffset;
         private IActorInputProvider _actorInputProvider;
         private IFacing _facing;
@@ -51,19 +52,6 @@ namespace Tofunaut.TofuRPG.Game
 
         private void TryInteract()
         {
-            InteractingWith = null;
-            foreach (var gc in GridCollisionManager.GetCollidersAt(_coordProvider.Coord + InteractOffset))
-            {
-                var gcGameObject = gc as MonoBehaviour;
-                if (gcGameObject == null)
-                    continue;
-                
-                // TODO: what's a clever way of doing this?
-                InteractingWith = gcGameObject.GetComponent<IInteractable>();
-                if (InteractingWith != null)
-                    break;
-            }
-
             InteractingWith?.BeginInteraction(this);
         }
 
@@ -76,6 +64,19 @@ namespace Tofunaut.TofuRPG.Game
             InteractOffset = baseInteractOffsetFloat.RoundToVector2Int();
 
             _prevFacing = _facing.Facing;
+            
+            InteractingWith = null;
+            foreach (var gc in GridCollisionManager.GetCollidersAt(_coordProvider.Coord + InteractOffset))
+            {
+                var gcGameObject = gc as MonoBehaviour;
+                if (gcGameObject == null)
+                    continue;
+                
+                // TODO: what's a clever way of doing this?
+                InteractingWith = gcGameObject.GetComponent<IInteractable>();
+                if (InteractingWith != null)
+                    break;
+            }
         }
     }
 }

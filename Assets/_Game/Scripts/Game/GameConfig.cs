@@ -61,14 +61,13 @@ namespace Tofunaut.TofuRPG.Game
         public float FreezeResistance;
         public float ShockResistance;
         public float PoisonResitance;
-        public float BaseAgility;
         public float BaseCharisma;
         public float BaseInteligence;
         public float BaseStrength;
         public float AggroRange;
+        public Combatant.EAlignment Alignment;
         public float ChaseRange;
         public string DefaultAttack;
-        public ActorAlignment.EAlignment Alignment;
     }
 
     [Serializable]

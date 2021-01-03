@@ -5,6 +5,7 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class ActorGridCollider : ActorComponent, ICoordProvider, IGridCollider
     {
+        public Actor Actor { get; private set; }
         public int Layer => gameObject.layer;
         public Vector2Int Coord { get; protected set; }
         public Vector2Int Size => _size;
@@ -36,6 +37,7 @@ namespace Tofunaut.TofuRPG.Game
 
         public override async void Initialize(Actor actor, ActorModel model)
         {
+            Actor = actor;
             _size = model.ColliderSize;
             _offset = model.ColliderOffset;
             

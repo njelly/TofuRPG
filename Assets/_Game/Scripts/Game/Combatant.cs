@@ -6,9 +6,22 @@ namespace Tofunaut.TofuRPG.Game
 {
     public class Combatant : ActorComponent
     {
+        [Flags]
+        public enum EAlignment
+        {
+            None,
+            Player,
+            NeutralWild,
+            HostileWild,
+            HostileEnemy,
+        }
+        
         public Actor Actor { get; private set; }
         public string DefaultAttack { get; private set; }
         public Damageable Target { get; private set; }
+        public bool IsPassive { get; private set; }
+        public EAlignment Alignment { get; private set; }
+        
         public float ChaseRange => _baseChaseRange;
         public float AggroRange => _baseAggroRange;
 
@@ -70,6 +83,7 @@ namespace Tofunaut.TofuRPG.Game
             Actor = actor;
             DefaultAttack = model.DefaultAttack;
             _baseAggroRange = model.AggroRange;
+            Alignment = model.Alignment;
         }
     }
 }

@@ -57,7 +57,6 @@ namespace Tofunaut.TofuRPG.Game
                     throw new ArgumentOutOfRangeException();
             }
 
-            gameObject.AddComponent<ActorAlignment>();
             gameObject.AddComponent<Interactor>();
 
             if (model.ColliderSize.magnitude > 1)

@@ -12,10 +12,13 @@ namespace Tofunaut.TofuRPG.Game
     [RequireComponent(typeof(SpriteRenderer))]
     public class InteractorReticle : ActorViewComponent
     {
-        public Color unPressedColor;
-        public Color pressedColor;
+        public float unPressedAlpha;
+        public float pressedAlpha;
         public float lerpPositionTime;
         public float lerpPressColorTime;
+        public Color neutralColor;
+        public Color alliedColor;
+        public Color enemyColor;
 
         private Interactor _interactor;
         private IActorInputProvider _actorInputProvider;
@@ -24,7 +27,9 @@ namespace Tofunaut.TofuRPG.Game
         private float _lerpAngle;
         private Transform _t;
         private bool _wasPressed;
-        private TweenerCore<Color, Color, ColorOptions> _flashTween; 
+        private TweenerCore<float, float, FloatOptions> _flashTween; 
+        private TweenerCore<Color, Color, ColorOptions> _colorTween;
+        private Color _currentColor;
 
         private void Start()
         {
@@ -41,9 +46,9 @@ namespace Tofunaut.TofuRPG.Game
 
             var actorInput = _actorInputProvider.ActorInput;
             if(actorInput.Interact.WasPressed)
-                UpdateColor(true);
+                UpdatePressedColor(true);
             else if(!actorInput.Interact.Held)
-                UpdateColor(false);
+                UpdatePressedColor(false);
         }
 
         public override void Initialize(ActorView actorView)
@@ -54,9 +59,10 @@ namespace Tofunaut.TofuRPG.Game
             _interactor = actorComponents.OfType<Interactor>().FirstOrDefault();
             _actorInputProvider = actorComponents.OfType<IActorInputProvider>().FirstOrDefault();
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _spriteRenderer.color = unPressedColor;
+            _spriteRenderer.color = neutralColor.WithAlpha(unPressedAlpha);
             _prevInteractOffset = _interactor.InteractOffset;
             _lerpAngle = Vector2.SignedAngle(Vector2.right, _prevInteractOffset.ToVector2()) * Mathf.Deg2Rad;
+            _currentColor = neutralColor;
         }
 
         private void UpdatePosition()
@@ -70,14 +76,14 @@ namespace Tofunaut.TofuRPG.Game
             DOTween.To(() => from, newValue =>
             {
                 from = newValue;
-                _lerpAngle = newValue * Mathf.Deg2Rad;
+                _lerpAngle = from * Mathf.Deg2Rad;
                 _t.localPosition = new Vector2(Mathf.Cos(_lerpAngle), Mathf.Sin(_lerpAngle) * magnitude);
             }, to, lerpPositionTime);
 
             _prevInteractOffset = _interactor.InteractOffset;
         }
 
-        private async void UpdateColor(bool wasPressed)
+        private async void UpdatePressedColor(bool wasPressed)
         {
             if (_wasPressed == wasPressed)
                 return;
@@ -86,9 +92,13 @@ namespace Tofunaut.TofuRPG.Game
 
             if (_flashTween != null && !_flashTween.IsComplete())
                 await _flashTween.AsyncWaitForCompletion();
-            
-            var to = wasPressed ? pressedColor : unPressedColor;
-            _flashTween = _spriteRenderer.DOColor(to, lerpPressColorTime);
+
+            var to = wasPressed ? pressedAlpha : unPressedAlpha;
+            _flashTween = DOTween.To(
+                () => _spriteRenderer.color.a, 
+                x => _spriteRenderer.color = _spriteRenderer.color.WithAlpha(x), 
+                to, 
+                lerpPressColorTime);
         }
     }
 }
